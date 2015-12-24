@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/px_112">
+    <LinearLayout
+        android:id="@+id/ll_tab_forecast"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/ib_tab_forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px_50"
+            android:background="#0000"
+            android:clickable="false"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:textSize="@dimen/textPx_20"
+            android:textColor="@color/common_red_text_color"
+            android:id="@+id/tv_tab_forecast"
+            android:layout_marginTop="@dimen/px_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tab_early_warn"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/ib_tab_early_warn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px_50"
+            android:background="#0000"
+            android:clickable="false"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:textSize="@dimen/textPx_20"
+            android:textColor="@color/common_red_text_color"
+            android:id="@+id/tv_tab_early_warn"
+            android:layout_marginTop="@dimen/px_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/earlyWarn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tab_monitor"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/ib_tab_monitor"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px_50"
+            android:background="#0000"
+            android:clickable="false"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:textSize="@dimen/textPx_20"
+            android:textColor="@color/common_red_text_color"
+            android:id="@+id/tv_tab_monitor"
+            android:layout_marginTop="@dimen/px_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/monitor" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tab_interact"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/ib_tab_interact"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px_50"
+            android:background="#0000"
+            android:clickable="false"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:textSize="@dimen/textPx_20"
+            android:textColor="@color/common_red_text_color"
+            android:id="@+id/tv_tab_interact"
+            android:layout_marginTop="@dimen/px_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/interact" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tab_mine"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/ib_tab_mine"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px_50"
+            android:background="#0000"
+            android:clickable="false"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:textSize="@dimen/textPx_20"
+            android:textColor="@color/common_red_text_color"
+            android:id="@+id/tv_tab_mine"
+            android:layout_marginTop="@dimen/px_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mine" />
+    </LinearLayout>
+</LinearLayout>

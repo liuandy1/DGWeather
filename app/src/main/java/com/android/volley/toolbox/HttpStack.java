@@ -40,6 +40,6 @@ public interface HttpStack {
      * @return the HTTP response
      */
     public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
-        throws IOException, AuthFailureError;
+            throws IOException, AuthFailureError;
 
 }
