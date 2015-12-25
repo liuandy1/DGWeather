@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/px_112">
+    android:layout_height="@dimen/px_112"
+    android:orientation="horizontal">
+
     <LinearLayout
-        android:id="@+id/ll_tab_forecast"
+        android:id="@id/ll_tab_forecast"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_tab_forecast"
+            android:id="@id/ib_tab_forecast"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px_50"
             android:background="#0000"
@@ -20,25 +21,25 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:textSize="@dimen/textPx_20"
-            android:textColor="@color/common_red_text_color"
             android:id="@+id/tv_tab_forecast"
-            android:layout_marginTop="@dimen/px_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/forecast" />
+            android:layout_marginTop="@dimen/px_6"
+            android:text="@string/forecast"
+            android:textColor="@color/common_red_text_color"
+            android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_tab_early_warn"
+        android:id="@id/ll_tab_early_warn"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_tab_early_warn"
+            android:id="@id/ib_tab_early_warn"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px_50"
             android:background="#0000"
@@ -46,25 +47,25 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:textSize="@dimen/textPx_20"
-            android:textColor="@color/common_red_text_color"
-            android:id="@+id/tv_tab_early_warn"
-            android:layout_marginTop="@dimen/px_6"
+            android:id="@id/tv_tab_early_warn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/earlyWarn" />
+            android:layout_marginTop="@dimen/px_6"
+            android:text="@string/earlyWarn"
+            android:textColor="@color/common_red_text_color"
+            android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_tab_monitor"
+        android:id="@id/ll_tab_monitor"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_tab_monitor"
+            android:id="@id/ib_tab_monitor"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px_50"
             android:background="#0000"
@@ -72,25 +73,25 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:textSize="@dimen/textPx_20"
-            android:textColor="@color/common_red_text_color"
-            android:id="@+id/tv_tab_monitor"
-            android:layout_marginTop="@dimen/px_6"
+            android:id="@id/tv_tab_monitor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/monitor" />
+            android:layout_marginTop="@dimen/px_6"
+            android:text="@string/monitor"
+            android:textColor="@color/common_red_text_color"
+            android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_tab_interact"
+        android:id="@id/ll_tab_interact"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_tab_interact"
+            android:id="@id/ib_tab_interact"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px_50"
             android:background="#0000"
@@ -98,25 +99,25 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:textSize="@dimen/textPx_20"
-            android:textColor="@color/common_red_text_color"
-            android:id="@+id/tv_tab_interact"
-            android:layout_marginTop="@dimen/px_6"
+            android:id="@id/tv_tab_interact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/interact" />
+            android:layout_marginTop="@dimen/px_6"
+            android:text="@string/interact"
+            android:textColor="@color/common_red_text_color"
+            android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_tab_mine"
+        android:id="@id/ll_tab_mine"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_tab_mine"
+            android:id="@id/ib_tab_mine"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px_50"
             android:background="#0000"
@@ -124,12 +125,12 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:textSize="@dimen/textPx_20"
-            android:textColor="@color/common_red_text_color"
-            android:id="@+id/tv_tab_mine"
-            android:layout_marginTop="@dimen/px_6"
+            android:id="@id/tv_tab_mine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mine" />
+            android:layout_marginTop="@dimen/px_6"
+            android:text="@string/mine"
+            android:textColor="@color/common_red_text_color"
+            android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 </LinearLayout>

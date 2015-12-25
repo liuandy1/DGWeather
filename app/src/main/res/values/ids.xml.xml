@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 首页-->
+    <item name="id_content" type="id"/>
+    <!-- 底部菜单栏 -->
+    <item name="ll_tab_forecast" type="id"/>
+    <item name="ib_tab_forecast" type="id"/>
+    <item name="tv_tab_forecast" type="id"/>
+    <item name="ll_tab_early_warn" type="id"/>
+    <item name="ib_tab_early_warn" type="id"/>
+    <item name="tv_tab_early_warn" type="id"/>
+    <item name="ll_tab_monitor" type="id"/>
+    <item name="ib_tab_monitor" type="id"/>
+    <item name="tv_tab_monitor" type="id"/>
+    <item name="ll_tab_interact" type="id"/>
+    <item name="ib_tab_interact" type="id"/>
+    <item name="tv_tab_interact" type="id"/>
+    <item name="ll_tab_mine" type="id"/>
+    <item name="ib_tab_mine" type="id"/>
+    <item name="tv_tab_mine" type="id"/>
+
+</resources>
