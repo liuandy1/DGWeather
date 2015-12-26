@@ -25,7 +25,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     private RadioGroup rg_tabs;
-    private RadioButton rb_forecast, rb_warn, rb_monitor, rb_interact,rb_mine;
+    private RadioButton rb_forecast, rb_warn, rb_monitor, rb_interact, rb_mine;
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private FragmentManager manager;
     private ForecastFragment mForecastFragment;
@@ -79,7 +79,7 @@ public class MainActivity extends FragmentActivity {
                     setTabSelection(3);
                     break;
                 case R.id.rb_tab_mine:
-                    // 当点击了互动tab时，选中第4个tab
+                    // 当点击了我的tab时，选中第5个tab
                     setTabSelection(4);
                     break;
                 default:
@@ -87,13 +87,14 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-    };
+    }
+
+    ;
 
     /**
      * 将所有的Fragment都置为隐藏状态。
      *
-     * @param transaction
-     *            用于对Fragment执行操作的事务
+     * @param transaction 用于对Fragment执行操作的事务
      */
     private void hideFragments(FragmentTransaction transaction) {
         if (mForecastFragment != null) {
@@ -116,11 +117,10 @@ public class MainActivity extends FragmentActivity {
     /**
      * 根据传入的index参数来设置选中的tab页。
      *
-     * @param index
-     *            每个tab页对应的下标。0表示首页，1表示美丽志，2表示美丽惠，3表示美圈，4表示我。
+     * @param index 每个tab页对应的下标。0表示预报，1表示预警，2表示监测，3表示互动，4表示我的。
      */
     private void setTabSelection(int index) {
-        // 每次选中之前先清楚掉上次的选中状态
+        // 每次选中之前先清除掉上次的选中状态
         rg_tabs.clearFocus();
         // 开启一个Fragment事务
         FragmentTransaction transaction = manager.beginTransaction();
@@ -129,64 +129,64 @@ public class MainActivity extends FragmentActivity {
         switch (index) {
 
             case 0:
-                // 当点击了找教练tab时，改变控件的图片和文字颜色
+                // 当点击了预报tab时，改变控件的图片和文字颜色
                 rb_forecast.setChecked(true);
                 if (mForecastFragment == null) {
-                    // 如果NewsFragment为空，则创建一个并添加到界面上
+                    // 如果mForecastFragment为空，则创建一个并添加到界面上
                     mForecastFragment = new ForecastFragment();
                     transaction.add(R.id.fl_tab_content, mForecastFragment);
                 } else {
-                    // 如果NewsFragment不为空，则直接将它显示出来
+                    // 如果mForecastFragment不为空，则直接将它显示出来
                     transaction.show(mForecastFragment);
                 }
                 break;
             case 1:
-                // 当点击了找场馆tab时，改变控件的图片和文字颜色
+                // 当点击了预警tab时，改变控件的图片和文字颜色
                 rb_warn.setChecked(true);
                 if (mEarlyWarnFragment == null) {
-                    // 如果ContactsFragment为空，则创建一个并添加到界面上
+                    // 如果mEarlyWarnFragment为空，则创建一个并添加到界面上
                     mEarlyWarnFragment = new EarlyWarnFragment();
                     transaction.add(R.id.fl_tab_content, mEarlyWarnFragment);
                 } else {
-                    // 如果ContactsFragment不为空，则直接将它显示出来
+                    // 如果mEarlyWarnFragment不为空，则直接将它显示出来
                     transaction.show(mEarlyWarnFragment);
                 }
                 break;
 
             case 2:
-                // 当点击了发现tab时，改变控件的图片和文字颜色
+                // 当点击了监测tab时，改变控件的图片和文字颜色
                 rb_monitor.setChecked(true);
                 if (mMonitorFragment == null) {
-                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    // 如果mMonitorFragment为空，则创建一个并添加到界面上
                     mMonitorFragment = new MonitorFragment();
                     transaction.add(R.id.fl_tab_content, mMonitorFragment);
                 } else {
-                    // 如果MessageFragment不为空，则直接将它显示出来
+                    // 如果mMonitorFragment不为空，则直接将它显示出来
                     transaction.show(mMonitorFragment);
                 }
                 break;
 
             case 3:
-                // 当点击了个人中心tab时，改变控件的图片和文字颜色
-                    rb_interact.setChecked(true);
-                    if (mInteractFragment == null) {
-                        // 如果NewsFragment为空，则创建一个并添加到界面上
-                        mInteractFragment = new InteractFragment();
-                        transaction.add(R.id.fl_tab_content, mInteractFragment);
-                    } else {
-                        // 如果NewsFragment不为空，则直接将它显示出来
-                        transaction.show(mInteractFragment);
-                    }
+                // 当点击了互动tab时，改变控件的图片和文字颜色
+                rb_interact.setChecked(true);
+                if (mInteractFragment == null) {
+                    // 如果mInteractFragment为空，则创建一个并添加到界面上
+                    mInteractFragment = new InteractFragment();
+                    transaction.add(R.id.fl_tab_content, mInteractFragment);
+                } else {
+                    // 如果mInteractFragment不为空，则直接将它显示出来
+                    transaction.show(mInteractFragment);
+                }
                 break;
             case 4:
-                // 当点击了个人中心tab时，改变控件的图片和文字颜色
+                // 当点击了我的tab时，改变控件的图片和文字颜色
                 rb_mine.setChecked(true);
                 if (mMineFragment == null) {
-                    // 如果NewsFragment为空，则创建一个并添加到界面上
+                    // 如果mMineFragment为空，则创建一个并添加到界面上
                     mMineFragment = new MineFragment();
                     transaction.add(R.id.fl_tab_content, mMineFragment);
                 } else {
-                    // 如果NewsFragment不为空，则直接将它显示出来
+                    // 如果mMineFragment不为空，则直接将它显示出来
                     transaction.show(mMineFragment);
                 }
                 break;
@@ -194,6 +194,7 @@ public class MainActivity extends FragmentActivity {
         transaction.commit();
     }
 
+    //    初始化控件
     public void initViewById() {
         ActivityManager.getInstance().addActivity(this);
         rg_tabs = (RadioGroup) findViewById(R.id.rg_tab);
