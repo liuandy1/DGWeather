@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
-
 /**
  * Created by senghor on 2015/12/24.
  */
@@ -18,7 +17,7 @@ public class EarlyWarnFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_early_warn,null,false);
+        View view=inflater.inflate(R.layout.layout_forecast_living_index,null,false);
         return view;
     }
 }

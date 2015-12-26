@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 常规字体样式-->
+    <style name="CommTextStyle">
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:padding">@dimen/common_padding</item>
+    </style>
+
 </resources>

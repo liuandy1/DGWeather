@@ -116,11 +116,11 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
      */
     private void resetBtn() {
 
-        mTvForecast.setTextColor(this.getResources().getColor(R.color.common_black_text_color));
-        mTvEarlyWarn.setTextColor(this.getResources().getColor(R.color.common_black_text_color));
-        mTvInteract.setTextColor(this.getResources().getColor(R.color.common_black_text_color));
-        mTvMine.setTextColor(this.getResources().getColor(R.color.common_black_text_color));
-        mTvMonitor.setTextColor(this.getResources().getColor(R.color.common_black_text_color));
+        mTvForecast.setTextColor(this.getResources().getColor(R.color.home_tab_text_color));
+        mTvEarlyWarn.setTextColor(this.getResources().getColor(R.color.home_tab_text_color));
+        mTvInteract.setTextColor(this.getResources().getColor(R.color.home_tab_text_color));
+        mTvMine.setTextColor(this.getResources().getColor(R.color.home_tab_text_color));
+        mTvMonitor.setTextColor(this.getResources().getColor(R.color.home_tab_text_color));
 
     }
     /**
@@ -167,7 +167,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
         switch (index) {
             case FORECAST_TAB:
                 // 当点击了消息tab时，改变控件的图片和文字颜色
-                mTvForecast.setTextColor(this.getResources().getColor(R.color.common_red_text_color));
+                mTvForecast.setTextColor(this.getResources().getColor(R.color.home_tab_text_color_checked));
                 if (mForcastFragment == null) {
                     // 如果LiveFragment为空，则创建一个并添加到界面上
                     mForcastFragment = new ForecastFragment();
@@ -178,7 +178,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
             case EARLYWARN_TAB:
-                mTvEarlyWarn.setTextColor(this.getResources().getColor(R.color.common_red_text_color));
+                mTvEarlyWarn.setTextColor(this.getResources().getColor(R.color.home_tab_text_color_checked));
                 if (mEarlyWarnFragment == null) {
                     // 如果SquareFragment为空，则创建一个并添加到界面上
                     mEarlyWarnFragment = new EarlyWarnFragment();
@@ -191,7 +191,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
 
             case MONITOR_TAB:
                 // 当点击了消息tab时，改变控件的图片和文字颜色
-                mTvMonitor.setTextColor(this.getResources().getColor(R.color.common_red_text_color));
+                mTvMonitor.setTextColor(this.getResources().getColor(R.color.home_tab_text_color_checked));
                 if (mMonitorFragment == null) {
                     // 如果SquareFragment为空，则创建一个并添加到界面上
                     mMonitorFragment = new MonitorFragment();
@@ -204,7 +204,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
 
             case INTERACT_TAB:
                 // 当点击了动态tab时，改变控件的图片和文字颜色
-                mTvInteract.setTextColor(this.getResources().getColor(R.color.common_red_text_color));
+                mTvInteract.setTextColor(this.getResources().getColor(R.color.home_tab_text_color_checked));
                 if (mInteractFragment == null) {
                     // 如果FindFragment为空，则创建一个并添加到界面上
                     mInteractFragment = new InteractFragment();
@@ -216,7 +216,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
                 break;
             case MINE_TAB:
                 // 当点击了动态tab时，改变控件的图片和文字颜色
-                mTvMine.setTextColor(this.getResources().getColor(R.color.common_red_text_color));
+                mTvMine.setTextColor(this.getResources().getColor(R.color.home_tab_text_color_checked));
                 if (mMineFragment == null) {
                     // 如果FindFragment为空，则创建一个并添加到界面上
                     mMineFragment = new MineFragment();

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_6"
             android:text="@string/forecast"
-            android:textColor="@color/common_red_text_color"
+            android:textColor="@color/home_tab_text_color_checked"
             android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_6"
             android:text="@string/earlyWarn"
-            android:textColor="@color/common_red_text_color"
+            android:textColor="@color/home_tab_text_color_checked"
             android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_6"
             android:text="@string/monitor"
-            android:textColor="@color/common_red_text_color"
+            android:textColor="@color/home_tab_text_color_checked"
             android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_6"
             android:text="@string/interact"
-            android:textColor="@color/common_red_text_color"
+            android:textColor="@color/home_tab_text_color_checked"
             android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_6"
             android:text="@string/mine"
-            android:textColor="@color/common_red_text_color"
+            android:textColor="@color/home_tab_text_color_checked"
             android:textSize="@dimen/textPx_20" />
     </LinearLayout>
 </LinearLayout>

@@ -8,4 +8,17 @@
     <string name="monitor">监测</string>
     <string name="mine">我的</string>
     <string name="interact">互动</string>
+
+    <!-- 生活指数-->
+    <string name="living_index">生活指数</string>
+    <string name="air_index">空气指数</string>
+    <string name="comfort_of_human_body">人体舒适度</string>
+    <string name="umbrella_index">雨伞指数</string>
+    <string name="exercise_index">晨练指数</string>
+    <string name="outing_index">郊游指数</string>
+    <string name="mildew_index">霉变指数</string>
+    <string name="dry_index">晾晒指数</string>
+    <string name="trafic_index">交通指数</string>
+    <string name="sunrise_and_sunset">日出日落</string>
+
 </resources>

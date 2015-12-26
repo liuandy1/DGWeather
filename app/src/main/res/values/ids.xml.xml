@@ -19,4 +19,13 @@
     <item name="ib_tab_mine" type="id"/>
     <item name="tv_tab_mine" type="id"/>
 
+    <!-- 底部-->
+    <item name="fl_tab_content" type="id"/>
+    <item name="rg_tab" type="id"/>
+    <item name="rb_tab_forecast" type="id"/>
+    <item name="rb_tab_warn" type="id"/>
+    <item name="rb_tab_monitor" type="id"/>
+    <item name="rb_tab_interact" type="id"/>
+    <item name="rb_tab_mine" type="id"/>
+
 </resources>

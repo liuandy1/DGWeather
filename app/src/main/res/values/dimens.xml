@@ -8,4 +8,13 @@
     <dimen name="px_140">70dp</dimen>
     <dimen name="textPx_22">11sp</dimen>
     <dimen name="textPx_20">10sp</dimen>
+
+    <!-- 常规字体大小-->
+    <dimen name="common_text_size">14sp</dimen>
+
+    <!-- 略小字体大小-->
+    <dimen name="common_small_text_size">12sp</dimen>
+
+    <!-- 常规内边距-->
+    <dimen name="common_padding">10dp</dimen>
 </resources>

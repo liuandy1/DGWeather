@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="common_red_text_color">#E33636</color>
-    <color name="common_black_text_color">#ff000000</color>
+    <!-- 选中菜单栏字体颜色-->
+    <color name="home_tab_text_color_checked">#2282CE</color>
+
+    <!-- 未选中菜单栏字体颜色-->
+    <color name="home_tab_text_color">#797979</color>
+
+    <!-- 常规字体颜色-->
+    <color name="common_text_color">#FFFFFF</color>
+
+    <!-- 背景颜色-  深蓝色-->
+    <color name="common_bg_color">#265978</color>
+
+    <!-- 白色-->
+    <color name="white">#FFFFFF</color>
 </resources>
