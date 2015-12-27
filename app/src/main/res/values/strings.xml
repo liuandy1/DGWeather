@@ -20,5 +20,6 @@
     <string name="dry_index">晾晒指数</string>
     <string name="trafic_index">交通指数</string>
     <string name="sunrise_and_sunset">日出日落</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

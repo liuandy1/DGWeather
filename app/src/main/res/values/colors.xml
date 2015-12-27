@@ -17,4 +17,9 @@
 
     <!-- 线条颜色  深蓝色-->
     <color name="comm_line_color">#14496B</color>
+
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+
+
 </resources>

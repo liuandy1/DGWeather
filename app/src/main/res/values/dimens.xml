@@ -27,4 +27,5 @@
     <!-- 常规线条高度-->
     <dimen name="common_line_height">1dp</dimen>
 
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
