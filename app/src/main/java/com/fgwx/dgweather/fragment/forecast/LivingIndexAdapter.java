@@ -69,6 +69,9 @@ public class LivingIndexAdapter extends BaseAdapter {
         String item = getItem(position);
         if (null != item) {
             viewHolder.iv_icon.setBackgroundResource(imgIcon[position]);
+            if (txtIndex[position].length() == 5) {
+                viewHolder.tv_index.setPadding(10, 10, 0, 10);
+            }
             viewHolder.tv_index.setText(txtIndex[position]);
             viewHolder.tv_indexInfo.setText(item);
         }

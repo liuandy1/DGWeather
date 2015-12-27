@@ -17,6 +17,7 @@
         android:id="@id/aslv_livingIndex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@color/comm_line_color"
         android:dividerHeight="@dimen/common_line_height" />
 
     <View
