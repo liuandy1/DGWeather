@@ -7,4 +7,24 @@
         <item name="android:padding">@dimen/common_padding</item>
     </style>
 
+    <!-- 底部菜单栏样式-->
+    <style name="BottomMenuStyle">
+        <item name="android:textColor">@drawable/home_tab_text_color_selector</item>
+        <item name="android:textSize">@dimen/bottom_menu_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <!-- 首页  生活指数和日出日落样式-->
+    <style name="LifeIndexAndSunriseStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/common_padding</item>
+        <item name="android:textSize">@dimen/common_small_text_size</item>
+        <item name="android:textColor">@color/common_text_color</item>
+    </style>
 </resources>

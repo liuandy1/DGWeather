@@ -34,6 +34,12 @@ public class MainActivity extends FragmentActivity {
     private InteractFragment mInteractFragment;
     private MineFragment mMineFragment;
 
+    public static final String FORECAST_TAG = "Forecast";
+    public static final String EARLYWARN_TAG ="EarlyWarn";
+    public static final String MONITOR_TAG = "Monitor";
+    public static final String INTERACT_TAG = "Interact";
+    public static final String MINE_TAG = "Mine";
+
     /**
      * 用于对Fragment进行管理
      */
@@ -42,18 +48,24 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViewById();
-        manager = getSupportFragmentManager();
-        fragments.add(new ForecastFragment());// 预报
-        fragments.add(new EarlyWarnFragment());// 预警
-        fragments.add(new MonitorFragment());// 监测
-        fragments.add(new InteractFragment());// 互动
-        fragments.add(new MineFragment());// 我的
+        isFragmentSave(savedInstanceState);
+        init();
 
         setTabSelection(0);
 
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
 
+    }
+
+    public void isFragmentSave(Bundle savedInstanceState) {
+        manager = getSupportFragmentManager();
+        if (savedInstanceState != null) {
+            mForecastFragment = (ForecastFragment) manager.findFragmentByTag(FORECAST_TAG);
+            mEarlyWarnFragment = (EarlyWarnFragment) manager.findFragmentByTag(EARLYWARN_TAG);
+            mMineFragment = (MineFragment) manager.findFragmentByTag(MINE_TAG);
+            mMonitorFragment = (MonitorFragment) manager.findFragmentByTag(MONITOR_TAG);
+            mInteractFragment = (InteractFragment) manager.findFragmentByTag(INTERACT_TAG);
+        }
     }
 
     private class onRadioGroupListener implements RadioGroup.OnCheckedChangeListener {
@@ -134,7 +146,7 @@ public class MainActivity extends FragmentActivity {
                 if (mForecastFragment == null) {
                     // 如果mForecastFragment为空，则创建一个并添加到界面上
                     mForecastFragment = new ForecastFragment();
-                    transaction.add(R.id.fl_tab_content, mForecastFragment);
+                    transaction.add(R.id.fl_tab_content, mForecastFragment,FORECAST_TAG);
                 } else {
                     // 如果mForecastFragment不为空，则直接将它显示出来
                     transaction.show(mForecastFragment);
@@ -146,7 +158,7 @@ public class MainActivity extends FragmentActivity {
                 if (mEarlyWarnFragment == null) {
                     // 如果mEarlyWarnFragment为空，则创建一个并添加到界面上
                     mEarlyWarnFragment = new EarlyWarnFragment();
-                    transaction.add(R.id.fl_tab_content, mEarlyWarnFragment);
+                    transaction.add(R.id.fl_tab_content, mEarlyWarnFragment,EARLYWARN_TAG);
                 } else {
                     // 如果mEarlyWarnFragment不为空，则直接将它显示出来
                     transaction.show(mEarlyWarnFragment);
@@ -159,7 +171,7 @@ public class MainActivity extends FragmentActivity {
                 if (mMonitorFragment == null) {
                     // 如果mMonitorFragment为空，则创建一个并添加到界面上
                     mMonitorFragment = new MonitorFragment();
-                    transaction.add(R.id.fl_tab_content, mMonitorFragment);
+                    transaction.add(R.id.fl_tab_content, mMonitorFragment,MONITOR_TAG);
                 } else {
                     // 如果mMonitorFragment不为空，则直接将它显示出来
                     transaction.show(mMonitorFragment);
@@ -172,7 +184,7 @@ public class MainActivity extends FragmentActivity {
                 if (mInteractFragment == null) {
                     // 如果mInteractFragment为空，则创建一个并添加到界面上
                     mInteractFragment = new InteractFragment();
-                    transaction.add(R.id.fl_tab_content, mInteractFragment);
+                    transaction.add(R.id.fl_tab_content, mInteractFragment,INTERACT_TAG);
                 } else {
                     // 如果mInteractFragment不为空，则直接将它显示出来
                     transaction.show(mInteractFragment);
@@ -184,7 +196,7 @@ public class MainActivity extends FragmentActivity {
                 if (mMineFragment == null) {
                     // 如果mMineFragment为空，则创建一个并添加到界面上
                     mMineFragment = new MineFragment();
-                    transaction.add(R.id.fl_tab_content, mMineFragment);
+                    transaction.add(R.id.fl_tab_content, mMineFragment,MINE_TAG);
                 } else {
                     // 如果mMineFragment不为空，则直接将它显示出来
                     transaction.show(mMineFragment);
@@ -195,7 +207,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     //    初始化控件
-    public void initViewById() {
+    public void init() {
         ActivityManager.getInstance().addActivity(this);
         rg_tabs = (RadioGroup) findViewById(R.id.rg_tab);
         rb_forecast = (RadioButton) findViewById(R.id.rb_tab_forecast);
@@ -203,6 +215,13 @@ public class MainActivity extends FragmentActivity {
         rb_monitor = (RadioButton) findViewById(R.id.rb_tab_monitor);
         rb_interact = (RadioButton) findViewById(R.id.rb_tab_interact);
         rb_mine = (RadioButton) findViewById(R.id.rb_tab_mine);
+
+        manager = getSupportFragmentManager();
+        fragments.add(new ForecastFragment());// 预报
+        fragments.add(new EarlyWarnFragment());// 预警
+        fragments.add(new MonitorFragment());// 监测
+        fragments.add(new InteractFragment());// 互动
+        fragments.add(new MineFragment());// 我的
     }
 
 }

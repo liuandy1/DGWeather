@@ -2,15 +2,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/common_bg_color">
+    android:orientation="vertical">
 
     <TextView
-        style="@style/CommTextStyle"
+        style="@style/LifeIndexAndSunriseStyle"
+        android:text="@string/living_index" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_line_height"
+        android:background="@color/comm_line_color" />
+
+    <com.fgwx.dgweather.view.AdapterScroListView
+        android:id="@id/aslv_livingIndex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/common_padding"
-        android:text="@string/living_index"
-        android:textSize="@dimen/common_small_text_size" />
+        android:dividerHeight="@dimen/common_line_height" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#2F7191" />
+
+    <TextView
+        style="@style/LifeIndexAndSunriseStyle"
+        android:text="@string/sunrise_and_sunset" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_line_height"
+        android:background="@color/comm_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_line_height"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@id/iv_life_sunrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_life_sunrise" />
+
+            <TextView
+                android:id="@id/tv_life_sunriseTime"
+                style="@style/CommTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_life_sunrise"
+                android:text="日出：06:39" />
+
+            <ImageView
+                android:id="@id/iv_life_sunset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_life_sunrise" />
+
+            <TextView
+                android:id="@id/tv_life_sunsetTime"
+                style="@style/CommTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_life_sunset"
+                android:text="日出：06:39" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

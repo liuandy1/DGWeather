@@ -13,7 +13,7 @@
     <RadioGroup
         android:id="@id/rg_tab"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/bottom_menu_height"
         android:layout_gravity="bottom"
         android:background="@color/white"
         android:orientation="horizontal"
@@ -21,65 +21,34 @@
 
         <RadioButton
             android:id="@id/rb_tab_forecast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:button="@null"
+            style="@style/BottomMenuStyle"
             android:checked="true"
             android:drawableTop="@drawable/home_tab_forecast_selector"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/forecast"
-            android:textColor="@drawable/home_tab_text_color_selector" />
+            android:text="@string/forecast" />
 
         <RadioButton
             android:id="@id/rb_tab_warn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:button="@null"
-            android:checked="false"
+            style="@style/BottomMenuStyle"
             android:drawableTop="@drawable/home_tab_warn_selector"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/earlyWarn"
-            android:textColor="@drawable/home_tab_text_color_selector" />
+            android:text="@string/earlyWarn" />
 
         <RadioButton
             android:id="@id/rb_tab_monitor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:button="@null"
+            style="@style/BottomMenuStyle"
             android:drawableTop="@drawable/home_tab_monitor_selector"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/monitor"
-            android:textColor="@drawable/home_tab_text_color_selector" />
+            android:text="@string/monitor" />
 
         <RadioButton
             android:id="@id/rb_tab_interact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:button="@null"
+            style="@style/BottomMenuStyle"
             android:drawableTop="@drawable/home_tab_interact_selector"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/interact"
-            android:textColor="@drawable/home_tab_text_color_selector" />
+            android:text="@string/interact" />
 
         <RadioButton
             android:id="@id/rb_tab_mine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:button="@null"
+            style="@style/BottomMenuStyle"
             android:drawableTop="@drawable/home_tab_mine_selector"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/mine"
-            android:textColor="@drawable/home_tab_text_color_selector" />
+            android:text="@string/mine" />
     </RadioGroup>
 
 </LinearLayout>

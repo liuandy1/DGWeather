@@ -14,4 +14,7 @@
 
     <!-- 白色-->
     <color name="white">#FFFFFF</color>
+
+    <!-- 线条颜色  深蓝色-->
+    <color name="comm_line_color">#14496B</color>
 </resources>
