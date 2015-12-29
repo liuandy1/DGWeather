@@ -208,7 +208,6 @@ public class MainActivity extends FragmentActivity {
 
     //    初始化控件
     public void init() {
-        ActivityManager.getInstance().addActivity(this);
         rg_tabs = (RadioGroup) findViewById(R.id.rg_tab);
         rb_forecast = (RadioButton) findViewById(R.id.rb_tab_forecast);
         rb_warn = (RadioButton) findViewById(R.id.rb_tab_warn);
