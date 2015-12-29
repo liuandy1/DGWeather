@@ -22,4 +22,18 @@
     <string name="sunrise_and_sunset">日出日落</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <!-- 地图显示设置-->
+    <string name="choose_map_show_content">选择地图显示内容</string>
+    <string name="show_real_time_data">显示内实时数据</string>
+    <string name="real_time_weather">实况天气</string>
+    <string name="real_time_temprature">实习温度</string>
+    <string name="relative_humidity">相对湿度</string>
+    <string name="real_time_rainfall">实时雨量</string>
+    <string name="wind_power_and_wind_speed">风力风速</string>
+    <string name="disaster_point">易灾点</string>
+    <string name="refuge">避难所</string>
+    <string name="real_photos">实景照片</string>
+
+    <!-- 公用-->
+    <string name="sure">确定</string>
 </resources>
