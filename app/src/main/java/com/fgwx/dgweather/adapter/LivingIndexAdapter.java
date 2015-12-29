@@ -1,4 +1,4 @@
-package com.fgwx.dgweather.fragment.forecast;
+package com.fgwx.dgweather.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
-
-import java.util.List;
 
 public class LivingIndexAdapter extends BaseAdapter {
     private Activity context;
