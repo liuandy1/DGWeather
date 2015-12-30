@@ -54,7 +54,7 @@
 
             <ImageView
                 android:id="@+id/iv_home_search_right"
-                android:layout_width="0d"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/icon_map_location" />
