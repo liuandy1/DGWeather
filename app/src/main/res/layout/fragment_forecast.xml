@@ -65,6 +65,12 @@
                 android:layout_weight="5"
                 android:hint="shu dian shen me hao ne " />
 
+            <ImageView
+                android:id="@+id/iv_home_search_right"
+                android:layout_width="0d"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icon_map_location" />
         </LinearLayout>
 
         <ImageView
@@ -73,9 +79,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ly_home_search"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/icon_map_more" />
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_map_more"/>
 
         <ImageView
             android:id="@+id/iv_home_location"
@@ -83,20 +89,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/iv_home_more"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/icon_map_location" />
-
-        <ImageView
-            android:id="@+id/iv_home_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/iv_home_location"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/icon_map_fullscreen" />
-
+            android:src="@drawable/icon_map_location"/>
     </RelativeLayout>
 
 
