@@ -28,4 +28,15 @@
     <item name="rb_tab_interact" type="id"/>
     <item name="rb_tab_mine" type="id"/>
 
+    <!-- 首页  生活指数-->
+    <item name="aslv_livingIndex" type="id"/>
+    <item name="iv_life_icon" type="id"/>
+    <item name="tv_life_index" type="id"/>
+    <item name="tv_life_info" type="id"/>
+
+    <!-- 首页  日出日落-->
+    <item name="iv_life_sunrise" type="id"/>
+    <item name="tv_life_sunriseTime" type="id"/>
+    <item name="iv_life_sunset" type="id"/>
+    <item name="tv_life_sunsetTime" type="id"/>
 </resources>

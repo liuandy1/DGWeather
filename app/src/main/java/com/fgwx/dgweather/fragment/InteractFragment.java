@@ -17,7 +17,7 @@ public class InteractFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_interact,null,false);
+        View view=inflater.inflate(R.layout.popup_map_setting,null,false);
         return view;
     }
 }
