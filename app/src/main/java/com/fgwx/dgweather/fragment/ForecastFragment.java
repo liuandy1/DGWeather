@@ -17,6 +17,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -143,7 +144,8 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
                 fullWindow();
                 break;
             case R.id.iv_home_location:
-                toCurrentLocation();
+//                toCurrentLocation();
+                mLocation.start();
                 break;
         }
     }
@@ -160,6 +162,12 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
                             // 此处设置开发者获取到的方向信息，顺时针0-360
                     .direction(100).latitude(currentLocation.getLatitude()).longitude(currentLocation.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
+
+            // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+//            mCurrentMarker = BitmapDescriptorFactory
+//                    .fromResource(R.drawable.ic_launcher);
+//            MyLocationConfiguration config = new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker);
+//            mBaiduMap.setMyLocationConfiguration();
         }
     }
 

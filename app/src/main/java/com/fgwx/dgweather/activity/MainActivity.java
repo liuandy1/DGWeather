@@ -38,11 +38,11 @@ public class MainActivity extends FragmentActivity {
 
     private boolean isMore;
     public static final String FORECAST_TAG = "Forecast";
-    public static final String EARLYWARN_TAG ="EarlyWarn";
+    public static final String EARLYWARN_TAG = "EarlyWarn";
     public static final String MONITOR_TAG = "Monitor";
     public static final String INTERACT_TAG = "Interact";
     public static final String MINE_TAG = "Mine";
-    public static final String HOMEMORE_TAG="HomeMore";
+    public static final String HOMEMORE_TAG = "HomeMore";
 
     /**
      * 用于对Fragment进行管理
@@ -126,7 +126,7 @@ public class MainActivity extends FragmentActivity {
         if (mMineFragment != null) {
             transaction.hide(mMineFragment);
         }
-        if(mHomeMoreFragment!=null){
+        if (mHomeMoreFragment != null) {
             transaction.hide(mHomeMoreFragment);
         }
     }
@@ -147,19 +147,19 @@ public class MainActivity extends FragmentActivity {
             case 0:
                 // 当点击了预报tab时，改变控件的图片和文字颜色
                 rb_forecast.setChecked(true);
-                if(!isMore){
-                if (mForecastFragment == null) {
-                    // 如果mForecastFragment为空，则创建一个并添加到界面上
-                    mForecastFragment = new ForecastFragment();
-                    transaction.add(R.id.fl_tab_content, mForecastFragment,FORECAST_TAG);
+                if (!isMore) {
+                    if (mForecastFragment == null) {
+                        // 如果mForecastFragment为空，则创建一个并添加到界面上
+                        mForecastFragment = new ForecastFragment();
+                        transaction.add(R.id.fl_tab_content, mForecastFragment, FORECAST_TAG);
+                    } else {
+                        // 如果mForecastFragment不为空，则直接将它显示出来
+                        transaction.show(mForecastFragment);
+                    }
                 } else {
-                    // 如果mForecastFragment不为空，则直接将它显示出来
-                    transaction.show(mForecastFragment);
-                }
-                  }else {
                     if (mHomeMoreFragment == null) {
                         mHomeMoreFragment = new HomeMoreFragment();
-                        transaction.add(R.id.fl_tab_content, mHomeMoreFragment,HOMEMORE_TAG);
+                        transaction.add(R.id.fl_tab_content, mHomeMoreFragment, HOMEMORE_TAG);
                     } else {
                         transaction.show(mHomeMoreFragment);
                     }
@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity {
                 if (mEarlyWarnFragment == null) {
                     // 如果mEarlyWarnFragment为空，则创建一个并添加到界面上
                     mEarlyWarnFragment = new EarlyWarnFragment();
-                    transaction.add(R.id.fl_tab_content, mEarlyWarnFragment,EARLYWARN_TAG);
+                    transaction.add(R.id.fl_tab_content, mEarlyWarnFragment, EARLYWARN_TAG);
                 } else {
                     // 如果mEarlyWarnFragment不为空，则直接将它显示出来
                     transaction.show(mEarlyWarnFragment);
@@ -184,7 +184,7 @@ public class MainActivity extends FragmentActivity {
                 if (mMonitorFragment == null) {
                     // 如果mMonitorFragment为空，则创建一个并添加到界面上
                     mMonitorFragment = new MonitorFragment();
-                    transaction.add(R.id.fl_tab_content, mMonitorFragment,MONITOR_TAG);
+                    transaction.add(R.id.fl_tab_content, mMonitorFragment, MONITOR_TAG);
                 } else {
                     // 如果mMonitorFragment不为空，则直接将它显示出来
                     transaction.show(mMonitorFragment);
@@ -197,7 +197,7 @@ public class MainActivity extends FragmentActivity {
                 if (mInteractFragment == null) {
                     // 如果mInteractFragment为空，则创建一个并添加到界面上
                     mInteractFragment = new InteractFragment();
-                    transaction.add(R.id.fl_tab_content, mInteractFragment,INTERACT_TAG);
+                    transaction.add(R.id.fl_tab_content, mInteractFragment, INTERACT_TAG);
                 } else {
                     // 如果mInteractFragment不为空，则直接将它显示出来
                     transaction.show(mInteractFragment);
@@ -209,7 +209,7 @@ public class MainActivity extends FragmentActivity {
                 if (mMineFragment == null) {
                     // 如果mMineFragment为空，则创建一个并添加到界面上
                     mMineFragment = new MineFragment();
-                    transaction.add(R.id.fl_tab_content, mMineFragment,MINE_TAG);
+                    transaction.add(R.id.fl_tab_content, mMineFragment, MINE_TAG);
                 } else {
                     // 如果mMineFragment不为空，则直接将它显示出来
                     transaction.show(mMineFragment);
@@ -236,8 +236,8 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new MineFragment());// 我的
     }
 
-    public void toggleMoreFragment(boolean ismore){
-        isMore=ismore;
+    public void toggleMoreFragment(boolean ismore) {
+        isMore = ismore;
         setTabSelection(0);
     }
 }

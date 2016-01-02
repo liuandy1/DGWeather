@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/holo_green_dark">
+
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager_home"
             android:layout_width="match_parent"
@@ -67,7 +68,7 @@
 
             <ImageView
                 android:id="@+id/iv_home_search_right"
-                android:layout_width="0d"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/icon_map_location" />
@@ -79,9 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ly_home_search"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/icon_map_more"/>
+            android:layout_marginTop="20dp"
+            android:src="@drawable/icon_map_more" />
 
         <ImageView
             android:id="@+id/iv_home_location"
@@ -89,9 +90,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/iv_home_more"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/icon_map_location"/>
+            android:layout_marginTop="20dp"
+            android:src="@drawable/icon_map_location" />
+
+        <ImageView
+            android:id="@+id/iv_home_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/iv_home_location"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/icon_map_fullscreen" />
     </RelativeLayout>
 
 
