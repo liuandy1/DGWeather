@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="10dp">
 
         <TextView
             style="@style/CommTextStyle"
@@ -22,22 +22,18 @@
             android:text="@string/choose_map_show_content"
             android:textColor="@color/map_setting_text_dark_gray" />
 
-        <ImageButton
-            android:id="@+id/ib_icon"
+        <RadioButton
+            android:id="@+id/rb_show_realtime_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/icon_mapsetting_checked"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_air_food" />
-
-        <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/ib_icon"
+            android:button="@null"
+            android:drawablePadding="5dp"
+            android:checked="true"
             android:text="@string/show_real_time_data"
-            android:textColor="@color/map_setting_text_dark_gray" />
+            android:layout_marginLeft="5dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -45,29 +41,16 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_bg_white_stroke_gray">
 
-        <ImageButton
-            android:id="@+id/ib_mapsetting_weather_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_map_disaster" />
-
         <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ib_mapsetting_weather_icon"
-            android:text="@string/choose_map_show_content"
-            android:textColor="@color/map_setting_text_dark_gray" />
+            style="@style/OptionTextViewStyle"
+            android:drawableLeft="@drawable/icon_map_station"
+            android:text="@string/real_time_weather"
+            />
 
-        <ImageButton
-            android:id="@+id/ib_mapsetting_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_air_food" />
+        <RadioButton
+            android:id="@+id/rb_realtime_weather"
+            style="@style/SwitchTypeStyle"
+            android:checked="true" />
     </RelativeLayout>
 
     <RadioGroup
@@ -80,26 +63,25 @@
             android:id="@+id/rb_realtime_temperature"
             style="@style/MapSettingTypeStyle"
             android:checked="true"
-            android:drawableTop="@drawable/icon_map_temprature"
+            android:drawableTop="@drawable/mapsetting_temprature_selector"
             android:text="@string/real_time_temprature" />
 
         <RadioButton
             android:id="@+id/rb_relative_humidity"
             style="@style/MapSettingTypeStyle"
-            android:checked="false"
-            android:drawableTop="@drawable/icon_map_humidity"
+            android:drawableTop="@drawable/mapsetting_humidity_selector"
             android:text="@string/relative_humidity" />
 
         <RadioButton
             android:id="@+id/rb_realtime_rainfall"
             style="@style/MapSettingTypeStyle"
-            android:drawableTop="@drawable/icon_map_rainfall"
+            android:drawableTop="@drawable/mapsetting_rainfall_selector"
             android:text="@string/real_time_rainfall" />
 
         <RadioButton
             android:id="@+id/rb_wind"
             style="@style/MapSettingTypeStyle"
-            android:drawableTop="@drawable/icon_map_wind"
+            android:drawableTop="@drawable/mapsetting_wind_selector"
             android:text="@string/wind_power_and_wind_speed" />
     </RadioGroup>
 
@@ -114,95 +96,52 @@
         android:layout_marginTop="@dimen/px_50"
         android:background="@drawable/rectangle_bg_white_stroke_gray">
 
-        <ImageButton
-            android:id="@+id/ib_mapsetting_disaster_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_map_disaster" />
+            <TextView
+                style="@style/OptionTextViewStyle"
+                android:drawableLeft="@drawable/icon_map_disaster"
+                android:text="@string/disaster_point"
+                />
 
-        <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ib_mapsetting_disaster_icon"
-            android:text="@string/choose_map_show_content"
-            android:textColor="@color/map_setting_text_dark_gray" />
-
-        <ImageButton
-            android:id="@+id/ib_mapsetting_disaster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_air_food" />
+            <RadioButton
+                android:id="@+id/rb_switch_disaster"
+                style="@style/SwitchTypeStyle"
+                android:checked="true" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding"
-        android:background="@drawable/rectangle_bg_white_stroke_gray">
-
-        <ImageButton
-            android:id="@+id/ib_mapsetting_refudge_icon"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_map_refuge" />
+            android:background="@drawable/rectangle_bg_white_stroke_gray">
 
-        <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
+            <TextView
+                style="@style/OptionTextViewStyle"
+                android:drawableLeft="@drawable/icon_map_refuge"
+                android:text="@string/real_time_weather"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_switch_refudge"
+                style="@style/SwitchTypeStyle"
+                android:checked="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ib_mapsetting_refudge_icon"
-            android:text="@string/choose_map_show_content"
-            android:textColor="@color/map_setting_text_dark_gray" />
+            android:background="@drawable/rectangle_bg_white_stroke_gray">
 
-        <ImageButton
-            android:id="@+id/ib_mapsetting_refudge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_air_food" />
+            <TextView
+                style="@style/OptionTextViewStyle"
+                android:drawableLeft="@drawable/icon_map_phonto"
+                android:text="@string/real_photos"
+                />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding"
-        android:background="@drawable/rectangle_bg_white_stroke_gray">
-
-        <ImageButton
-            android:id="@+id/ib_mapsetting_photos_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_map_phonto" />
-
-        <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ib_mapsetting_photos_icon"
-            android:text="@string/choose_map_show_content"
-            android:textColor="@color/map_setting_text_dark_gray" />
-
-        <ImageButton
-            android:id="@+id/ib_mapsetting_photos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_air_food" />
-
-    </RelativeLayout>
+            <RadioButton
+                android:id="@+id/rb_switch_photo"
+                style="@style/SwitchTypeStyle"
+                android:checked="true" />
+        </RelativeLayout>
 
     <Button
         android:id="@+id/bt_mapsetting_sure"

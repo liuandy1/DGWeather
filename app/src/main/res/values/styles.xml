@@ -31,7 +31,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- 底部菜单栏样式-->
+    <!-- 地图设置显示类型样式-->
     <style name="MapSettingTypeStyle">
         <item name="android:textColor">@color/map_setting_text_light_gray</item>
         <item name="android:textSize">@dimen/common_text_size</item>
@@ -43,6 +43,28 @@
         <item name="android:button">@null</item>
         <item name="android:drawablePadding">5dp</item>
         <item name="android:background">@drawable/mapsetting_real_weather_selector</item>
+    </style>
+
+    <!-- 开关样式-->
+    <style name="SwitchTypeStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/switch_selector</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <!-- 地图设置选项TextView样式-->
+    <style name="OptionTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/map_setting_text_dark_gray</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:padding">@dimen/common_padding</item>
+        <item name="android:drawablePadding">10dp</item>
     </style>
 
 </resources>
