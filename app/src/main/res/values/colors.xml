@@ -8,6 +8,9 @@
 
     <!-- 常规字体颜色-->
     <color name="common_text_color">#FFFFFF</color>
+    <color name="common_white_text_color">#ecefe6</color>
+
+    <color name="common_blue_alpha_30">#b2132b3d</color>
 
     <!-- 地图设置字体颜色  深灰色-->
     <color name="map_setting_text_dark_gray">#414141</color>
@@ -16,8 +19,8 @@
     <color name="map_setting_text_light_gray">#ABACAD</color>
 
     <!-- 背景颜色-  深蓝色-->
-    <color name="common_bg_color">#265978</color>
-
+    <color name="common_bg_color">#b2265978</color>
+    <color name="common_line_color">#153858</color>
     <!-- 白色-->
     <color name="white">#FFFFFF</color>
 
