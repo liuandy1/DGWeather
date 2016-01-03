@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * 日志工具类。统一管理日志信息的显示/隐藏
  *
- * @author moguangjian
+ * @author
  * @since 2014-11-26 上午11:13:29
  */
 public class LogUtil {

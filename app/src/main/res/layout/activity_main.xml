@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,8 +8,7 @@
         android:id="@id/fl_tab_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
-        android:background="#77557799" />
+        android:layout_weight="1.0" />
 
     <RadioGroup
         android:id="@id/rg_tab"

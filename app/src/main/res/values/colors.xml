@@ -32,4 +32,7 @@
 
     <!-- 地图设置背景颜色  浅灰色-->
     <color name="map_setting_bg">#E7E7E7</color>
+
+    <!-- 标题栏背景色-->
+    <color name="title_bar_bg">#1B88DA</color>
 </resources>

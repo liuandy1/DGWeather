@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +18,18 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.view.MapSettingPopupwindow;
 
 import java.util.ArrayList;
 
@@ -41,16 +43,19 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout rvHomeInfo;
     private LinearLayout lyHomeSearch;
     private LinearLayout pointLayout;
+    private int lastPoint_position;
     private ViewPager viewPager;
 
-    private BDLocation currentLocation;
-    private int lastPoint_position;
-    private MapView mapView;
-    private LocationClient mLocation;
-    public MyLocationListener myListener = new MyLocationListener();
-    private MyLocationConfiguration.LocationMode mCurrentMode;
-    boolean isFirstLoc = true; // 是否首次定位
+    private static LatLng mCurrentLng;
+    private MapView mMapView;
     private BaiduMap mBaiduMap;
+    LocationClient mLocClient;
+    public MyLocationListenner myListener = new MyLocationListenner();
+    private LocationMode mCurrentMode = LocationMode.COMPASS;
+    private boolean isFirstLoc = true;
+    private MapStatusUpdate mMapStatusUpdate;
+    private MapStatus mMapStatus;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,37 +65,42 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initUi(View view) {
-        view.findViewById(R.id.bnt_home_more).setOnClickListener(this);
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
+        view.findViewById(R.id.ly_home_down).setOnClickListener(this);
+        view.findViewById(R.id.iv_home_more).setOnClickListener(this);
         rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
         lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager_home);
         pointLayout = (LinearLayout) view.findViewById(R.id.ly_main_point_group);
-        mapView = (MapView) view.findViewById(R.id.map_view_home);
         initViewPager();
-        initMap();
+        initMap(view);
     }
 
-    private void initMap() {
-        mBaiduMap = mapView.getMap();
-//        mapView.showScaleControl(false);
-        mapView.removeViewAt(1);
-        mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
-        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
-        mBaiduMap.setMapStatus(mapStatusUpdate);
-        mapView.showScaleControl(false);
-        mapView.showZoomControls(false);
+    private void initMap(View view) {
+        mMapView = (MapView) view.findViewById(R.id.map_view_home);
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
-        mLocation = new LocationClient(getActivity());
-        mLocation.registerLocationListener(myListener);
+        mMapView.showScaleControl(false);
+        mMapView.showZoomControls(false);
+        mMapView.removeViewAt(1);
+
+//        mMapStatus = new MapStatus.Builder().zoom(15f).build();
+        mMapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        // 定位初始化
+        mLocClient = new LocationClient(getActivity().getApplication());
+        mLocClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);
-        option.setCoorType("bd09ll");   // 设置坐标类型
-        option.setScanSpan(500);       // 可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setIsNeedAddress(true);
-        mLocation.setLocOption(option);
-        mLocation.start();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(1000);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+
+
     }
 
     private void initViewPager() {
@@ -137,38 +147,28 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bnt_home_more:
+            case R.id.ly_home_down:
                 mMainActivity.toggleMoreFragment(true);
                 break;
             case R.id.iv_home_full:
                 fullWindow();
                 break;
             case R.id.iv_home_location:
-//                toCurrentLocation();
-                mLocation.start();
+                if (mCurrentLng != null) {
+                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
+                    mBaiduMap.setMapStatus(mMapStatusUpdate);
+
+                }
+                break;
+            case R.id.iv_home_more:
+                showPopupwindow();
                 break;
         }
     }
 
-
-    public void toCurrentLocation() {
-
-        LogUtil.e("定位 ==================");
-        if (currentLocation != null) {
-
-            LogUtil.e("1111111111111111");
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(currentLocation.getRadius())
-                            // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(currentLocation.getLatitude()).longitude(currentLocation.getLongitude()).build();
-            mBaiduMap.setMyLocationData(locData);
-
-            // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
-//            mCurrentMarker = BitmapDescriptorFactory
-//                    .fromResource(R.drawable.ic_launcher);
-//            MyLocationConfiguration config = new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker);
-//            mBaiduMap.setMyLocationConfiguration();
-        }
+    public void showPopupwindow() {
+        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(getActivity());
+        popupWindown.showAtLocation(getActivity().findViewById(R.id.ll), Gravity.CENTER, 0, 0);
     }
 
     /**
@@ -208,38 +208,44 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
     public void onPause() {
+        mMapView.onPause();
         super.onPause();
-        mapView.onResume();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        // 退出时销毁定位
-        mLocation.stop();
+        mMapView.onDestroy();
+        mLocClient.stop();
         // 关闭定位图层
         mBaiduMap.setMyLocationEnabled(false);
-        mapView.onDestroy();
+        mMapView = null;
+        super.onDestroy();
     }
 
-    /**
-     * 定位SDK监听函数
-     */
-    public class MyLocationListener implements BDLocationListener {
+    private class MyLocationListenner implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null || mapView == null) {
+            if (location == null || mMapView == null) {
                 return;
             }
-            currentLocation = location;
+            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                             // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
+                    .direction(100).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
+            if (mMapStatusUpdate == null)
+                mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
+
             if (isFirstLoc) {
                 isFirstLoc = false;
                 LatLng ll = new LatLng(location.getLatitude(),
@@ -250,7 +256,8 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         }
 
         public void onReceivePoi(BDLocation poiLocation) {
-
         }
+
     }
+
 }

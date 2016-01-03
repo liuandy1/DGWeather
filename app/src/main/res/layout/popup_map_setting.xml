@@ -1,113 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_layout_mapsetting"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/round_cornor_bg_gray"
+    android:layout_height="match_parent"
+    android:background="#22000000"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_layout_mapsetting_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_cornor_bg_gray"
+        android:layout_margin="20dp"
         android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
 
-        <TextView
-            style="@style/CommTextStyle"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/choose_map_show_content"
-            android:textColor="@color/map_setting_text_dark_gray" />
+            android:padding="10dp">
 
-        <RadioButton
-            android:id="@+id/rb_show_realtime_data"
-            android:layout_width="wrap_content"
+            <TextView
+                style="@style/CommTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/choose_map_show_content"
+                android:textColor="@color/map_setting_text_dark_gray" />
+
+            <CheckBox
+                android:id="@+id/cb_show_realtime_data"
+                style="@style/CommTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:button="@null"
+                android:checked="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/check_selector"
+                android:text="@string/show_real_time_data"
+                android:textColor="@color/map_setting_text_dark_gray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableRight="@drawable/icon_mapsetting_checked"
-            android:layout_centerVertical="true"
-            android:button="@null"
-            android:drawablePadding="5dp"
-            android:checked="true"
-            android:text="@string/show_real_time_data"
-            android:layout_marginLeft="5dp" />
-    </RelativeLayout>
+            android:background="@drawable/rectangle_bg_white_stroke_gray">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_bg_white_stroke_gray">
+            <TextView
+                style="@style/OptionTextViewStyle"
+                android:drawableLeft="@drawable/icon_map_station"
+                android:text="@string/real_time_weather" />
 
-        <TextView
-            style="@style/OptionTextViewStyle"
-            android:drawableLeft="@drawable/icon_map_station"
-            android:text="@string/real_time_weather"
-            />
+            <CheckBox
+                android:id="@+id/cb_switch_weather"
+                style="@style/SwitchTypeStyle"
+                android:checked="true" />
+        </RelativeLayout>
 
-        <RadioButton
-            android:id="@+id/rb_realtime_weather"
-            style="@style/SwitchTypeStyle"
-            android:checked="true" />
-    </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/rg_mapsetting_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <RadioGroup
-        android:id="@+id/rg_mapsetting_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_type_temperature"
+                style="@style/MapSettingTypeStyle"
+                android:checked="true"
+                android:drawableTop="@drawable/mapsetting_temprature_selector"
+                android:text="@string/real_time_temprature" />
 
-        <RadioButton
-            android:id="@+id/rb_realtime_temperature"
-            style="@style/MapSettingTypeStyle"
-            android:checked="true"
-            android:drawableTop="@drawable/mapsetting_temprature_selector"
-            android:text="@string/real_time_temprature" />
+            <RadioButton
+                android:id="@+id/rb_type_humidity"
+                style="@style/MapSettingTypeStyle"
+                android:drawableTop="@drawable/mapsetting_humidity_selector"
+                android:text="@string/relative_humidity" />
 
-        <RadioButton
-            android:id="@+id/rb_relative_humidity"
-            style="@style/MapSettingTypeStyle"
-            android:drawableTop="@drawable/mapsetting_humidity_selector"
-            android:text="@string/relative_humidity" />
+            <RadioButton
+                android:id="@+id/rb_type_rainfall"
+                style="@style/MapSettingTypeStyle"
+                android:drawableTop="@drawable/mapsetting_rainfall_selector"
+                android:text="@string/real_time_rainfall" />
 
-        <RadioButton
-            android:id="@+id/rb_realtime_rainfall"
-            style="@style/MapSettingTypeStyle"
-            android:drawableTop="@drawable/mapsetting_rainfall_selector"
-            android:text="@string/real_time_rainfall" />
+            <RadioButton
+                android:id="@+id/rb_type_wind"
+                style="@style/MapSettingTypeStyle"
+                android:drawableTop="@drawable/mapsetting_wind_selector"
+                android:text="@string/wind_power_and_wind_speed" />
+        </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/rb_wind"
-            style="@style/MapSettingTypeStyle"
-            android:drawableTop="@drawable/mapsetting_wind_selector"
-            android:text="@string/wind_power_and_wind_speed" />
-    </RadioGroup>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/map_setting_text_light_gray" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/map_setting_text_light_gray"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px_50"
-        android:background="@drawable/rectangle_bg_white_stroke_gray">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px_50"
+            android:background="@drawable/rectangle_bg_white_stroke_gray">
 
             <TextView
                 style="@style/OptionTextViewStyle"
                 android:drawableLeft="@drawable/icon_map_disaster"
-                android:text="@string/disaster_point"
-                />
+                android:text="@string/disaster_point" />
 
-            <RadioButton
-                android:id="@+id/rb_switch_disaster"
+            <CheckBox
+                android:id="@+id/cb_switch_disaster"
                 style="@style/SwitchTypeStyle"
                 android:checked="true" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -117,11 +123,10 @@
             <TextView
                 style="@style/OptionTextViewStyle"
                 android:drawableLeft="@drawable/icon_map_refuge"
-                android:text="@string/real_time_weather"
-                />
+                android:text="@string/refuge" />
 
-            <RadioButton
-                android:id="@+id/rb_switch_refudge"
+            <CheckBox
+                android:id="@+id/cb_switch_refudge"
                 style="@style/SwitchTypeStyle"
                 android:checked="true" />
         </RelativeLayout>
@@ -134,26 +139,24 @@
             <TextView
                 style="@style/OptionTextViewStyle"
                 android:drawableLeft="@drawable/icon_map_phonto"
-                android:text="@string/real_photos"
-                />
+                android:text="@string/real_photos" />
 
-            <RadioButton
-                android:id="@+id/rb_switch_photo"
+            <CheckBox
+                android:id="@+id/cb_switch_photo"
                 style="@style/SwitchTypeStyle"
                 android:checked="true" />
         </RelativeLayout>
 
-    <Button
-        android:id="@+id/bt_mapsetting_sure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/px_50"
-        android:text="@string/sure"
-        android:layout_gravity="center_horizontal"
-        style="@style/CommTextStyle"
-        android:textColor="@color/map_setting_text_dark_gray"
-        android:textSize="16sp"
-        android:background="@drawable/rectangle_mapsetting_sure_bg"
-        />
+        <Button
+            android:id="@+id/bt_mapsetting_sure"
+            style="@style/CommTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/px_50"
+            android:background="@drawable/rectangle_mapsetting_sure_bg"
+            android:text="@string/sure"
+            android:textColor="@color/map_setting_text_dark_gray"
+            android:textSize="16sp" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
