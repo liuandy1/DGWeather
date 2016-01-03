@@ -9,4 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/interact" />
+
+    <include
+        layout="@layout/layout_forecast_weather_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

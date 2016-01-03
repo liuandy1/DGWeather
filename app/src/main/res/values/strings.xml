@@ -36,4 +36,7 @@
 
     <!-- 公用-->
     <string name="sure">确定</string>
+
+    <!--预报页面2-->
+    <string name="title_48_hour_weather_forecast">48小时精准天气预报</string>
 </resources>

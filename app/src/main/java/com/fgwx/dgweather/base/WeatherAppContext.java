@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.fgwx.dgweather.net.VolleySingleton;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -21,6 +22,7 @@ public class WeatherAppContext extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        VolleySingleton.init(this);
         SDKInitializer.initialize(this);
         initImageLoader();
 
