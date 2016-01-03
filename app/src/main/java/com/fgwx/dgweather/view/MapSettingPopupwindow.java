@@ -26,11 +26,11 @@ import com.fgwx.dgweather.R;
  */
 public class MapSettingPopupwindow extends PopupWindow {
     private View layout;
-    private CheckBox cb_showrealTimeData,cb_realTimeWeather,cb_disasterPoint,cb_refudge,cb_realPhotos;
+    private CheckBox cb_showrealTimeData, cb_realTimeWeather, cb_disasterPoint, cb_refudge, cb_realPhotos;
     private RadioGroup rg_showType;
-    private RadioButton rb_temprature,rb_humidity,rb_rainfall,rb_wind;
+    private RadioButton rb_temprature, rb_humidity, rb_rainfall, rb_wind;
     private Button bt_sure;
-    private LinearLayout ll_layout,ll_layout_content;
+    private LinearLayout ll_layout, ll_layout_content;
 
     public MapSettingPopupwindow(Activity context) {
         super(context);
@@ -80,11 +80,11 @@ public class MapSettingPopupwindow extends PopupWindow {
 
     }
 
-    private class MyRidioDroupCheckedChangeListener implements RadioGroup.OnCheckedChangeListener{
+    private class MyRidioDroupCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId){
+            switch (checkedId) {
                 case R.id.cb_show_realtime_data:
 
                     break;
@@ -104,11 +104,11 @@ public class MapSettingPopupwindow extends PopupWindow {
         }
     }
 
-    private class MyCheckBoxCheckedChangeListener implements CompoundButton.OnCheckedChangeListener{
+    private class MyCheckBoxCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            switch (buttonView.getId()){
+            switch (buttonView.getId()) {
                 case R.id.cb_switch_weather:
 
                     break;
@@ -125,11 +125,11 @@ public class MapSettingPopupwindow extends PopupWindow {
         }
     }
 
-    private class MyClickListener implements View.OnClickListener{
+    private class MyClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.bt_mapsetting_sure:
                     dismiss();
                     break;

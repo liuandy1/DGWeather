@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.view.MapSettingPopupwindow;
 
 import java.util.ArrayList;
 
@@ -66,6 +68,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
         view.findViewById(R.id.ly_home_down).setOnClickListener(this);
+        view.findViewById(R.id.iv_home_more).setOnClickListener(this);
         rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
         lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager_home);
@@ -151,18 +154,21 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
                 fullWindow();
                 break;
             case R.id.iv_home_location:
-                LogUtil.e("重新定位");
-//                mLocClient.start();
                 if (mCurrentLng != null) {
                     mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
                     mBaiduMap.setMapStatus(mMapStatusUpdate);
 
                 }
-
-
-                LogUtil.e("重新定位11111111");
+                break;
+            case R.id.iv_home_more:
+                showPopupwindow();
                 break;
         }
+    }
+
+    public void showPopupwindow() {
+        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(getActivity());
+        popupWindown.showAtLocation(getActivity().findViewById(R.id.ll), Gravity.CENTER, 0, 0);
     }
 
     /**
