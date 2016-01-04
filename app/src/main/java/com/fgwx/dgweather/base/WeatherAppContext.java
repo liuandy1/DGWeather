@@ -4,7 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.net.VolleySingleton;
+import com.fgwx.dgweather.utils.Constant;
+import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -17,6 +22,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 public class WeatherAppContext extends Application {
 
     private static WeatherAppContext sInstance;
+    private MPreferencesUtil preferencesUtil;
 
     @Override
     public void onCreate() {
@@ -25,13 +31,29 @@ public class WeatherAppContext extends Application {
         VolleySingleton.init(this);
         SDKInitializer.initialize(this);
         initImageLoader();
+        preferencesUtil = MPreferencesUtil.getInstance(this);
+        if (-1 == preferencesUtil.getValue(Constant.ISFIRST, -1)) {
+            saveCity();
+        }
 
-//        IntentFilter iFilter = new IntentFilter();
-//        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK);
-//        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
-//        iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
-//        SDKReceiver mReceiver = new SDKReceiver();
-//        registerReceiver(mReceiver, iFilter);
+    }
+
+    private void saveCity() {
+        String[] citys = Constant.CITYNAME.replace("\n", "").split("qq");
+        LogUtil.e("citys:"+citys.length);
+        String[] cityNos = Constant.CITYNO.replace("\n", "").split("qq");
+        LogUtil.e("cityNos:"+cityNos.length);
+        CityDao cityDao = new CityDao(this);
+        for (int i = 0; i < citys.length; i++) {
+            if (cityNos[i].length() == 12) {
+                CityBean c = new CityBean(citys[i], true, cityNos[i]);
+                cityDao.add(c);
+            }else{
+                CityBean c = new CityBean(citys[i], false, cityNos[i]);
+                cityDao.add(c);
+            }
+        }
+        preferencesUtil.setValue(Constant.ISFIRST, 1);
     }
 
 
@@ -47,23 +69,4 @@ public class WeatherAppContext extends Application {
         return sInstance;
     }
 
-//    public class SDKReceiver extends BroadcastReceiver {
-//        public void onReceive(Context context, Intent intent) {
-//
-//            Log.d("wuzi", "收到了广播");
-//
-//            String s = intent.getAction();
-//            Log.d("wuzi", "action: " + s);
-////        TextView text = (TextView) findViewById(R.id.text_Info);
-////        text.setTextColor(Color.RED);
-//            if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR)) {
-//                Log.i("wuzi", "key 验证出错! 请在 AndroidManifest.xml 文件中检查 key 设置");
-//            } else if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK)) {
-//                Log.i("wuzi", "key 验证成功! 功能可以正常使用");
-////            text.setTextColor(Color.YELLOW);
-//            } else if (s.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
-//                Log.i("wuzi", "网络出错");
-//            }
-//        }
-//    }
 }
