@@ -18,7 +18,7 @@ public class Test extends AndroidTestCase {
         List<CityBean> citys = cityDao.getLocalCity();
         if (null != citys)
             for (CityBean cityBean : citys) {
-                LogUtil.e("城市名字:"+cityBean.getCityName());
+                LogUtil.e("城市名字:" + cityBean.getCityName());
             }
     }
 }

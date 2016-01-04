@@ -4,16 +4,66 @@
     android:layout_height="wrap_content"
     android:padding="15dp">
 
-    <ImageView
-        android:id="@+id/iv_warn_mult"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ly_muti_warning"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_warn_cold_orange" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/iv_warn_mult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_warning" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_warn_mult"
+            android:text="您所在的区域的预警已达X个，请注意安全!" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_warning_type"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_warn_mult"
-        android:text="您所在的区域的预警已达X个，请注意安全!"/>
+        android:layout_below="@id/ly_muti_warning"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            style="@style/multiple_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_warn_cold_orange" />
+
+        <ImageView
+            style="@style/multiple_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_warn_cold_orange" />
+
+        <ImageView
+            style="@style/multiple_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_warn_cold_orange" />
+
+        <ImageView
+            style="@style/multiple_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_warn_cold_orange" />
+
+    </LinearLayout>
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
 </RelativeLayout>
