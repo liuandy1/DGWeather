@@ -1,7 +1,6 @@
 package com.fgwx.dgweather.fragment;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,19 +12,8 @@ import android.widget.ScrollView;
 import com.fgwx.dgweather.Callback.ScrollTouchListenerImpl;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
-import com.fgwx.dgweather.adapter.LivingIndexAdapter;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
-import com.fgwx.dgweather.view.AdapterScroListView;
 import com.fgwx.dgweather.view.WeatherTrendView;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
