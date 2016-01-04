@@ -4,11 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_open"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/interact" />
+    <include
+        layout="@layout/layout_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <include
         layout="@layout/layout_forecast_weather_info"
