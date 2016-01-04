@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * use to...
  */
 @DatabaseTable(tableName = "tb_city")
-public class City {
+public class CityBean {
 
     @DatabaseField(generatedId = true, columnName = "main_id")
     private int id;
@@ -18,17 +18,20 @@ public class City {
     @DatabaseField(columnName = "city_name")
     private String cityName;
 
+    @DatabaseField(columnName = "city_local")
+    private boolean isLocal;
     /**
      * 行政编号
      */
     @DatabaseField(columnName = "city_no")
     private String cityNo;
 
-    public City() {
+    public CityBean() {
     }
 
-    public City(String cityName, String cityNo) {
+    public CityBean(String cityName, boolean isLocal, String cityNo) {
         this.cityName = cityName;
+        this.isLocal = isLocal;
         this.cityNo = cityNo;
     }
 
@@ -54,5 +57,13 @@ public class City {
 
     public void setCityNo(String cityNo) {
         this.cityNo = cityNo;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setIsLocal(boolean isLocal) {
+        this.isLocal = isLocal;
     }
 }
