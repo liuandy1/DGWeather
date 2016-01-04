@@ -27,17 +27,6 @@ public class InteractFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView tv_open = (TextView) getActivity().findViewById(R.id.tv_open);
-        tv_open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupwindow();
-            }
-        });
     }
 
-    public void showPopupwindow(){
-        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(getActivity());
-        popupWindown.showAtLocation(getActivity().findViewById(R.id.ll), Gravity.CENTER,0, 0);
-    }
 }

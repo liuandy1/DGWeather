@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/title_bar_bg"
@@ -9,6 +9,7 @@
         android:id="@+id/ll_info_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -42,7 +43,7 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -55,81 +56,99 @@
                 android:textColor="@color/white"
                 android:textSize="58sp" />
 
-            <TextView
-                android:id="@+id/tv_info_temp"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_toRightOf="@id/tv_info_currentTemp"
-                android:text="℃"
-                android:layout_alignParentTop="true"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
-            <TextView
-                android:id="@+id/tv_info_tempRange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_info_temp"
-                android:layout_toRightOf="@id/tv_info_currentTemp"
-                android:layout_alignBaseline="@id/tv_info_currentTemp"
-                android:text="18℃~29℃"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_info_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="℃"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_info_tempRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="18℃~29℃"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_info_wind"
+                style="@style/CommTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/CommTextStyle"
-                android:text="东南风3级"/>
+                android:text="东南风3级" />
 
             <TextView
                 android:id="@+id/tv_info_humidy"
+                style="@style/CommTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_info_wind"
-                style="@style/CommTextStyle"
-                android:text="湿度76%"/>
+                android:text="湿度76%" />
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_info_refresh"
+            style="@style/CommTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CommTextStyle"
+            android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/icon_refresh"
             android:drawablePadding="10dp"
-            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="15分钟前发布"/>
+            android:text="15分钟前发布" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ib_info_1"
+            android:id="@+id/ib_info_warn1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_warn_cold_orange"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/icon_warn_rainstoem_orange" />
 
         <ImageButton
-            android:id="@+id/ib_info_2"
+            android:id="@+id/ib_info_warn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_warn_cold_orange"/>
+            android:layout_below="@id/ib_info_warn1"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/icon_warn_rainstoem_orange" />
 
         <ImageButton
-            android:id="@+id/ib_info_3"
+            android:id="@+id/ib_info_warn3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_warn_cold_orange"/>
-    </LinearLayout>
+            android:layout_below="@id/ib_info_warn2"
+            android:layout_margin="10dp"
+            android:background="@drawable/icon_warn_rainstoem_orange" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
