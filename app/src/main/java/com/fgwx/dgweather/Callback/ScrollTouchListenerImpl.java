@@ -21,7 +21,7 @@ public class ScrollTouchListenerImpl  implements View.OnTouchListener{
             case MotionEvent.ACTION_MOVE:
                 float dy = y - beginY;
                 int scrollY=view.getScrollY();
-                if(scrollY==0&&dy>40){
+                if(scrollY==0&&dy>30){
                     //拿到滑动的Y轴距离
                         flag=true;
                 }

@@ -75,11 +75,7 @@
         <com.fgwx.dgweather.view.WeatherTrendView
             android:id="@+id/wtv_day_trend_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_360" />
-            <TextView
-                android:text="sdffffffffffffffffdsfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffskdjlshdfffffffffffffsssssssssssssssssssdkjjjjjjjjjjjjjjjjjjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_height="@dimen/px_380" />
         </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

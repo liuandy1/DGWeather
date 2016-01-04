@@ -19,8 +19,8 @@
     <color name="map_setting_text_light_gray">#ABACAD</color>
 
     <!-- 背景颜色-  深蓝色-->
-    <color name="common_bg_color">#b2265978</color>
-    <color name="common_line_color">#153858</color>
+    <color name="common_bg_color">#b2132b3d</color>
+    <color name="common_line_color">#12304c</color>
     <!-- 白色-->
     <color name="white">#FFFFFF</color>
 
