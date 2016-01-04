@@ -20,4 +20,9 @@ public class MonitorFragment extends Fragment{
         View view=inflater.inflate(R.layout.fragment_monitor,null,false);
         return view;
     }
+
+
+
+
+
 }

@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-//        debug {
-//            keyAlias 'dg'
-//            keyPassword 'dongguan'
-//            storeFile file('E:/gitspace/DGWeather/app/keystore/dongguan.jks')
-//            storePassword 'dongguan'
-//        }
+        debug {
+            keyAlias 'dg'
+            keyPassword 'dongguan'
+            storeFile file('/Users/minhu/Documents/D/workspace/as/DGWeather/app/keystore/dongguan.jks')
+            storePassword 'dongguan'
+        }
     }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
