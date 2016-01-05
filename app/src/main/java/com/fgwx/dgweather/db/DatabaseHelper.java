@@ -3,7 +3,7 @@ package com.fgwx.dgweather.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fgwx.dgweather.bean.City;
+import com.fgwx.dgweather.bean.CityBean;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
@@ -17,12 +17,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -38,7 +33,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database,
                          ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, City.class);
+            TableUtils.createTable(connectionSource, CityBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,7 +43,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database,
                           ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, City.class, true);
+            TableUtils.dropTable(connectionSource, CityBean.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

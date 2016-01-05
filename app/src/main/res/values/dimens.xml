@@ -13,6 +13,7 @@
     <dimen name="px_112">56dp</dimen>
     <dimen name="px_140">70dp</dimen>
     <dimen name="px_360">180dp</dimen>
+    <dimen name="px_380">190dp</dimen>
     <dimen name="textPx_22">11sp</dimen>
     <dimen name="textPx_20">10sp</dimen>
     <dimen name="textPx_24">12sp</dimen>
