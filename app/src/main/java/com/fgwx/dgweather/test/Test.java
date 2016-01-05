@@ -5,8 +5,6 @@ import android.test.AndroidTestCase;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.utils.LogUtil;
-import com.iflytek.ui.SynthesizerDialog;
-import com.iflytek.ui.SynthesizerDialogListener;
 
 import java.util.List;
 
