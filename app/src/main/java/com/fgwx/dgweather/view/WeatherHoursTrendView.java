@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by senghor on 2016/1/3.
  */
-public class WeatherTrendView extends View {
+public class WeatherHoursTrendView extends View {
 
     private List<ForecastForTenDayBean> mbeans;
     private float multipleY =6;//自定义温度偏移量倍数为8，可根据屏幕分辨率设定
@@ -34,17 +34,17 @@ public class WeatherTrendView extends View {
     private float marginPicText=50;
     float fontHeight;
     private int sumWidth;
-    public WeatherTrendView(Context context) {
+    public WeatherHoursTrendView(Context context) {
         this(context,null);
     }
 
-    public WeatherTrendView(Context context, AttributeSet attrs,
-                            int defStyle) {
+    public WeatherHoursTrendView(Context context, AttributeSet attrs,
+                                 int defStyle) {
         super(context, attrs, defStyle);
         initView(context);
     }
 
-    public WeatherTrendView(Context context, AttributeSet attrs) {
+    public WeatherHoursTrendView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 

@@ -13,7 +13,8 @@ import com.fgwx.dgweather.Callback.ScrollTouchListenerImpl;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
-import com.fgwx.dgweather.view.WeatherTrendView;
+import com.fgwx.dgweather.view.WeatherDayTrendView;
+import com.fgwx.dgweather.view.WeatherHoursTrendView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.List;
 public class ForecastMoreFragment extends Fragment implements View.OnClickListener,ScrollTouchListenerImpl.ScrollUp{
 
     private MainActivity mMainActivity;
-    private WeatherTrendView mDayWeatherTrendView;
+    private WeatherHoursTrendView mWeatherHoursTrendView;
+    private WeatherDayTrendView mWeathDayTrendView;
     private ScrollView mRootScrollView;
     private ScrollTouchListenerImpl mScollScrollTouchListener;
    /* private AdapterScroListView aslv_lifeIndex;
@@ -55,7 +57,8 @@ public class ForecastMoreFragment extends Fragment implements View.OnClickListen
     public void initView(View view){
         mScollScrollTouchListener=new ScrollTouchListenerImpl();
         mScollScrollTouchListener.setScrollUpListener(this);
-        mDayWeatherTrendView= (WeatherTrendView) view.findViewById(R.id.wtv_day_trend_view);
+        mWeatherHoursTrendView= (WeatherHoursTrendView) view.findViewById(R.id.wtv_hour_trend_view);
+        mWeathDayTrendView= (WeatherDayTrendView) view.findViewById(R.id.wtv_day_trend_view);
         mRootScrollView= (ScrollView) view.findViewById(R.id.scroll_forecast_more);
         mRootScrollView.setOnTouchListener(mScollScrollTouchListener);
         List<ForecastForTenDayBean> beans=new ArrayList<>();
@@ -63,9 +66,11 @@ public class ForecastMoreFragment extends Fragment implements View.OnClickListen
         for(int i=0;i<6;i++){
             bean=new ForecastForTenDayBean();
             bean.setCurMaxTemp(20 + i * 2);
+            bean.setCurMinTemp(20 - i * 2);
             beans.add(bean);
         }
-        mDayWeatherTrendView.setDataBean(beans);
+        mWeatherHoursTrendView.setDataBean(beans);
+        mWeathDayTrendView.setDataBean(beans);
     }
     @Override
     public void onClick(View v) {

@@ -72,11 +72,57 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <com.fgwx.dgweather.view.WeatherTrendView
-            android:id="@+id/wtv_day_trend_view"
+        <com.fgwx.dgweather.view.WeatherHoursTrendView
+            android:id="@+id/wtv_hour_trend_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px_380" />
         </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/px_30"
+        android:orientation="vertical"
+        android:background="@color/common_bg_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textSize="@dimen/textPx_24"
+            android:textColor="@color/common_white_text_color"
+            android:layout_marginLeft="@dimen/px_36"
+            android:text="@string/title_10_day_weather_forecast"
+            android:layout_marginTop="@dimen/px_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_marginTop="@dimen/px_20"
+            android:background="@color/common_line_color"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px_2"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px_540">
+                <com.fgwx.dgweather.view.WeatherDayTrendView
+                    android:id="@+id/wtv_day_trend_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <View
+                        android:background="#ff0000"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+            </RelativeLayout>
         </HorizontalScrollView>
     </LinearLayout>
 <!--<ScrollView
