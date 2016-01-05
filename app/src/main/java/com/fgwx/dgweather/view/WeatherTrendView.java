@@ -53,6 +53,7 @@ public class WeatherTrendView extends View {
         for(int i=0;i<beans.size();i++){
             mPointXs[i]=originWidth+multipleX*i;
         }
+
     }
 
     @Override
