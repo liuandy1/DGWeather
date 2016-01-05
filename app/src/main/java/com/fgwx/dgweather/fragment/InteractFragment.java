@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.view.MapSettingPopupwindow;
+import com.fgwx.dgweather.view.MultiWarnPopupwindow;
 
 /**
  * Created by senghor on 2015/12/24.
@@ -27,6 +28,17 @@ public class InteractFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        TextView textView = (TextView) getActivity().findViewById(R.id.tv_test);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupwindow();
+            }
+        });
     }
 
+    public void showPopupwindow() {
+        MultiWarnPopupwindow popupWindown = new MultiWarnPopupwindow(getActivity());
+        popupWindown.showAtLocation(getActivity().findViewById(R.id.ll), Gravity.CENTER, 0, 0);
+    }
 }
