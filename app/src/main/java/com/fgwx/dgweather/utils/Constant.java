@@ -5,6 +5,7 @@ package com.fgwx.dgweather.utils;
  * 邮箱：359222347@qq.com
  */
 public class Constant {
+
         public static final String ISFIRST = "isFirst";
         public static final String CITYNAME = "北京市qq\n" +
             "天津市qq\n" +

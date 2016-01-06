@@ -35,7 +35,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.utils.LogUtil;
-import com.fgwx.dgweather.utils.VoiceUtils;
+import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.view.MapSettingPopupwindow;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
@@ -182,7 +182,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
      *
      */
     private void broadWeather(String str) {
-        VoiceUtils.broadcastWeather(getActivity(), str, new SynthesizerListener() {
+        SpeechUtil.broadcastWeather(getActivity(), str, new SynthesizerListener() {
             public AlertDialog dialog;
 
             @Override
