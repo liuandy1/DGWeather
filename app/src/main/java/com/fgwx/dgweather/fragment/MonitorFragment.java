@@ -8,13 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
-import com.fgwx.dgweather.utils.LogUtil;
-import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SynthesizerListener;
 
 /**
  * Created by senghor on 2015/12/24.
@@ -38,91 +33,8 @@ public class MonitorFragment extends Fragment {
 
     private void initView(View view) {
 
-        mTtsInitListener = new InitListener() {
-            @Override
-            public void onInit(int i) {
-                LogUtil.e("InitListener init() code = " + i);
-                if (i != ErrorCode.SUCCESS) {
-//                    showTip("初始化失败,错误码："+i);
-                } else {
-                    // 初始化成功，之后可以调用startSpeaking方法
-                    // 注：有的开发者在onCreate方法中创建完合成对象之后马上就调用startSpeaking进行合成，
-                    // 正确的做法是将onCreate中的startSpeaking调用移至这里
-                }
-            }
-        };
-
-        // 初始化合成对象
-        mTts = SpeechSynthesizer.createSynthesizer(getActivity(), mTtsInitListener);
-        view.findViewById(R.id.btn_play).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String str = "唯衣是一家零售兼批发的服装，全称是广州唯衣网络科技有限公司。公司坐落在广东省广州市，" +
-                        "拒绝经营假名牌和仿名牌，只做最主流的，最时尚的，品质最好的品牌女装，产品汇集国内外中高档知名女装品牌、一线女装精品，并与其结成战略联盟，" +
-                        "每季提供近千余品种款式供我们的客户和消费者们选择。";
-                broadcastWeather(str);
-            }
-        });
     }
 
-    public void broadcastWeather(String str) {
-        setParam();
-        mTts.startSpeaking(str, new SynthesizerListener() {
-            @Override
-            public void onSpeakBegin() {
-                LogUtil.e("开始播放");
-            }
-
-            @Override
-            public void onBufferProgress(int i, int i1, int i2, String s) {
-
-            }
-
-            @Override
-            public void onSpeakPaused() {
-
-            }
-
-            @Override
-            public void onSpeakResumed() {
-
-            }
-
-            @Override
-            public void onSpeakProgress(int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onCompleted(SpeechError speechError) {
-                LogUtil.e("播放结束");
-
-            }
-
-            @Override
-            public void onEvent(int i, int i1, int i2, Bundle bundle) {
-
-            }
-        });
-    }
-
-    private void setParam() {
-        mTts.setParameter(SpeechConstant.PARAMS, null);
-        mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-        // 设置在线合成发音人
-        mTts.setParameter(SpeechConstant.VOICE_NAME, "xiaoqi");
-        //设置合成语速
-        mTts.setParameter(SpeechConstant.SPEED, "50");
-        //设置合成音调
-        mTts.setParameter(SpeechConstant.PITCH, "50");
-        //设置合成音量
-        mTts.setParameter(SpeechConstant.VOLUME, "50");
-
-        //设置播放器音频流类型
-        mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");
-        // 设置播放合成音频打断音乐播放，默认为true
-        mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
-    }
 
     @Override
     public void onResume() {
@@ -132,8 +44,6 @@ public class MonitorFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mTts.stopSpeaking();
-        // 退出时释放连接
-        mTts.destroy();
+
     }
 }
