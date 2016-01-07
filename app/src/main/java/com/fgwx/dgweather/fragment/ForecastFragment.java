@@ -63,6 +63,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
     private LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
     private boolean isFirstLoc = true;
+    private boolean isLoad = false;
     private MapStatusUpdate mMapStatusUpdate;
     private GeoCoder mSearch;
 
@@ -99,6 +100,10 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
+        // 初始化搜索模块，注册事件监听
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
+//        mBaiduMap.setOnMapLoadedCallback(callback);
 
         mMapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
@@ -112,9 +117,6 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
         mLocClient.setLocOption(option);
         mLocClient.start();
 
-        // 初始化搜索模块，注册事件监听
-        mSearch = GeoCoder.newInstance();
-        mSearch.setOnGetGeoCodeResultListener(this);
     }
 
     private void initViewPager() {
@@ -283,6 +285,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
         mBaiduMap.setMyLocationEnabled(false);
         mMapView = null;
         super.onDestroy();
+
     }
 
     @Override
@@ -319,10 +322,14 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
             if (mMapStatusUpdate == null)
                 mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
 
-            if (isFirstLoc) {
-                isFirstLoc = false;
+            if (!isLoad) {
                 // 反Geo搜索
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng));
+                isLoad = true;
+            }
+
+            if (isFirstLoc) {
+                isFirstLoc = false;
                 LatLng ll = new LatLng(location.getLatitude(),
                         location.getLongitude());
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
@@ -335,4 +342,15 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+    /**
+     * 百度地图加载完成的回调
+     */
+//    private BaiduMap.OnMapLoadedCallback callback = new BaiduMap.OnMapLoadedCallback() {
+//        /**
+//         * 地图加载完成回调函数
+//         */
+//        public void onMapLoaded() {
+//            isLoad = true;
+//        }
+//    };
 }

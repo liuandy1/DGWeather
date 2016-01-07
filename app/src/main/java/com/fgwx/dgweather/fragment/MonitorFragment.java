@@ -1,5 +1,6 @@
 package com.fgwx.dgweather.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,19 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
-import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.SpeechSynthesizer;
+import com.fgwx.dgweather.activity.TestActivity;
 
 /**
  * Created by senghor on 2015/12/24.
  */
 //监测
-public class MonitorFragment extends Fragment {
-
-    //    private static final String APPID = "appid=519328ab";
-    // 语音合成对象
-    private SpeechSynthesizer mTts;
-    private InitListener mTtsInitListener;
+public class MonitorFragment extends Fragment implements View.OnClickListener{
 
     @Nullable
     @Override
@@ -32,7 +27,7 @@ public class MonitorFragment extends Fragment {
     }
 
     private void initView(View view) {
-
+        view.findViewById(R.id.btn_play).setOnClickListener(this);
     }
 
 
@@ -45,5 +40,16 @@ public class MonitorFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_play:
+                startActivity(new Intent(getActivity(),TestActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }
