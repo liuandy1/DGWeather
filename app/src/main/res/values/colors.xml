@@ -35,4 +35,7 @@
 
     <!-- 标题栏背景色-->
     <color name="title_bar_bg">#1B88DA</color>
+
+    <!-- 蓝色按钮-->
+    <color name="button_bg_blue">#094375</color>
 </resources>

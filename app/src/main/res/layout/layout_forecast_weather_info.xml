@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/title_bar_bg"
-    android:padding="10dp">
+    android:paddingTop="8dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <LinearLayout
         android:id="@+id/ll_info_left"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -22,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:padding="1dp"
                 android:text="周一  11月16日" />
 
             <ImageView
@@ -29,6 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/tv_info_currentTime"
                 android:background="@drawable/icon_air_good" />
 
@@ -39,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_info_airQuality"
+                android:padding="2dp"
                 android:text="晴"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -51,10 +58,9 @@
                 android:id="@+id/tv_info_currentTemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="29"
+                android:text="19"
                 android:textColor="@color/white"
-                android:textSize="58sp" />
+                android:textSize="54sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,7 +80,7 @@
                     android:gravity="center_vertical"
                     android:text="℃"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_info_tempRange"
@@ -84,7 +90,7 @@
                     android:gravity="center_vertical"
                     android:text="18℃~29℃"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -97,6 +103,7 @@
                 style="@style/CommTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:text="东南风3级" />
 
             <TextView
@@ -105,6 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_info_wind"
+                android:padding="2dp"
                 android:text="湿度76%" />
         </RelativeLayout>
 
@@ -113,9 +121,8 @@
             style="@style/CommTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/icon_refresh"
-            android:drawablePadding="10dp"
+            android:drawablePadding="8dp"
             android:gravity="center"
             android:text="15分钟前发布" />
     </LinearLayout>

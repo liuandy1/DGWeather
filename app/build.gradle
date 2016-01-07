@@ -43,4 +43,7 @@ dependencies {
     compile files('libs/baidumapapi_search_v3_6_1.jar')
     compile files('libs/baidumapapi_util_v3_6_1.jar')
     compile files('libs/locSDK_6.13.jar')
+    compile files('libs/ormlite-android-4.49-SNAPSHOT.jar')
+    compile files('libs/ormlite-core-4.49-SNAPSHOT.jar')
+    compile files('libs/Msc.jar')
 }

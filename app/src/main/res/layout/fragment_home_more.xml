@@ -114,14 +114,6 @@
                     android:id="@+id/wtv_day_trend_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <View
-                        android:background="#ff0000"
-                        android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
-                </LinearLayout>
             </RelativeLayout>
         </HorizontalScrollView>
     </LinearLayout>
