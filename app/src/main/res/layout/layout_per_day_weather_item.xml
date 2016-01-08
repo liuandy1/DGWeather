@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/px_140"
+    android:layout_height="@dimen/px_660">
+<TextView
+    style="@style/CommonTextStyle"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/tv_per_day_weather_description"
+    android:layout_marginTop="@dimen/px_30"
+    android:lineSpacingExtra="@dimen/px_10"
+    android:gravity="center"
+    android:text="11/16\n周一\n晴"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+  <ImageView
+      android:id="@+id/iv_icon_per_day_weather"
+      android:layout_marginTop="@dimen/px_20"
+      android:layout_centerHorizontal="true"
+      android:layout_below="@id/tv_per_day_weather_description"
+      android:src="@drawable/icon_weather_big_rain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+ <TextView
+     style="@style/CommonTextStyle"
+     android:id="@+id/tv_per_day_weather_wind_description"
+     android:layout_marginBottom="@dimen/px_24"
+     android:gravity="center"
+     android:lineSpacingExtra="@dimen/px_10"
+     android:layout_alignParentBottom="true"
+     android:layout_centerHorizontal="true"
+     android:text="东南风\n三级"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+    <View
+        android:layout_alignParentRight="true"
+        style="@style/VerDivider"
+        />
+    <TextView
+        style="@style/CommonTextStyle"
+        android:id="@+id/iv_per_day_weather_temp"
+        android:layout_above="@id/tv_per_day_weather_wind_description"
+        android:layout_marginBottom="@dimen/px_40"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/px_10"
+        android:layout_centerHorizontal="true"
+        android:text="17°C"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_marginBottom="@dimen/px_16"
+        android:layout_above="@id/tv_per_day_weather_wind_description"
+        style="@style/HorDivider"/>
+</RelativeLayout>
