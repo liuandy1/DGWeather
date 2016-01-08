@@ -301,8 +301,6 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
         }
         ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
         tvHomeCity.setText(addressDetail.district);
-        Toast.makeText(getActivity(), reverseGeoCodeResult.getAddress(),
-                Toast.LENGTH_LONG).show();
     }
 
     private class MyLocationListenner implements BDLocationListener {
@@ -330,8 +328,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener, 
 
             if (isFirstLoc) {
                 isFirstLoc = false;
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
+                LatLng ll = new LatLng(location.getLatitude(),location.getLongitude());
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
             }

@@ -6,7 +6,9 @@ import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,16 +26,37 @@ public class Test extends AndroidTestCase {
     }
 
     public void testVoice() {
-        String voice = "唯衣是一家零售兼批发的服装，全称是广州唯衣网络科技有限公司。公司坐落在广东省广州市，拒绝经营假名牌和仿名牌，只做最主流的，最时尚的，品质最好的品牌女装，产品汇集国内外中高档知名女装品牌、一线女装精品，并与其结成战略联盟，每季提供近千余品种款式供我们的客户和消费者们选择。";
-        // 这是语言合成部分 同样需要实例化一个SynthesizerDialog ，并输入appid
+
     }
 
     public void testStr() {
-        List<String> list = pailie("aaa");
+        List<String> list = pailie("123");
         int length = list.size();
-        for (int i = 0; i < length; i++) {
-            LogUtil.e(i + ":" + list.get(i));
+//        for (int i = 0; i < length; i++) {
+//            LogUtil.e(i + ":" + list.get(i));
+//        }
+    }
+
+    public void testStr1() {
+        String a = "abcd";
+        char[] chars = a.toCharArray();
+//        LogUtil.e(a.substring(1));
+        for (int i = 0; i < chars.length; i++) {
+            char c = a.charAt(i);
+            String b = a.substring(i);
+//            for (int j = 0; j < b.length(); j++) {
+//                String d = b.substring(0, j);
+//                c + d +
+//            }
         }
+    }
+
+    public void testDate(){
+        long a = 1452182400000L;
+        Date date = new Date(a);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String dateStr = dateFormat.format(date);
+        LogUtil.e(dateStr);
     }
 
     public static List<String> pailie(String source) {
@@ -46,12 +69,15 @@ public class Test extends AndroidTestCase {
         } else {
             char thisChar = source.charAt(0);
             List<String> temps = pailie(source.substring(1));
+            LogUtil.e("temps:" + temps.size() );
             for (int i = 0; i < temps.size(); i++) {
                 // 增一个字符通过插空得到所有的可能清空
                 String temp = temps.get(i);
+                LogUtil.e("temp:" + temp );
                 for (int j = 0; j <= temp.length(); j++) {
                     String head = temp.substring(0, j);
                     String tail = temp.substring(j);
+                    LogUtil.e("head:" + head + "  thisChar:" + thisChar+"    tail:" + tail);
                     result.add(head + thisChar + tail);
                 }
             }

@@ -2,11 +2,13 @@ package com.fgwx.dgweather.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.net.VolleySingleton;
+import com.fgwx.dgweather.service.WeatherService;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
@@ -38,7 +40,8 @@ public class WeatherAppContext extends Application {
         if (-1 == preferencesUtil.getValue(Constant.ISFIRST, -1)) {
             saveCity();
         }
-
+        Intent service = new Intent(this, WeatherService.class);
+        startService(service);
     }
 
     private void initSpeech() {

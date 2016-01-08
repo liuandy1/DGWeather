@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rv_red"
             android:layout_width="match_parent"
             android:layout_height="300dip"
             android:background="@android:color/holo_red_dark">
@@ -27,17 +28,11 @@
 
 
         <RelativeLayout
+            android:id="@+id/rv_green"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/holo_green_light">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:text="再中间"
-                android:textColor="@android:color/white"
-                android:textSize="20dp" />
         </RelativeLayout>
 
         <RelativeLayout
