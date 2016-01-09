@@ -15,6 +15,7 @@ public class WeatherNetUtils {
     private static final String URL_HOME_FORECAST=URL_BASE+"/dgweatherweb/webservice/getData";
 
 
+
     //首页接口
    public static void getHomeForecastData(Response.Listener<HomeForecastBaseBean> listener,Response.ErrorListener errorListener,TreeMap<String,String> map){
        WeatherRequest<HomeForecastBaseBean> request=new WeatherRequest<HomeForecastBaseBean>(URL_HOME_FORECAST,HomeForecastBaseBean.class,listener,map,errorListener);
