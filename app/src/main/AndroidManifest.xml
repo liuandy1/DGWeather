@@ -27,6 +27,9 @@
     <!-- 允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".base.WeatherAppContext"
@@ -38,6 +41,12 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="p61w11zGQKI3QSNRZRL0SC39" />
+        <meta-data
+            android:name="IFLYTEK_APPKEY"
+            android:value="&apos;568b8dae&apos;" />
+        <meta-data
+            android:name="IFLYTEK_CHANNEL"
+            android:value="Android_Demo" />
 
         <activity
             android:name=".activity.HomePageActivity"
@@ -51,12 +60,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.TestActivity" />
 
+        <service android:name=".service.WeatherService"/>
+        <!-- 百度的service -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
+        <service android:name=".service.WeatherService" />
     </application>
 
 </manifest>

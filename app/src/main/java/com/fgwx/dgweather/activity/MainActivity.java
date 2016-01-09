@@ -2,16 +2,15 @@ package com.fgwx.dgweather.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.fragment.EarlyWarnFragment;
 import com.fgwx.dgweather.fragment.ForecastFragment;
-import com.fgwx.dgweather.fragment.ForecastMoreFragment;
 import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * Created by senghor on 2015/12/23.
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     private RadioGroup rg_tabs;
     private RadioButton rb_forecast, rb_warn, rb_monitor, rb_interact, rb_mine;
@@ -34,15 +33,12 @@ public class MainActivity extends FragmentActivity {
     private MonitorFragment mMonitorFragment;
     private InteractFragment mInteractFragment;
     private MineFragment mMineFragment;
-    private ForecastMoreFragment mForecastMoreFragment;
 
-    private boolean isMore;
     public static final String FORECAST_TAG = "Forecast";
     public static final String EARLYWARN_TAG = "EarlyWarn";
     public static final String MONITOR_TAG = "Monitor";
     public static final String INTERACT_TAG = "Interact";
     public static final String MINE_TAG = "Mine";
-    public static final String FORECASTMORE_TAG = "ForecastMore";
 
     /**
      * 用于对Fragment进行管理
@@ -67,7 +63,6 @@ public class MainActivity extends FragmentActivity {
             mMineFragment = (MineFragment) manager.findFragmentByTag(MINE_TAG);
             mMonitorFragment = (MonitorFragment) manager.findFragmentByTag(MONITOR_TAG);
             mInteractFragment = (InteractFragment) manager.findFragmentByTag(INTERACT_TAG);
-            mForecastMoreFragment = (ForecastMoreFragment) manager.findFragmentByTag(FORECASTMORE_TAG);
         }
     }
 
@@ -127,9 +122,6 @@ public class MainActivity extends FragmentActivity {
         if (mMineFragment != null) {
             transaction.hide(mMineFragment);
         }
-        if (mForecastMoreFragment != null) {
-            transaction.hide(mForecastMoreFragment);
-        }
     }
 
     /**
@@ -148,7 +140,6 @@ public class MainActivity extends FragmentActivity {
             case 0:
                 // 当点击了预报tab时，改变控件的图片和文字颜色
                 rb_forecast.setChecked(true);
-                if (!isMore) {
                     if (mForecastFragment == null) {
                         // 如果mForecastFragment为空，则创建一个并添加到界面上
                         mForecastFragment = new ForecastFragment();
@@ -157,14 +148,6 @@ public class MainActivity extends FragmentActivity {
                         // 如果mForecastFragment不为空，则直接将它显示出来
                         transaction.show(mForecastFragment);
                     }
-                } else {
-                    if (mForecastMoreFragment == null) {
-                        mForecastMoreFragment = new ForecastMoreFragment();
-                        transaction.add(R.id.fl_tab_content, mForecastMoreFragment, FORECASTMORE_TAG);
-                    } else {
-                        transaction.show(mForecastMoreFragment);
-                    }
-                }
                 break;
             case 1:
                 // 当点击了预警tab时，改变控件的图片和文字颜色
@@ -237,8 +220,8 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new MineFragment());// 我的
     }
 
-    public void toggleMoreFragment(boolean ismore) {
-        isMore = ismore;
-        setTabSelection(0);
+    public void goSecondPage() {
+        if(mForecastFragment!=null)
+            mForecastFragment.setSecondPage();
     }
 }

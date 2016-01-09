@@ -6,7 +6,20 @@
         <item name="android:textSize">@dimen/common_text_size</item>
         <item name="android:padding">@dimen/common_padding</item>
     </style>
-
+    <style name="HorDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/px_2</item>
+        <item name="android:background">@color/common_line_color</item>
+    </style>
+    <style name="VerDivider">
+        <item name="android:layout_width">@dimen/px_2</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/common_line_color</item>
+    </style>
+    <style name="CommonTextStyle">
+        <item name="android:textColor">@color/common_white_text_color</item>
+        <item name="android:textSize">@dimen/textPx_30</item>
+    </style>
     <!-- 底部菜单栏样式-->
     <style name="BottomMenuStyle">
         <item name="android:textColor">@drawable/home_tab_text_color_selector</item>
@@ -69,10 +82,9 @@
 
     <style name="AnimBottom" parent="@android:style/Animation"></style>
     
-    <style name="multiple_warning">
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
-
+    <style name="MultipleWarningButonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

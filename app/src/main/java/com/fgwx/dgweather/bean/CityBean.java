@@ -15,6 +15,7 @@ public class CityBean {
     @DatabaseField(generatedId = true, columnName = "main_id")
     private int id;
 
+    //canBeNull = true
     @DatabaseField(columnName = "city_name")
     private String cityName;
 

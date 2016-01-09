@@ -20,4 +20,8 @@ public class MineFragment extends Fragment{
         View view=inflater.inflate(R.layout.fragment_mine,null,false);
         return view;
     }
+    public static MineFragment createFragment(){
+        MineFragment fragment=new MineFragment();
+        return  fragment;
+    }
 }

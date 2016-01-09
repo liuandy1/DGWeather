@@ -1,17 +1,15 @@
 package com.fgwx.dgweather.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
-import com.fgwx.dgweather.utils.DipPixUtil;
 
 import java.util.List;
 
@@ -22,19 +20,17 @@ public class WeatherDayTrendView extends View {
 
     private List<ForecastForTenDayBean> mbeans;
     private float multipleY =6;//自定义温度偏移量倍数为8，可根据屏幕分辨率设定
-    private float multipleX= DipPixUtil.weatherPx2Dp(70);
-    private int radius= 16;
+    private float multipleX;
+    private float radius;
     private float[] mPointXs;
     private float mHeight;
     private float highOriginHeight;
     private float lowOriginHeight;
     private Paint mPaint;
     private Paint mTextPaint;
-    private Bitmap mbitmap;
-    private float beginY=20;//
-    private float marginPicText=50;
     float fontHeight;
     private int sumWidth;
+    private Resources resources;
     public WeatherDayTrendView(Context context) {
         this(context,null);
     }
@@ -50,15 +46,16 @@ public class WeatherDayTrendView extends View {
     }
 
     private void initView(Context context){
-        mbitmap=((BitmapDrawable)context.getResources().getDrawable(R.drawable.icon_weather_cloudy)).getBitmap();
+        resources=context.getResources();
+        multipleX=resources.getDimensionPixelOffset(R.dimen.px_140);
+        radius=resources.getDimensionPixelOffset(R.dimen.px_9);
+        float lineWidth=resources.getDimension(R.dimen.px_2);
         mPaint =new Paint();
-        mPaint= new Paint();
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(5f);
+        mPaint.setStrokeWidth(lineWidth);
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
         mTextPaint=new Paint(mPaint);
-        mTextPaint.setTextSize(36f);
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
@@ -69,7 +66,7 @@ public class WeatherDayTrendView extends View {
             mPointXs[i]=multipleX/2+multipleX*i;
 
         }
-        sumWidth=(int)mPointXs[beans.size()-1]+mbitmap.getWidth();
+        sumWidth=(int)(mPointXs[beans.size()-1]+multipleX/2);
     }
 
     @Override
@@ -77,8 +74,8 @@ public class WeatherDayTrendView extends View {
         super.onDraw(canvas);
         if(mbeans==null)return;
         mHeight= getHeight();
-        highOriginHeight =mHeight/2-30;
-        lowOriginHeight =mHeight/2+30;
+        highOriginHeight =mHeight/2+30;
+        lowOriginHeight =mHeight/2+100;
         float originPoinY= (- mbeans.get(0).getCurMaxTemp()) * multipleY;
         highOriginHeight=highOriginHeight-originPoinY;
         originPoinY=(- mbeans.get(0).getCurMinTemp()) * multipleY;
@@ -97,7 +94,6 @@ public class WeatherDayTrendView extends View {
                 canvas.drawLine(mPointXs[i], lowOriginHeight + pointLowY, mPointXs[i+1], lowOriginHeight + pointLowNextY, mPaint);
 
             }
-            canvas.drawBitmap(mbitmap, mPointXs[i] - mbitmap.getWidth() / 2, beginY, mPaint);
             //绘制圆点
             canvas.drawCircle(mPointXs[i], highOriginHeight + pointHighY, radius, mPaint);
 
