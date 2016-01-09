@@ -40,8 +40,8 @@ public class WeatherAppContext extends Application {
         if (-1 == preferencesUtil.getValue(Constant.ISFIRST, -1)) {
             saveCity();
         }
-        Intent service = new Intent(this, WeatherService.class);
-        startService(service);
+        /*Intent service = new Intent(this, WeatherService.class);
+        startService(service);*/
     }
 
     private void initSpeech() {

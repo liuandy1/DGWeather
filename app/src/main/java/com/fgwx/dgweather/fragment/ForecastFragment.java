@@ -46,11 +46,10 @@ public class ForecastFragment extends Fragment{
     private void initUI(View view){
         mViews=new ArrayList<>();
         mViewPager= (WeatherVerticalViewPager) view.findViewById(R.id.vp_home_page_fragment);
-        LayoutInflater lf = mContext.getLayoutInflater().from(mContext);
-        mForecastFirstView = lf.inflate(R.layout.fragment_first_forecast, null);
-        mForecastSecondView = lf.inflate(R.layout.fragment_second_forecast, null);
-        mViews.add(new ForecastFirstView(mContext));
-        mViews.add(new ForecastSecondView(mContext));
+        mForecastFirstView = new ForecastFirstView(mContext);
+        mForecastSecondView =new ForecastSecondView(mContext);
+        mViews.add(mForecastFirstView);
+        mViews.add(mForecastSecondView);
         adapter=new ForecastSortAdapter(mViews);
         mViewPager.setAdapter(adapter);
     }
