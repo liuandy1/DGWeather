@@ -36,9 +36,8 @@ public class WeatherVerticalViewPager extends VerticalViewPager{
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // TODO Auto-generated method stub
-        super.onInterceptTouchEvent(ev);
         if(getCurrentItem()==0)return false;
-
+        super.onInterceptTouchEvent(ev);
         if(getCurrentItem()==1)
         {
             final int action = ev.getAction();
@@ -56,12 +55,7 @@ public class WeatherVerticalViewPager extends VerticalViewPager{
                             // 或sc的scrollY = 0 && topView隐藏 && 下拉，则拦截
                             if ((mInnerScrollView.getScrollY() == 0
                                     && dy >0)) {
-
                                 mLastY = y;
-                                try {
-                                }catch (Exception ex){
-                                    ex.printStackTrace();
-                                }
                                 return true;
                             }
                         }
