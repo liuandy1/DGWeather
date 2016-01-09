@@ -29,8 +29,7 @@ public class WeatherService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.e("WeatherService-->onCreate");
-        timer.schedule(task, 1000, 500); // 1s后执行task,经过1s再次执行
+//        timer.schedule(task, 1000, 500); // 1s后执行task,经过1s再次执行
     }
 
     @Nullable
