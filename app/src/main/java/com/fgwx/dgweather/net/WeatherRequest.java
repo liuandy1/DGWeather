@@ -1,5 +1,7 @@
 package com.fgwx.dgweather.net;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -32,7 +34,6 @@ public class WeatherRequest<T> extends Request<T> {
         mListener = listener;
     }
 
-
 /*
     public WeatherRequest(String url, Class<T> clazz, Listener<T> listener,
                           Response.ErrorListener errorListener) {
@@ -54,7 +55,7 @@ public class WeatherRequest<T> extends Request<T> {
             //得到返回数据
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-          // Log.v("request", jsonString);
+           Log.v("request", jsonString);
             // 转化成对象返回
             return Response.success(mGson.fromJson(jsonString, mClass),
                     HttpHeaderParser.parseCacheHeaders(response));
