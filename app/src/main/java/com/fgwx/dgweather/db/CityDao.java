@@ -79,7 +79,7 @@ public class CityDao {
     public List<CityBean> getCityByName(String name){
         List<CityBean> list = null;
         try {
-            list = userDaoOpe.queryBuilder().where().eq("", name).query();
+            list = userDaoOpe.queryBuilder().where().eq("name", name).query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
