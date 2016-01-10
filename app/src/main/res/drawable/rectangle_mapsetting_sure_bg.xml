@@ -8,7 +8,7 @@
         android:color="#D8D9DB" />
     <padding
         android:bottom="@dimen/common_padding"
-        android:left="@dimen/px_112"
-        android:right="@dimen/px_112"
+        android:left="@dimen/px_140"
+        android:right="@dimen/px_140"
         android:top="@dimen/common_padding" />
 </shape>

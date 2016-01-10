@@ -13,12 +13,11 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -41,30 +40,30 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_line_height"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/comm_line_color" />
+            android:background="#E8E8E8" />
 
         <GridView
             android:id="@+id/gv_multiWarn"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_margin="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:horizontalSpacing="20dp"
             android:listSelector="@color/white"
             android:numColumns="4"
-            android:verticalSpacing="20dp" />
+            android:verticalSpacing="15dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_line_height"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/comm_line_color" />
+            android:background="#E8E8E8" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
