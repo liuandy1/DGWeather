@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class Test extends AndroidTestCase {
     public void testLocalCity() {
+
 //        CityDao cityDao = new CityDao(getContext());
 //        List<BaseCityBean> citys = cityDao.getLocalCity();
 //        if (null != citys)

@@ -302,6 +302,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         public void onReceiveLocation(BDLocation location) {
             if (location == null || mMapView == null) {
                 //定位出错
+                //访问缓存数据
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
