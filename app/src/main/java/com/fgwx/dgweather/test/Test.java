@@ -3,8 +3,10 @@ package com.fgwx.dgweather.test;
 import android.test.AndroidTestCase;
 
 import com.fgwx.dgweather.bean.CityBean;
-import com.fgwx.dgweather.db.CityDao;
+import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,24 +19,25 @@ import java.util.List;
  */
 public class Test extends AndroidTestCase {
     public void testLocalCity() {
-        CityDao cityDao = new CityDao(getContext());
-        List<CityBean> citys = cityDao.getLocalCity();
-        if (null != citys)
-            for (CityBean cityBean : citys) {
-                LogUtil.e("城市名字:" + cityBean.getCityName());
-            }
+//        CityDao cityDao = new CityDao(getContext());
+//        List<BaseCityBean> citys = cityDao.getLocalCity();
+//        if (null != citys)
+//            for (BaseCityBean cityBean : citys) {
+//                LogUtil.e("城市名字:" + cityBean.);
+//            }
     }
 
     public void testVoice() {
-
+        CityBean city = CityUtil.getCityByName(getContext(), "东莞市");
+        LogUtil.e(""+city.getName()+":"+city.getId());
+//        114.028532,23.079036
+        SiteBean.DataEntity site = SiteUtil.getCloseSite(getContext(), 23.079036f, 114.028532f);
+        LogUtil.e("地址:"+site.getAddress()+"  id"+site.getId()+"  名字:"+site.getName());
     }
 
     public void testStr() {
         List<String> list = pailie("123");
         int length = list.size();
-//        for (int i = 0; i < length; i++) {
-//            LogUtil.e(i + ":" + list.get(i));
-//        }
     }
 
     public void testStr1() {
