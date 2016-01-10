@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
+import com.google.gson.JsonObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -64,9 +65,9 @@ public class WeatherService extends Service {
         map.put("lastLifeTime","1");
         map.put("querySun","1");
         map.put("lastSunTime",null);
-        WeatherNetUtils.getHomeForecastData(new Response.Listener<HomeForecastBaseBean>() {
+        WeatherNetUtils.getHomeForecastData(new Response.Listener<JsonObject>() {
             @Override
-            public void onResponse(HomeForecastBaseBean response) {
+            public void onResponse(JsonObject response) {
                 LogUtil.e("访问成功了");
             }
         }, new Response.ErrorListener() {
