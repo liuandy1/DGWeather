@@ -33,7 +33,6 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
-import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.iflytek.cloud.SpeechError;
@@ -91,9 +90,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initUi(view);
     }
 
-    public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean){
-
-    }
     private void initUi(View view) {
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
@@ -300,13 +296,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (location == null || mMapView == null) {
-                //定位出错
-                //访问缓存数据
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
 //           114.028532,23.079036
-            //mCurrentLng = new LatLng(23.079036,114.028532);
+//            mCurrentLng = new LatLng(23.079036,114.028532);
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                             // 此处设置开发者获取到的方向信息，顺时针0-360
