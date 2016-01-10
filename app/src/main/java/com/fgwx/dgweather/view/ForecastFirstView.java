@@ -62,26 +62,31 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
     private boolean isFirstLoc = true;
+    private boolean isSetLoc = false;
     private MapStatusUpdate mMapStatusUpdate;
     private GeoCoder mSearch;
 
     public ForecastFirstView(Context context) {
         this(context, null);
     }
+
     public ForecastFirstView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
     public ForecastFirstView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mMainActivity= (MainActivity) context;
+        mMainActivity = (MainActivity) context;
         init();
     }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
     }
+
     private void init() {
-        View view=LayoutInflater.from(getContext()).inflate(R.layout.fragment_first_forecast, this);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_first_forecast, this);
         initUi(view);
     }
 
@@ -158,6 +163,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         });
         addImage();
     }
+
     /**
      *
      */
@@ -242,6 +248,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             pointLayout.addView(point);
         }
     }
+
     @Override
     public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 
@@ -255,9 +262,19 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
         ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
         tvHomeCity.setText(addressDetail.district);
-        Toast.makeText(mMainActivity, reverseGeoCodeResult.getAddress(),
-                Toast.LENGTH_LONG).show();
+        isSetLoc = true;
+
+        LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
+        String city = addressDetail.city;
+        String district = addressDetail.district;
+        String street = addressDetail.street;
+//        addressDetail
+        LogUtil.e(city + "  " + district + "  " + street);
+        if ("东莞市".equals(city)) {
+
+        }
     }
+
     public void onDestroy() {
         mMapView.onDestroy();
         mLocClient.stop();
@@ -265,6 +282,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         mBaiduMap.setMyLocationEnabled(false);
         mMapView = null;
     }
+
     public void onResume() {
         mMapView.onResume();
     }
@@ -272,6 +290,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     public void onPause() {
         mMapView.onPause();
     }
+
     private class MyLocationListenner implements BDLocationListener {
 
         @Override
@@ -279,24 +298,27 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             if (location == null || mMapView == null) {
                 return;
             }
-            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+//           114.028532,23.079036
+            mCurrentLng = new LatLng(23.079036,114.028532);
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                             // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
+                    .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
             mBaiduMap.setMyLocationData(locData);
             if (mMapStatusUpdate == null)
                 mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
 
             if (isFirstLoc) {
                 isFirstLoc = false;
-                // 反Geo搜索
-                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng));
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
+//                LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng ll = new LatLng(mCurrentLng.latitude, mCurrentLng.longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
+            }
+            if (!isSetLoc) {
+                // 反Geo搜索
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng));
             }
         }
 

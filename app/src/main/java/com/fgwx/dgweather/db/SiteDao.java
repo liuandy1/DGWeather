@@ -41,7 +41,20 @@ public class SiteDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * 获取所有站点
+     */
+    public List<SiteBean.DataEntity> getAddSite(){
+        List<SiteBean.DataEntity> list = null;
+
+        try {
+            list = siteDaoOpe.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

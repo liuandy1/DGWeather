@@ -73,6 +73,10 @@ public class SiteBean {
         private String etd2;
         @DatabaseField(columnName = "etd3", canBeNull = true)
         private String etd3;
+
+        /**
+         * 请求服务器时候需要的id
+         */
         @DatabaseField(columnName = "_id", canBeNull = true)
         private String id;
         @DatabaseField(columnName = "isAssess", canBeNull = true)

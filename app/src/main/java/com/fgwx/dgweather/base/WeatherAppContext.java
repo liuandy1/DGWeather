@@ -69,7 +69,6 @@ public class WeatherAppContext extends Application {
             for (SiteBean.DataEntity dataEntity : siteList) {
                 dao.add(dataEntity);
             }
-            LogUtil.e("站点添加成功:" + res);
             preferencesUtil.setValue(Constant.SITESVAED, 1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,7 +96,6 @@ public class WeatherAppContext extends Application {
             for (CityBean city1 : cityBeans) {
                 dao.add(city1);
             }
-            LogUtil.e("城市添加成功:" + res);
             preferencesUtil.setValue(Constant.CITYSAVED, 1);
         } catch (IOException e) {
             e.printStackTrace();
