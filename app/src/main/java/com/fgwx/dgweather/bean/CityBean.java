@@ -36,6 +36,10 @@ public class CityBean {
     private String etd3;
     @DatabaseField(columnName = "hotSort", canBeNull = true)
     private String hotSort;
+
+    /**
+     * 访问服务器的时候需要的id
+     */
     @DatabaseField(columnName = "_id", canBeNull = true)
     private String id;
     @DatabaseField(columnName = "isHot", canBeNull = false)
