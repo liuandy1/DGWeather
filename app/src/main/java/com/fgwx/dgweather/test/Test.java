@@ -2,8 +2,6 @@ package com.fgwx.dgweather.test;
 
 import android.test.AndroidTestCase;
 
-import com.fgwx.dgweather.bean.CityBean;
-import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.utils.LogUtil;
 
 import java.text.SimpleDateFormat;
@@ -17,16 +15,16 @@ import java.util.List;
  */
 public class Test extends AndroidTestCase {
     public void testLocalCity() {
-        CityDao cityDao = new CityDao(getContext());
-        List<CityBean> citys = cityDao.getLocalCity();
-        if (null != citys)
-            for (CityBean cityBean : citys) {
-                LogUtil.e("城市名字:" + cityBean.getCityName());
-            }
+//        CityDao cityDao = new CityDao(getContext());
+//        List<BaseCityBean> citys = cityDao.getLocalCity();
+//        if (null != citys)
+//            for (BaseCityBean cityBean : citys) {
+//                LogUtil.e("城市名字:" + cityBean.);
+//            }
     }
 
     public void testVoice() {
-
+//        InputStream in = getResources().getAssets().open(fileName);
     }
 
     public void testStr() {
