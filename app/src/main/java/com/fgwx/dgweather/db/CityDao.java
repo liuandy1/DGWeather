@@ -1,7 +1,6 @@
 package com.fgwx.dgweather.db;
 
 import android.content.Context;
-
 import com.fgwx.dgweather.bean.CityBean;
 import com.j256.ormlite.dao.Dao;
 
@@ -45,12 +44,13 @@ public class CityDao {
 
     /**
      * 获取东莞本地的城市
+     *
      * @return
      */
     public List<CityBean> getLocalCity() {
         try {
             List<CityBean> citys = userDaoOpe.queryBuilder().where().eq("city_local", true).query();
-//            List<CityBean> citys = userDaoOpe.queryForAll();
+//            List<BaseCityBean> citys = userDaoOpe.queryForAll();
 
             return citys;
         } catch (SQLException e) {

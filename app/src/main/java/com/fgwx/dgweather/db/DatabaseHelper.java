@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.SiteBean;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
@@ -34,6 +35,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                          ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, CityBean.class);
+            TableUtils.createTable(connectionSource, SiteBean.DataEntity.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,7 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database,
                           ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, CityBean.class, true);
+            TableUtils.dropTable(connectionSource, CityBean .class, true);
+            TableUtils.dropTable(connectionSource, SiteBean.DataEntity .class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
