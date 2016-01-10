@@ -1,22 +1,37 @@
 package com.fgwx.dgweather.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
+import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.fragment.EarlyWarnFragment;
 import com.fgwx.dgweather.fragment.ForecastFragment;
 import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
+import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.fgwx.dgweather.utils.WeatherNetUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 /**
@@ -33,7 +48,7 @@ public class MainActivity extends BaseActivity {
     private MonitorFragment mMonitorFragment;
     private InteractFragment mInteractFragment;
     private MineFragment mMineFragment;
-
+    private Gson gson;
     public static final String FORECAST_TAG = "Forecast";
     public static final String EARLYWARN_TAG = "EarlyWarn";
     public static final String MONITOR_TAG = "Monitor";
@@ -99,7 +114,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    ;
 
     /**
      * 将所有的Fragment都置为隐藏状态。
@@ -205,6 +219,7 @@ public class MainActivity extends BaseActivity {
 
     //    初始化控件
     public void init() {
+        gson=new Gson();
         rg_tabs = (RadioGroup) findViewById(R.id.rg_tab);
         rb_forecast = (RadioButton) findViewById(R.id.rb_tab_forecast);
         rb_warn = (RadioButton) findViewById(R.id.rb_tab_warn);
@@ -218,6 +233,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MonitorFragment());// 监测
         fragments.add(new InteractFragment());// 互动
         fragments.add(new MineFragment());// 我的
+        //getForecastNetData();
     }
 
     public void goSecondPage() {

@@ -43,7 +43,7 @@ public class WeatherAppContext extends Application {
         SDKInitializer.initialize(this);
         initImageLoader();
         initSpeech();
-        preferencesUtil = MPreferencesUtil.getInstance(this);
+        preferencesUtil = MPreferencesUtil.getInstance();
 
         if (-1 == preferencesUtil.getValue(Constant.SITESVAED, -1)) {
             saveSite();

@@ -1,6 +1,7 @@
 package com.fgwx.dgweather.utils;
 
 import com.android.volley.Response;
+import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.net.VolleySingleton;
 import com.fgwx.dgweather.net.WeatherRequest;
 import com.google.gson.JsonObject;
@@ -20,8 +21,8 @@ public class WeatherNetUtils {
 
 
     //首页接口
-   public static void getHomeForecastData(Response.Listener<JsonObject> listener,Response.ErrorListener errorListener,TreeMap<String,String> map){
-       WeatherRequest<JsonObject> request=new WeatherRequest<JsonObject>(URL_HOME_FORECAST,JsonObject.class,listener,map,errorListener);
+   public static void getHomeForecastData(Response.Listener<HomeForecastBaseBean> listener,Response.ErrorListener errorListener,TreeMap<String,String> map){
+       WeatherRequest<HomeForecastBaseBean> request=new WeatherRequest<HomeForecastBaseBean>(URL_HOME_FORECAST,HomeForecastBaseBean.class,listener,map,errorListener);
        VolleySingleton.getInstance().addToRequestQueue(request);
    }
 
