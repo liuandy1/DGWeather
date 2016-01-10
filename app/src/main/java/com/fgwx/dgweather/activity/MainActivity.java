@@ -240,4 +240,8 @@ public class MainActivity extends BaseActivity {
         if(mForecastFragment!=null)
             mForecastFragment.setSecondPage();
     }
+    public void getForecastData(CityBean cityBean,SiteBean.DataEntity siteBean){
+        if(mForecastFragment!=null)
+            mForecastFragment.getForecastNetData(cityBean, siteBean);
+    }
 }

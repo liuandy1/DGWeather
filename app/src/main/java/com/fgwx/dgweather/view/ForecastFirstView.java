@@ -34,6 +34,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.iflytek.cloud.SpeechError;
@@ -301,10 +302,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         public void onReceiveLocation(BDLocation location) {
             if (location == null || mMapView == null) {
                 //定位出错
-                //访问缓存数据
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+           // mMainActivity.getForecastData(CityUtil.);
 //           114.028532,23.079036
             //mCurrentLng = new LatLng(23.079036,114.028532);
             MyLocationData locData = new MyLocationData.Builder()
