@@ -2,7 +2,11 @@ package com.fgwx.dgweather.test;
 
 import android.test.AndroidTestCase;
 
+import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,15 +28,16 @@ public class Test extends AndroidTestCase {
     }
 
     public void testVoice() {
-//        InputStream in = getResources().getAssets().open(fileName);
+        CityBean city = CityUtil.getCityByName(getContext(), "东莞市");
+        LogUtil.e(""+city.getName()+":"+city.getId());
+//        114.028532,23.079036
+        SiteBean.DataEntity site = SiteUtil.getCloseSite(getContext(), 23.079036f, 114.028532f);
+        LogUtil.e("地址:"+site.getAddress()+"  id"+site.getId()+"  名字:"+site.getName());
     }
 
     public void testStr() {
         List<String> list = pailie("123");
         int length = list.size();
-//        for (int i = 0; i < length; i++) {
-//            LogUtil.e(i + ":" + list.get(i));
-//        }
     }
 
     public void testStr1() {

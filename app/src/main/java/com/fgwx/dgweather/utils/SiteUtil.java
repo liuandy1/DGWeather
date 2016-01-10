@@ -21,7 +21,7 @@ public class SiteUtil {
      * @param p1  当前的位置
      * @return
      */
-    public SiteBean.DataEntity getCloseSite(Context context, LatLng p1) {
+    public static SiteBean.DataEntity getCloseSite(Context context, LatLng p1) {
         SiteDao siteDao = new SiteDao(context);
         SiteBean.DataEntity closeSite = null;
         List<SiteBean.DataEntity> list = siteDao.getAddSite();
@@ -44,7 +44,7 @@ public class SiteUtil {
      * @param lon
      * @return
      */
-    public SiteBean.DataEntity getCloseSite(Context context, float lat,float lon) {
+    public static SiteBean.DataEntity getCloseSite(Context context, float lat,float lon) {
         SiteDao siteDao = new SiteDao(context);
         LatLng p1 = new LatLng(lat, lon);
         return  getCloseSite(context,p1);

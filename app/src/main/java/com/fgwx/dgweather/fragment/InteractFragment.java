@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
-import com.fgwx.dgweather.view.MapSettingPopupwindow;
 import com.fgwx.dgweather.view.MultiWarnPopupwindow;
 
 /**
@@ -21,20 +20,20 @@ public class InteractFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_interact,null,false);
+        View view=inflater.inflate(R.layout.layout_forecast_site_info,null,false);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView textView = (TextView) getActivity().findViewById(R.id.tv_test);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupwindow();
-            }
-        });
+//        TextView textView = (TextView) getActivity().findViewById(R.id.tv_test);
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showPopupwindow();
+//            }
+//        });
     }
 
     public void showPopupwindow() {

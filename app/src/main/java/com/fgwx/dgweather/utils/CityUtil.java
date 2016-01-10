@@ -21,7 +21,7 @@ public class CityUtil {
      * @param cityName
      * @return
      */
-    public static CityBean getCurrentCity(Context context, String cityName){
+    public static CityBean getCityByName(Context context, String cityName){
         CityDao cityDao = new CityDao(context);
         List<CityBean> citys = cityDao.getCityByName(cityName);
         if(citys!=null&&citys.size()>0){
