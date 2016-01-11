@@ -33,11 +33,15 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
+import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.bean.HomeForecastBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.NetWorkUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
+import com.fgwx.dgweather.utils.TimeUtil;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
@@ -58,6 +62,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private int lastPoint_position;
     private ViewPager viewPager;
     private TextView tvHomeCity;
+    private TextView tvShowTime;
+    private TextView tvCurrentTemp;
+    private TextView tvTempRange;
+    private TextView tvHumidy;
+    private TextView tvWind;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -68,6 +77,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private boolean isSetLoc = false;
     private MapStatusUpdate mMapStatusUpdate;
     private GeoCoder mSearch;
+
+    /**
+     * 信息预报部分的view
+     */
+    private View pagerView;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -93,9 +107,43 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initUi(view);
     }
 
-    public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean){
+    public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
+        if (homeForecastBaseBean != null) {
+            try {
+                HomeForecastBean data = homeForecastBaseBean.getData();
+                ForecastMonitorSiteBean siteInfo = data.getSite();
+                String strTime = siteInfo.getDataTime();
 
+                // 周四  12月31日
+                tvShowTime = (TextView) viewPager.findViewById(R.id.tv_info_currentTime);
+                tvShowTime.setText(TimeUtil.strToDateStr(strTime));
+
+                //温度
+                tvCurrentTemp = (TextView) viewPager.findViewById(R.id.tv_info_currentTime);
+                tvCurrentTemp.setText(siteInfo.getAirTemp());
+
+                //温度范围
+                tvTempRange = (TextView) viewPager.findViewById(R.id.tv_info_tempRange);
+                tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
+
+                //相对湿度
+                tvHumidy = (TextView) viewPager.findViewById(R.id.tv_info_humidy);
+                tvHumidy.setText("相对湿度" + siteInfo.getRelativeWet() + "%");
+
+                //风向风力
+                tvWind = (TextView) viewPager.findViewById(R.id.tv_info_wind);
+                tvWind.setText(siteInfo.getMaxWindDirect());
+
+
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "数据获取失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                LogUtil.e(e.toString());
+            }
+        } else {
+            Toast.makeText(getContext(), "数据获取失败，请稍后重试", Toast.LENGTH_SHORT).show();
+        }
     }
+
     private void initUi(View view) {
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
@@ -141,13 +189,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
-        View view1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
-        View view2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
-        View view3 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+        pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
-        views.add(view1);
-        views.add(view2);
-        views.add(view3);
+        views.add(pagerView);
+        views.add(pagerView);
+        views.add(pagerView);
         viewPager.setAdapter(new MyPagerAdapter(views));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -179,7 +225,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             @Override
             public void onSpeakBegin() {
-
             }
 
             @Override
@@ -269,13 +314,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
         tvHomeCity.setText(addressDetail.district);
         isSetLoc = true;
-
         LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
+//        Toast.makeText(getContext(), "位置是:" + reverseGeoCodeResult.getAddress(), Toast.LENGTH_SHORT).show();
         String city = addressDetail.city;
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
-        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity,mCurrentLng));
+        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
@@ -308,6 +353,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            113.676795,22.941322
+//            mCurrentLng = new LatLng(22.941322, 113.676795);
+
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
             mBaiduMap.setMyLocationData(locData);
@@ -350,7 +398,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 showPopupwindow();
                 break;
             case R.id.ib_home_play:
-                broadWeather("你好啊，今天天气不错！");
+                //判断有没有网络，语音播报需要网络合成
+                if (NetWorkUtil.isNetworkAvailable(getContext()))
+                    broadWeather("你好啊，今天天气不错！");
+                else
+                    Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

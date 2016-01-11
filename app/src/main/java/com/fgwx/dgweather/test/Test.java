@@ -56,11 +56,14 @@ public class Test extends AndroidTestCase {
     }
 
     public void testDate() {
-        long a = 1452182400000L;
+        long a = 1451525453000L;
         Date date = new Date(a);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss E");
         String dateStr = dateFormat.format(date);
         LogUtil.e(dateStr);
+
+        SimpleDateFormat dateFm = new SimpleDateFormat("E  MM月dd日");
+        LogUtil.e(dateFm.format(date));
     }
 
     public static List<String> pailie(String source) {
