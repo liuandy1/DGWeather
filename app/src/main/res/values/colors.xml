@@ -7,7 +7,7 @@
     <color name="home_tab_text_color">#797979</color>
 
     <!-- 常规字体颜色-->
-    <color name="common_text_color">#FFFFFF</color>
+    <color name="common_text_color">#ffffff</color>
     <color name="common_white_text_color">#ecefe6</color>
 
     <color name="common_blue_alpha_30">#b2132b3d</color>
