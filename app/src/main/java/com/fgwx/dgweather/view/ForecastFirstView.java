@@ -109,11 +109,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
         if (homeForecastBaseBean != null) {
-            try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
                 String strTime = siteInfo.getDataTime();
 
+    }
     }
 
     private void initUi(View view) {
@@ -292,8 +292,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
-        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-        //mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity,city), SiteUtil.getCloseSite(mMainActivity,mCurrentLng));
+     // mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
 //        addressDetail
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
