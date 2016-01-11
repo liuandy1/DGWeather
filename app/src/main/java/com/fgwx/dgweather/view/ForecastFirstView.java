@@ -36,6 +36,7 @@ import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
@@ -273,6 +274,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         String city = addressDetail.city;
         String district = addressDetail.district;
         String street = addressDetail.street;
+        //请求网络信息
+        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity,city), SiteUtil.getCloseSite(mMainActivity,mCurrentLng));
 //        addressDetail
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
@@ -306,7 +309,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
-           // mMainActivity.getForecastData(CityUtil.);
 //           114.028532,23.079036
             //mCurrentLng = new LatLng(23.079036,114.028532);
             MyLocationData locData = new MyLocationData.Builder()
