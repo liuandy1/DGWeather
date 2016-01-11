@@ -141,6 +141,13 @@
             </RelativeLayout>
         </HorizontalScrollView>
     </LinearLayout>
+    
+    <com.fgwx.dgweather.view.WeatherSunChangeView
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/px_30"
+        android:layout_marginRight="@dimen/px_16"
+        android:layout_marginLeft="@dimen/px_16"
+        android:layout_height="@dimen/px_280" />
 <!--<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"

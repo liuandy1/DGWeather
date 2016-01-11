@@ -16,8 +16,10 @@
     <dimen name="px_24">12dp</dimen>
     <dimen name="px_50">25dp</dimen>
     <dimen name="px_60">30dp</dimen>
+    <dimen name="px_80">40dp</dimen>
     <dimen name="px_112">56dp</dimen>
     <dimen name="px_140">70dp</dimen>
+    <dimen name="px_280">140dp</dimen>
     <dimen name="px_360">180dp</dimen>
     <dimen name="px_380">190dp</dimen>
     <dimen name="px_600">300dp</dimen>
