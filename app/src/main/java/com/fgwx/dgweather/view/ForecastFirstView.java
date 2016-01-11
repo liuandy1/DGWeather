@@ -34,7 +34,6 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
-import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.iflytek.cloud.SpeechError;
@@ -273,7 +272,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         String city = addressDetail.city;
         String district = addressDetail.district;
         String street = addressDetail.street;
-//        addressDetail
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
@@ -306,20 +304,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
-           // mMainActivity.getForecastData(CityUtil.);
-//           114.028532,23.079036
-            //mCurrentLng = new LatLng(23.079036,114.028532);
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                            // 此处设置开发者获取到的方向信息，顺时针0-360
+//            mCurrentLng = new LatLng(25.938985,113.413253);
+            MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
             mBaiduMap.setMyLocationData(locData);
+
             if (mMapStatusUpdate == null)
                 mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
 
             if (isFirstLoc) {
                 isFirstLoc = false;
-//                LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
                 LatLng ll = new LatLng(mCurrentLng.latitude, mCurrentLng.longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
