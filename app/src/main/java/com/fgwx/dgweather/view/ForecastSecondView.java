@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
+import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,10 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private void init() {
         View view=LayoutInflater.from(getContext()).inflate(R.layout.fragment_second_forecast, this);
         initView(view);
+    }
+
+    public void setSecondForecastData(HomeForecastBaseBean homeForecastBaseBean){
+
     }
     public void initView(View view){
         mWeatherHoursTrendView= (WeatherHoursTrendView) view.findViewById(R.id.wtv_hour_trend_view);

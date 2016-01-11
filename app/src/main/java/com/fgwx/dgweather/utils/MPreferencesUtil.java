@@ -4,19 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.fgwx.dgweather.base.WeatherAppContext;
+
 /**
  * Created by  on 15/10/18 23:05.
  */
 public class MPreferencesUtil {
 
+    public static final String FORECASTDATA="forecastData";
     private SharedPreferences preferences;
     private static MPreferencesUtil mInstance;
 
-    public static MPreferencesUtil getInstance(Context context) {
+    public static MPreferencesUtil getInstance() {
         if (mInstance == null) {
             synchronized (MPreferencesUtil.class) {
                 if (mInstance == null)
-                    mInstance = new MPreferencesUtil(context);
+                    mInstance = new MPreferencesUtil(WeatherAppContext.getAppContext());
             }
         }
         return mInstance;

@@ -53,8 +53,6 @@ public class ForecastMonitorSiteBean {
             "wet":相对湿度,
             "windDirect":瞬时风向,
             "windSpeed":瞬时风速*/
-
-
     private String airTemp;
     private String area;
     private String city;
@@ -103,6 +101,399 @@ public class ForecastMonitorSiteBean {
     private String weatherBureau;
     private String wet;
     private String windDirect;
+
+    public String getAirTemp() {
+        return airTemp;
+    }
+
+    public void setAirTemp(String airTemp) {
+        this.airTemp = airTemp;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDataTime() {
+        return dataTime;
+    }
+
+    public void setDataTime(String dataTime) {
+        this.dataTime = dataTime;
+    }
+
+    public String getDayRain() {
+        return dayRain;
+    }
+
+    public void setDayRain(String dayRain) {
+        this.dayRain = dayRain;
+    }
+
+    public String getExtWindDirect() {
+        return extWindDirect;
+    }
+
+    public void setExtWindDirect(String extWindDirect) {
+        this.extWindDirect = extWindDirect;
+    }
+
+    public String getExtWindSpeed() {
+        return extWindSpeed;
+    }
+
+    public void setExtWindSpeed(String extWindSpeed) {
+        this.extWindSpeed = extWindSpeed;
+    }
+
+    public String getExtWindTime() {
+        return extWindTime;
+    }
+
+    public void setExtWindTime(String extWindTime) {
+        this.extWindTime = extWindTime;
+    }
+
+    public String getHour12Rain() {
+        return hour12Rain;
+    }
+
+    public void setHour12Rain(String hour12Rain) {
+        this.hour12Rain = hour12Rain;
+    }
+
+    public String getHour1Rain() {
+        return hour1Rain;
+    }
+
+    public void setHour1Rain(String hour1Rain) {
+        this.hour1Rain = hour1Rain;
+    }
+
+    public String getHour24Rain() {
+        return hour24Rain;
+    }
+
+    public void setHour24Rain(String hour24Rain) {
+        this.hour24Rain = hour24Rain;
+    }
+
+    public String getHour2Rain() {
+        return hour2Rain;
+    }
+
+    public void setHour2Rain(String hour2Rain) {
+        this.hour2Rain = hour2Rain;
+    }
+
+    public String getHour3Rain() {
+        return hour3Rain;
+    }
+
+    public void setHour3Rain(String hour3Rain) {
+        this.hour3Rain = hour3Rain;
+    }
+
+    public String getHour48Rain() {
+        return hour48Rain;
+    }
+
+    public void setHour48Rain(String hour48Rain) {
+        this.hour48Rain = hour48Rain;
+    }
+
+    public String getHour6Rain() {
+        return hour6Rain;
+    }
+
+    public void setHour6Rain(String hour6Rain) {
+        this.hour6Rain = hour6Rain;
+    }
+
+    public String getHour72Rain() {
+        return hour72Rain;
+    }
+
+    public void setHour72Rain(String hour72Rain) {
+        this.hour72Rain = hour72Rain;
+    }
+
+    public String getHourRain() {
+        return hourRain;
+    }
+
+    public void setHourRain(String hourRain) {
+        this.hourRain = hourRain;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMaxPreTime() {
+        return maxPreTime;
+    }
+
+    public void setMaxPreTime(String maxPreTime) {
+        this.maxPreTime = maxPreTime;
+    }
+
+    public String getMaxPressure() {
+        return maxPressure;
+    }
+
+    public void setMaxPressure(String maxPressure) {
+        this.maxPressure = maxPressure;
+    }
+
+    public String getMaxTemp() {
+        return maxTemp;
+    }
+
+    public void setMaxTemp(String maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public String getMaxTempTime() {
+        return maxTempTime;
+    }
+
+    public void setMaxTempTime(String maxTempTime) {
+        this.maxTempTime = maxTempTime;
+    }
+
+    public String getMaxWet() {
+        return maxWet;
+    }
+
+    public void setMaxWet(String maxWet) {
+        this.maxWet = maxWet;
+    }
+
+    public String getMaxWetTime() {
+        return maxWetTime;
+    }
+
+    public void setMaxWetTime(String maxWetTime) {
+        this.maxWetTime = maxWetTime;
+    }
+
+    public String getMaxWindDirect() {
+        return maxWindDirect;
+    }
+
+    public void setMaxWindDirect(String maxWindDirect) {
+        this.maxWindDirect = maxWindDirect;
+    }
+
+    public String getMaxWindSpeed() {
+        return maxWindSpeed;
+    }
+
+    public void setMaxWindSpeed(String maxWindSpeed) {
+        this.maxWindSpeed = maxWindSpeed;
+    }
+
+    public String getMaxWindTime() {
+        return maxWindTime;
+    }
+
+    public void setMaxWindTime(String maxWindTime) {
+        this.maxWindTime = maxWindTime;
+    }
+
+    public String getMin10Rain() {
+        return min10Rain;
+    }
+
+    public void setMin10Rain(String min10Rain) {
+        this.min10Rain = min10Rain;
+    }
+
+    public String getMin30Rain() {
+        return min30Rain;
+    }
+
+    public void setMin30Rain(String min30Rain) {
+        this.min30Rain = min30Rain;
+    }
+
+    public String getMin5Rain() {
+        return min5Rain;
+    }
+
+    public void setMin5Rain(String min5Rain) {
+        this.min5Rain = min5Rain;
+    }
+
+    public String getMinPreTime() {
+        return minPreTime;
+    }
+
+    public void setMinPreTime(String minPreTime) {
+        this.minPreTime = minPreTime;
+    }
+
+    public String getMinPressure() {
+        return minPressure;
+    }
+
+    public void setMinPressure(String minPressure) {
+        this.minPressure = minPressure;
+    }
+
+    public String getMinTemp() {
+        return minTemp;
+    }
+
+    public void setMinTemp(String minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public String getMinTempTime() {
+        return minTempTime;
+    }
+
+    public void setMinTempTime(String minTempTime) {
+        this.minTempTime = minTempTime;
+    }
+
+    public String getMinWet() {
+        return minWet;
+    }
+
+    public void setMinWet(String minWet) {
+        this.minWet = minWet;
+    }
+
+    public String getMinWetTime() {
+        return minWetTime;
+    }
+
+    public void setMinWetTime(String minWetTime) {
+        this.minWetTime = minWetTime;
+    }
+
+    public String getNowMinRain() {
+        return nowMinRain;
+    }
+
+    public void setNowMinRain(String nowMinRain) {
+        this.nowMinRain = nowMinRain;
+    }
+
+    public String getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getRelativeWet() {
+        return relativeWet;
+    }
+
+    public void setRelativeWet(String relativeWet) {
+        this.relativeWet = relativeWet;
+    }
+
+    public String getSeaLevPressure() {
+        return seaLevPressure;
+    }
+
+    public void setSeaLevPressure(String seaLevPressure) {
+        this.seaLevPressure = seaLevPressure;
+    }
+
+    public String getSiteCode() {
+        return siteCode;
+    }
+
+    public void setSiteCode(String siteCode) {
+        this.siteCode = siteCode;
+    }
+
+    public String getTfHourMaxTemp() {
+        return tfHourMaxTemp;
+    }
+
+    public void setTfHourMaxTemp(String tfHourMaxTemp) {
+        this.tfHourMaxTemp = tfHourMaxTemp;
+    }
+
+    public String getTfHourMinTemp() {
+        return tfHourMinTemp;
+    }
+
+    public void setTfHourMinTemp(String tfHourMinTemp) {
+        this.tfHourMinTemp = tfHourMinTemp;
+    }
+
+    public String getTfHourRain() {
+        return tfHourRain;
+    }
+
+    public void setTfHourRain(String tfHourRain) {
+        this.tfHourRain = tfHourRain;
+    }
+
+    public String getWeatherBureau() {
+        return weatherBureau;
+    }
+
+    public void setWeatherBureau(String weatherBureau) {
+        this.weatherBureau = weatherBureau;
+    }
+
+    public String getWet() {
+        return wet;
+    }
+
+    public void setWet(String wet) {
+        this.wet = wet;
+    }
+
+    public String getWindDirect() {
+        return windDirect;
+    }
+
+    public void setWindDirect(String windDirect) {
+        this.windDirect = windDirect;
+    }
+
+    public String getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(String windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
     private String windSpeed;
 
 }

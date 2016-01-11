@@ -1,20 +1,22 @@
 package com.fgwx.dgweather.bean;
 
+import java.util.List;
+
 /**
  * Created by senghor on 2016/1/2.
  */
 public class HomeForecastBean {
-     private ForecastForTenDayBean days;
+     private List<ForecastForTenDayBean> days;
      private ForecastForHourBean hours;
      private ForecastEarlyWarnBean warn;
      private ForecastPeopleLifeBean life;
      private ForecastMonitorSiteBean site;
 
-     public ForecastForTenDayBean getDays() {
+     public List<ForecastForTenDayBean> getDays() {
           return days;
      }
 
-     public void setDays(ForecastForTenDayBean days) {
+     public void setDays(List<ForecastForTenDayBean> days) {
           this.days = days;
      }
 

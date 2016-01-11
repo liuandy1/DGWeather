@@ -84,7 +84,15 @@
     
     <style name="MultipleWarningButonStyle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
     </style>
+
+    <style name="SiteInfoTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/map_setting_text_dark_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 
 </resources>
