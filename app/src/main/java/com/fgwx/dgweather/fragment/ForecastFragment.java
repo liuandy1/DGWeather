@@ -24,7 +24,6 @@ import com.fgwx.dgweather.view.ForecastFirstView;
 import com.fgwx.dgweather.view.ForecastSecondView;
 import com.fgwx.dgweather.view.WeatherVerticalViewPager;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
