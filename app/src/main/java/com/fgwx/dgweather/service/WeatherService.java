@@ -13,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
-import com.google.gson.JsonObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +29,7 @@ public class WeatherService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtil.e("WeatherService-->onCreate");
 //        timer.schedule(task, 1000, 500); // 1s后执行task,经过1s再次执行
     }
 

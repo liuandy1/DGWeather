@@ -55,7 +55,7 @@ public class Test extends AndroidTestCase {
         }
     }
 
-    public void testDate(){
+    public void testDate() {
         long a = 1452182400000L;
         Date date = new Date(a);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -73,19 +73,35 @@ public class Test extends AndroidTestCase {
         } else {
             char thisChar = source.charAt(0);
             List<String> temps = pailie(source.substring(1));
-            LogUtil.e("temps:" + temps.size() );
+            LogUtil.e("temps:" + temps.size());
             for (int i = 0; i < temps.size(); i++) {
                 // 增一个字符通过插空得到所有的可能清空
                 String temp = temps.get(i);
-                LogUtil.e("temp:" + temp );
+                LogUtil.e("temp:" + temp);
                 for (int j = 0; j <= temp.length(); j++) {
                     String head = temp.substring(0, j);
                     String tail = temp.substring(j);
-                    LogUtil.e("head:" + head + "  thisChar:" + thisChar+"    tail:" + tail);
+                    LogUtil.e("head:" + head + "  thisChar:" + thisChar + "    tail:" + tail);
                     result.add(head + thisChar + tail);
                 }
             }
         }
         return result;
+    }
+
+    public int maxSubSum1(int[] a) {
+        int maxSum = 0;
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+                int thisSum = 0;
+                for (int k = 0; k <= j; k++) {
+                    thisSum += a[k];
+                    if (thisSum > maxSum) {
+                        maxSum = thisSum;
+                    }
+                }
+            }
+        }
+        return maxSum;
     }
 }
