@@ -29,7 +29,8 @@ public class ForecastFragment extends Fragment{
     private BaseActivity mContext;
     private WeatherVerticalViewPager mViewPager;
     private ForecastSortAdapter adapter;
-    private View mForecastFirstView,mForecastSecondView;
+    private ForecastFirstView mForecastFirstView;
+    private ForecastSecondView mForecastSecondView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,17 +43,33 @@ public class ForecastFragment extends Fragment{
         super.onAttach(activity);
         mContext= (BaseActivity) activity;
     }
+    @Override
+    public void onResume() {
+        mForecastFirstView.onResume();
+        super.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        mForecastFirstView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mForecastFirstView.onDestroy();
+        super.onDestroy();
+    }
     private void initUI(View view){
         mViews=new ArrayList<>();
         mViewPager= (WeatherVerticalViewPager) view.findViewById(R.id.vp_home_page_fragment);
-        LayoutInflater lf = mContext.getLayoutInflater().from(mContext);
-        mForecastFirstView = lf.inflate(R.layout.fragment_first_forecast, null);
-        mForecastSecondView = lf.inflate(R.layout.fragment_second_forecast, null);
-        mViews.add(new ForecastFirstView(mContext));
-        mViews.add(new ForecastSecondView(mContext));
+        mForecastFirstView=new ForecastFirstView(mContext);
+        mForecastSecondView=new ForecastSecondView(mContext);
+        mViews.add(mForecastFirstView);
+        mViews.add(mForecastSecondView);
         adapter=new ForecastSortAdapter(mViews);
         mViewPager.setAdapter(adapter);
+        //mViewPager.setPageTransformer(true, new DepthPageTransformer());
     }
     public void setSecondPage(){
         mViewPager.setCurrentItem(1);
