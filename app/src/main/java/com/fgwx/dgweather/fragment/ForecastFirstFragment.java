@@ -112,7 +112,7 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);        // 打开gps
         option.setCoorType("bd09ll");   // 设置坐标类型
-        option.setScanSpan(1000);
+        option.setScanSpan(3000);
         mLocClient.setLocOption(option);
         mLocClient.start();
 
