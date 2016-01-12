@@ -1,5 +1,7 @@
 package com.fgwx.dgweather.fragment;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,8 +43,6 @@ import com.fgwx.dgweather.view.MapSettingPopupwindow;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
-import java.util.ArrayList;
-
 /**
  * 预报模块
  * <p/>
@@ -49,23 +50,38 @@ import java.util.ArrayList;
  */
 public class ForecastFirstFragment extends Fragment implements View.OnClickListener, OnGetGeoCoderResultListener {
     private MainActivity mMainActivity;
+
     public static boolean isFull = false;
+
     private RelativeLayout rvHomeInfo;
+
     private LinearLayout lyHomeSearch;
+
     private LinearLayout pointLayout;
+
     private int lastPoint_position;
+
     private ViewPager viewPager;
+
     private TextView tvHomeCity;
 
     private static LatLng mCurrentLng;
+
     private MapView mMapView;
+
     private BaiduMap mBaiduMap;
+
     private LocationClient mLocClient;
+
     public MyLocationListenner myListener = new MyLocationListenner();
+
     private boolean isFirstLoc = true;
+
     private MapStatusUpdate mMapStatusUpdate;
+
     private GeoCoder mSearch;
 
+    private ImageButton ib_share;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,16 +90,18 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
         return view;
     }
 
-    public static ForecastFirstFragment createFragment(){
-        ForecastFirstFragment fragment=new ForecastFirstFragment();
-        return  fragment;
+    public static ForecastFirstFragment createFragment() {
+        ForecastFirstFragment fragment = new ForecastFirstFragment();
+        return fragment;
     }
+
     private void initUi(View view) {
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
         view.findViewById(R.id.ly_home_down).setOnClickListener(this);
         view.findViewById(R.id.iv_home_more).setOnClickListener(this);
         view.findViewById(R.id.ib_home_play).setOnClickListener(this);
+        view.findViewById(R.id.ib_home_share).setOnClickListener(this);
         tvHomeCity = (TextView) view.findViewById(R.id.tv_home_city);
 
         rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
@@ -110,8 +128,8 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
         mLocClient = new LocationClient(getActivity().getApplication());
         mLocClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);        // 打开gps
-        option.setCoorType("bd09ll");   // 设置坐标类型
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(3000);
         mLocClient.setLocOption(option);
         mLocClient.start();
@@ -161,24 +179,28 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ly_home_down:
-                //mMainActivity.toggleMoreFragment(true);
-                break;
-            case R.id.iv_home_full:
-                fullWindow();
-                break;
-            case R.id.iv_home_location:
-                if (mCurrentLng != null) {
-                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
-                    mBaiduMap.setMapStatus(mMapStatusUpdate);
-                }
-                break;
-            case R.id.iv_home_more:
-                showPopupwindow();
-                break;
-            case R.id.ib_home_play:
-                broadWeather("你好啊，今天天气不错！");
-                break;
+        case R.id.ly_home_down:
+            // mMainActivity.toggleMoreFragment(true);
+            break;
+        case R.id.iv_home_full:
+            fullWindow();
+            break;
+        case R.id.iv_home_location:
+            if (mCurrentLng != null) {
+                mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
+                mBaiduMap.setMapStatus(mMapStatusUpdate);
+            }
+            break;
+        case R.id.iv_home_more:
+            showPopupwindow();
+            break;
+        case R.id.ib_home_play:
+            broadWeather("你好啊，今天天气不错！");
+            break;
+        case R.id.ib_home_share:
+            showShare();
+            break;
+
         }
     }
 
@@ -249,10 +271,10 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
 
     private void addImage() {
         for (int i = 0; i < 3; i++) {
-            //添加指示点
+            // 添加指示点
             ImageView point = new ImageView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
 
             params.rightMargin = 20;
             point.setLayoutParams(params);
@@ -302,8 +324,7 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
         }
         ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
         tvHomeCity.setText(addressDetail.district);
-        Toast.makeText(getActivity(), reverseGeoCodeResult.getAddress(),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), reverseGeoCodeResult.getAddress(), Toast.LENGTH_LONG).show();
     }
 
     private class MyLocationListenner implements BDLocationListener {
@@ -314,11 +335,9 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
                 return;
             }
             mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                            // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
+            MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
             if (mMapStatusUpdate == null)
                 mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
@@ -327,8 +346,7 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
                 isFirstLoc = false;
                 // 反Geo搜索
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng));
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
+                LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
             }
@@ -339,4 +357,10 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
 
     }
 
+    /**
+     * 分享
+     */
+    private void showShare() {
+
+    }
 }
