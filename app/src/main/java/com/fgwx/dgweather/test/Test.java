@@ -4,10 +4,13 @@ import android.test.AndroidTestCase;
 
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.db.SiteDao;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
+import com.fgwx.dgweather.utils.TimeUtil;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +29,14 @@ public class Test extends AndroidTestCase {
 //            for (BaseCityBean cityBean : citys) {
 //                LogUtil.e("城市名字:" + cityBean.);
 //            }
+    }
+
+    public void testSite(){
+        SiteDao dao = new SiteDao(getContext());
+        List<SiteBean.DataEntity> list = dao.getAllSite();
+
+        LogUtil.e("站点个数:"+list.get(0).getName());
+        LogUtil.e("站点个数:"+list.size());
     }
 
     public void testVoice() {
@@ -106,5 +117,11 @@ public class Test extends AndroidTestCase {
             }
         }
         return maxSum;
+    }
+
+
+    public void testTime(){
+        String dateStr = "1453286246000";
+        LogUtil.e(TimeUtil.strToDateStr(dateStr));
     }
 }

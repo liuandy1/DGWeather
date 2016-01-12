@@ -36,12 +36,12 @@ import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
-import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
+import com.fgwx.dgweather.utils.TimeUtil;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
@@ -67,6 +67,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private TextView tvTempRange;
     private TextView tvHumidy;
     private TextView tvWind;
+    private TextView tvFreshTime;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -113,6 +114,23 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
                 String strTime = siteInfo.getDataTime();
+                LogUtil.e(strTime);
+//                LogUtil.e(TimeUtil.strToDateStr(strTime));
+//                LogUtil.e(strTime);
+                tvCurrentTemp = (TextView) pagerView.findViewById(R.id.tv_info_currentTemp);
+                tvCurrentTemp.setText(siteInfo.getAirTemp());
+
+                tvTempRange = (TextView) pagerView.findViewById(R.id.tv_info_tempRange);
+                tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
+
+                tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
+                tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime))+" 发布");
+
+                tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
+                tvHumidy.setText(siteInfo.getRelativeWet()+"%");
+
+                tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
+                tvHumidy.setText("相对湿度 "+siteInfo.getRelativeWet()+"%");
             } catch (Exception e) {
                 LogUtil.e(e.toString());
             }
@@ -165,10 +183,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
         pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+        View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+        View pagerView2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
         views.add(pagerView);
-        views.add(pagerView);
-        views.add(pagerView);
+        views.add(pagerView1);
+        views.add(pagerView2);
         viewPager.setAdapter(new MyPagerAdapter(views));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
