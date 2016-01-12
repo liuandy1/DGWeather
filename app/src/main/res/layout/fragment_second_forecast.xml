@@ -38,8 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textSize="@dimen/textPx_30"
-            android:textColor="@color/common_white_text_color"
+            style="@style/CommonTextStyle"
             android:text="松山湖"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
@@ -53,8 +52,7 @@
         android:layout_height="wrap_content">
 
          <TextView
-             android:textSize="@dimen/textPx_24"
-             android:textColor="@color/common_white_text_color"
+             style="@style/CommonTextStyle"
              android:layout_marginLeft="@dimen/px_36"
              android:text="@string/title_48_hour_weather_forecast"
              android:layout_marginTop="@dimen/px_24"
@@ -89,8 +87,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textSize="@dimen/textPx_24"
-            android:textColor="@color/common_white_text_color"
+            style="@style/CommonTextStyle"
             android:layout_marginLeft="@dimen/px_36"
             android:text="@string/title_10_day_weather_forecast"
             android:layout_marginTop="@dimen/px_24"
@@ -109,11 +106,7 @@
             <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px_660">
-                <com.fgwx.dgweather.view.WeatherDayTrendView
-                    android:id="@+id/wtv_day_trend_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                android:layout_height="@dimen/px_700">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -135,7 +128,20 @@
                     <com.fgwx.dgweather.view.PerDayWeatherView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
+                <com.fgwx.dgweather.view.WeatherDayTrendView
+                    android:id="@+id/wtv_day_trend_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </RelativeLayout>
         </HorizontalScrollView>
     </LinearLayout>
@@ -155,9 +161,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
+        style="@style/CommonTextStyle"
         android:gravity="center"
-        android:textSize="@dimen/textPx_24"
-        android:textColor="@color/common_white_text_color"
         android:layout_marginLeft="@dimen/px_36"
         android:text="@string/sun_rise_set"
         android:layout_marginTop="@dimen/px_24"

@@ -46,7 +46,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     }
 
     public void setSecondForecastData(HomeForecastBaseBean homeForecastBaseBean){
-
+        if(homeForecastBaseBean.getData()!=null&&homeForecastBaseBean.getData().getDays()!=null)
+        mWeathDayTrendView.setDataBean(homeForecastBaseBean.getData().getDays());
     }
     public void initView(View view){
         mWeatherHoursTrendView= (WeatherHoursTrendView) view.findViewById(R.id.wtv_hour_trend_view);

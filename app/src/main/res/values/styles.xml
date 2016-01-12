@@ -17,8 +17,8 @@
         <item name="android:background">@color/common_line_color</item>
     </style>
     <style name="CommonTextStyle">
-        <item name="android:textColor">@color/common_white_text_color</item>
-        <item name="android:textSize">@dimen/textPx_30</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
     </style>
     <!-- 底部菜单栏样式-->
     <style name="BottomMenuStyle">

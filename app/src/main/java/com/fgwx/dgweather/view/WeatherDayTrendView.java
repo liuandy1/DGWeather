@@ -30,6 +30,8 @@ public class WeatherDayTrendView extends View {
     private Paint mTextPaint;
     float fontHeight;
     private int sumWidth;
+    private int px80;
+    private int px20;
     private Resources resources;
     public WeatherDayTrendView(Context context) {
         this(context,null);
@@ -49,6 +51,8 @@ public class WeatherDayTrendView extends View {
         resources=context.getResources();
         multipleX=resources.getDimensionPixelOffset(R.dimen.px_140);
         radius=resources.getDimensionPixelOffset(R.dimen.px_9);
+        px80 =resources.getDimensionPixelOffset(R.dimen.px_80);
+        px20 =resources.getDimensionPixelOffset(R.dimen.px_20);
         float lineWidth=resources.getDimension(R.dimen.px_2);
         mPaint =new Paint();
         mPaint.setStyle(Paint.Style.FILL);
@@ -60,7 +64,7 @@ public class WeatherDayTrendView extends View {
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
     public void setDataBean(List<ForecastForTenDayBean> beans){
-       mbeans=beans;
+        mbeans=beans;
         mPointXs=new float[beans.size()];
         for(int i=0;i<beans.size();i++){
             mPointXs[i]=multipleX/2+multipleX*i;
@@ -74,8 +78,8 @@ public class WeatherDayTrendView extends View {
         super.onDraw(canvas);
         if(mbeans==null)return;
         mHeight= getHeight();
-        highOriginHeight =mHeight/2+30;
-        lowOriginHeight =mHeight/2+100;
+        highOriginHeight =mHeight/2;
+        lowOriginHeight =mHeight/2+ px80;
         float originPoinY= (- mbeans.get(0).getCurMaxTemp()) * multipleY;
         highOriginHeight=highOriginHeight-originPoinY;
         originPoinY=(- mbeans.get(0).getCurMinTemp()) * multipleY;

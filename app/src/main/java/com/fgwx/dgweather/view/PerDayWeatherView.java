@@ -19,7 +19,7 @@ public class PerDayWeatherView extends RelativeLayout{
     private TextView mTvWeatherDescrip;
     private ImageView mIvWeatherIcon;
     private TextView mTvWindDescrip;
-    private TextView mTvTemDescrip;
+    private TextView mTvMinTemDescrip;
     public PerDayWeatherView(Context context) {
         this(context, null);
     }
@@ -38,7 +38,7 @@ public class PerDayWeatherView extends RelativeLayout{
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_per_day_weather_item, this);
         mIvWeatherIcon= (ImageView) findViewById(R.id.iv_icon_per_day_weather);
-        mTvTemDescrip= (TextView) findViewById(R.id.iv_per_day_weather_temp);
+        mTvMinTemDescrip = (TextView) findViewById(R.id.iv_per_day_weather_min_temp);
         mTvWindDescrip=(TextView)findViewById(R.id.tv_per_day_weather_wind_description);
     }
 }
