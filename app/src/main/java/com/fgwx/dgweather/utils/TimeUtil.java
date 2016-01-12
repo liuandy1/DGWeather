@@ -17,7 +17,8 @@ public class TimeUtil {
      * @return
      */
     public static String strToDateStr(String dateStr) {
-        Long time = Long.getLong(dateStr);
+        Long time = Long.parseLong(dateStr);
+        LogUtil.e("longtime"+time);
         Date date = longToDate(time);
         SimpleDateFormat dateFormat = new SimpleDateFormat("E  MM月dd日");
         return dateFormat.format(date);
@@ -30,8 +31,20 @@ public class TimeUtil {
      * @param date
      * @return
      */
-    public static String formartDate(Date date) {
+    public static String formatDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS E");
+        return dateFormat.format(date);
+    }
+
+    /**
+     * 格式化日期
+     * 模板:12-31 09:30
+     *
+     * @param date
+     * @return
+     */
+    public static String formatShortDate(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm");
         return dateFormat.format(date);
     }
 
@@ -52,7 +65,7 @@ public class TimeUtil {
      * @return
      */
     public static Date strToDate(String dateStr) {
-        long time = Long.getLong(dateStr);
+        long time = Long.parseLong(dateStr);
         return longToDate(time);
     }
 }
