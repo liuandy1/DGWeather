@@ -1,6 +1,7 @@
 package com.fgwx.dgweather.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,19 +22,20 @@ public class WeatherHoursTrendView extends View {
 
     private List<ForecastForTenDayBean> mbeans;
     private float multipleY =6;//自定义温度偏移量倍数为8，可根据屏幕分辨率设定
-    private float multipleX=250;
-    private float originWidth=120;
-    private int radius= 16;
+    private float multipleX;
+    private int radius;
     private float[] mPointXs;
     private float mHeight;
     private float originHeight;
     private Paint mPaint;
     private Paint mTextPaint;
     private Bitmap mbitmap;
-    private float beginY=20;//
-    private float marginPicText=50;
+    private float px40;
     float fontHeight;
     private int sumWidth;
+    private Resources resources;
+    private float px20;//
+    private int textPx28;
     public WeatherHoursTrendView(Context context) {
         this(context,null);
     }
@@ -49,15 +51,22 @@ public class WeatherHoursTrendView extends View {
     }
 
     private void initView(Context context){
+        resources=context.getResources();
+        radius=resources.getDimensionPixelOffset(R.dimen.px_9);
+        multipleX=resources.getDimensionPixelOffset(R.dimen.px_140);
+        textPx28=resources.getDimensionPixelOffset(R.dimen.textPx_28);
+        px20 =resources.getDimensionPixelOffset(R.dimen.px_20);
+        px40 =resources.getDimensionPixelOffset(R.dimen.px_40);
+        float lineWidth=resources.getDimension(R.dimen.px_2);
         mbitmap=((BitmapDrawable)context.getResources().getDrawable(R.drawable.icon_weather_cloudy)).getBitmap();
         mPaint =new Paint();
         mPaint= new Paint();
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(5f);
+        mPaint.setStrokeWidth(lineWidth);
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
         mTextPaint=new Paint(mPaint);
-        mTextPaint.setTextSize(36f);
+        mTextPaint.setTextSize(textPx28);
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
@@ -65,9 +74,9 @@ public class WeatherHoursTrendView extends View {
        mbeans=beans;
         mPointXs=new float[beans.size()];
         for(int i=0;i<beans.size();i++){
-            mPointXs[i]=originWidth+multipleX*i;
+            mPointXs[i]=multipleX/2+multipleX*i;
         }
-        sumWidth=(int)mPointXs[beans.size()-1]+mbitmap.getWidth();
+        sumWidth=(int)(mPointXs[beans.size()-1]+multipleX/2);
     }
 
     @Override
@@ -93,11 +102,11 @@ public class WeatherHoursTrendView extends View {
             float textWidth1 = mTextPaint.measureText("22 °C");
             float textWidth2= mTextPaint.measureText("14:00");
             //根据计算的文字高度绘制文字
-            canvas.drawText("多云", mPointXs[i]-textWidth/2, beginY + mbitmap.getHeight() + marginPicText, mTextPaint);
+            canvas.drawText("多云", mPointXs[i]-textWidth/2, px20 + mbitmap.getHeight() + px40, mTextPaint);
             //根据计算的文字高度绘制文字
-            canvas.drawText("22 °C", mPointXs[i]-textWidth1/2, beginY + mbitmap.getHeight() + marginPicText+fontHeight, mTextPaint);
+            canvas.drawText("22 °C", mPointXs[i]-textWidth1/2, px20 + mbitmap.getHeight() + px40 +fontHeight, mTextPaint);
             //在文字上方绘制天气图片，要加上文字高度
-            canvas.drawBitmap(mbitmap, mPointXs[i] - mbitmap.getWidth() / 2, beginY, mPaint);
+            canvas.drawBitmap(mbitmap, mPointXs[i] - mbitmap.getWidth() / 2, px20, mPaint);
             //绘制圆点
             canvas.drawCircle(mPointXs[i], originHeight + pointY, radius, mPaint);
 

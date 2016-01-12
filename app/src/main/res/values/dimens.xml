@@ -23,11 +23,13 @@
     <dimen name="px_280">140dp</dimen>
     <dimen name="px_360">180dp</dimen>
     <dimen name="px_380">190dp</dimen>
+    <dimen name="px_440">220dp</dimen>
     <dimen name="px_600">300dp</dimen>
     <dimen name="px_700">350dp</dimen>
     <dimen name="textPx_22">11sp</dimen>
     <dimen name="textPx_20">10sp</dimen>
     <dimen name="textPx_24">12sp</dimen>
+    <dimen name="textPx_28">14sp</dimen>
     <dimen name="textPx_30">15sp</dimen>
 
     <!-- 底部菜单栏高度-->

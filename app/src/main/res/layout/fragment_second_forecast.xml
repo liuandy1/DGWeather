@@ -73,7 +73,7 @@
         <com.fgwx.dgweather.view.WeatherHoursTrendView
             android:id="@+id/wtv_hour_trend_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_380" />
+            android:layout_height="@dimen/px_440" />
         </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
