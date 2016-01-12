@@ -6,6 +6,7 @@ android {
             keyAlias 'dg'
             keyPassword 'dongguan'
             storeFile file('E:/gitspace/DGWeather/app/keystore/dongguan.jks')
+            storeFile file('E:/AndroidStudioProject/DGWeather2/DGWeather/app/keystore/dongguan.jks')
             storePassword 'dongguan'
         }
     }
