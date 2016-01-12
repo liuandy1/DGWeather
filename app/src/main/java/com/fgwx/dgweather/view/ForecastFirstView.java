@@ -36,12 +36,12 @@ import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
+import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
-import com.fgwx.dgweather.utils.TimeUtil;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
@@ -109,11 +109,14 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
         if (homeForecastBaseBean != null) {
+            try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
-               // String strTime = siteInfo.getDataTime();
-
-    }
+                String strTime = siteInfo.getDataTime();
+            } catch (Exception e) {
+                LogUtil.e(e.toString());
+            }
+        }
     }
 
     private void initUi(View view) {
@@ -150,7 +153,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);        // 打开gps
         option.setCoorType("bd09ll");   // 设置坐标类型
-        option.setScanSpan(1000);
+        option.setScanSpan(3000);
         mLocClient.setLocOption(option);
         mLocClient.start();
 
@@ -292,8 +295,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
-        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-//        addressDetail
+        if (mCurrentLng != null)
+            mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+//          addressDetail
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 

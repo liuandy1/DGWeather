@@ -47,6 +47,7 @@ public class WeatherAppContext extends Application {
 
         if (-1 == preferencesUtil.getValue(Constant.SITESVAED, -1)) {
             saveSite();
+            LogUtil.e("站点数据保存成功");
         }
         if (-1 == preferencesUtil.getValue(Constant.CITYSAVED, -1)) {
             saveCity();
