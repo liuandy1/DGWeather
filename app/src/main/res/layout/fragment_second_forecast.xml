@@ -38,8 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textSize="@dimen/textPx_30"
-            android:textColor="@color/common_white_text_color"
+            style="@style/CommonTextStyle"
             android:text="松山湖"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
@@ -53,8 +52,7 @@
         android:layout_height="wrap_content">
 
          <TextView
-             android:textSize="@dimen/textPx_24"
-             android:textColor="@color/common_white_text_color"
+             style="@style/CommonTextStyle"
              android:layout_marginLeft="@dimen/px_36"
              android:text="@string/title_48_hour_weather_forecast"
              android:layout_marginTop="@dimen/px_24"
@@ -63,9 +61,7 @@
 
         <View
             android:layout_marginTop="@dimen/px_20"
-            android:background="@color/common_line_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px_2"/>
+            style="@style/HorDivider"/>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -77,7 +73,7 @@
         <com.fgwx.dgweather.view.WeatherHoursTrendView
             android:id="@+id/wtv_hour_trend_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_380" />
+            android:layout_height="@dimen/px_440" />
         </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
@@ -91,8 +87,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textSize="@dimen/textPx_24"
-            android:textColor="@color/common_white_text_color"
+            style="@style/CommonTextStyle"
             android:layout_marginLeft="@dimen/px_36"
             android:text="@string/title_10_day_weather_forecast"
             android:layout_marginTop="@dimen/px_24"
@@ -111,11 +106,7 @@
             <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px_660">
-                <com.fgwx.dgweather.view.WeatherDayTrendView
-                    android:id="@+id/wtv_day_trend_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                android:layout_height="@dimen/px_700">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -137,37 +128,83 @@
                     <com.fgwx.dgweather.view.PerDayWeatherView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.fgwx.dgweather.view.PerDayWeatherView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
+                <com.fgwx.dgweather.view.WeatherDayTrendView
+                    android:id="@+id/wtv_day_trend_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </RelativeLayout>
         </HorizontalScrollView>
     </LinearLayout>
-    
+    <View
+        style="@style/HorDivider"/>
+       <!-- <include
+            layout="@layout/layout_forecast_living_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />-->
+
+
+<LinearLayout
+    android:paddingBottom="@dimen/px_30"
+    android:layout_marginTop="@dimen/px_30"
+    android:background="@color/common_bg_color"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        style="@style/CommonTextStyle"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/px_36"
+        android:text="@string/sun_rise_set"
+        android:layout_marginTop="@dimen/px_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_marginTop="@dimen/px_20"
+        style="@style/HorDivider"/>
+
     <com.fgwx.dgweather.view.WeatherSunChangeView
         android:layout_width="match_parent"
-        android:layout_marginBottom="@dimen/px_30"
         android:layout_marginRight="@dimen/px_16"
         android:layout_marginLeft="@dimen/px_16"
         android:layout_height="@dimen/px_280" />
-<!--<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/pic_bg">
-
-   <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:text="返回"
-            android:id="@+id/bnt_back_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <include
-            layout="@layout/layout_forecast_living_index"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content">
 
-</ScrollView>-->
+        <TextView
+            android:drawablePadding="@dimen/px_10"
+            android:layout_marginLeft="@dimen/px_20"
+            android:layout_alignParentLeft="true"
+            android:drawableLeft="@drawable/icon_life_sunrise"
+            android:id="@id/tv_life_sunriseTime"
+            style="@style/CommonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="日出：06:39" />
+
+        <TextView
+            android:drawablePadding="@dimen/px_10"
+            android:layout_marginRight="@dimen/px_20"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/icon_life_sunset"
+            android:id="@id/tv_life_sunsetTime"
+            style="@style/CommonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日出：06:39" />
+
+    </RelativeLayout>
+</LinearLayout>
 </LinearLayout>
 </ScrollView>

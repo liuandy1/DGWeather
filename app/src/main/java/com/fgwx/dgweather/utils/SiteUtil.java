@@ -24,7 +24,7 @@ public class SiteUtil {
     public static SiteBean.DataEntity getCloseSite(Context context, LatLng p1) {
         SiteDao siteDao = new SiteDao(context);
         SiteBean.DataEntity closeSite = null;
-        List<SiteBean.DataEntity> list = siteDao.getAddSite();
+        List<SiteBean.DataEntity> list = siteDao.getAllSite();
         double distance = DistanceUtil.getDistance(p1, new LatLng(Double.parseDouble(list.get(0).getLatitude()),
                 Double.parseDouble(list.get(0).getLatitude())));
         for (SiteBean.DataEntity data : list) {

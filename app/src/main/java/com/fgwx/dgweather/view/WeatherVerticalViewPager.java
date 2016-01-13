@@ -60,6 +60,7 @@ public class WeatherVerticalViewPager extends VerticalViewPager{
                             }
                         }
 
+
                     }
                     break;
                 case MotionEvent.ACTION_CANCEL:

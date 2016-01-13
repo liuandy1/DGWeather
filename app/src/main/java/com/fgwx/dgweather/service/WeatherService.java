@@ -65,7 +65,7 @@ public class WeatherService extends Service {
         map.put("lastLifeTime","1");
         map.put("querySun","1");
         map.put("lastSunTime",null);
-        WeatherNetUtils.getHomeForecastData(new Response.Listener<HomeForecastBaseBean>() {
+   /*     WeatherNetUtils.getHomeForecastData(new Response.Listener<HomeForecastBaseBean>() {
             @Override
             public void onResponse(HomeForecastBaseBean response) {
                 LogUtil.e("访问成功了");
@@ -76,7 +76,7 @@ public class WeatherService extends Service {
                 LogUtil.e("访问失败了");
                 LogUtil.e(error.toString());
             }
-        }, map);
+        }, map);*/
     }
 
     Handler handler = new Handler() {

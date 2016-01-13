@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.baidu.location.b.m;
 import com.fgwx.dgweather.R;
 
 /**
@@ -35,6 +36,7 @@ public class WeatherSunChangeView extends View{
     private float[] mCurrentPoint = new float[2];
     private int marginWidth;
     private int marginHeight;
+    private float textWidth;
     public WeatherSunChangeView(Context context) {
         this(context,null);
     }
@@ -54,10 +56,10 @@ public class WeatherSunChangeView extends View{
         mPaint=new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth((float) 4.0);
-        mPaint.setStyle(Paint.Style.STROKE);
+
+        mPaint.setTextSize(36f);
+
         effects = new DashPathEffect(new float[] { 6, 6}, 1);
-        mPaint.setPathEffect(effects);
         mPath=new Path();
         mAlphaPaint=new Paint(mPaint);
         mAlphaPaint.setColor(Color.parseColor("#64ffffff"));
@@ -68,16 +70,24 @@ public class WeatherSunChangeView extends View{
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(5.0f);
+        textWidth= mPaint.measureText("14:00");
         mWidth=getWidth();
         mHeight=getHeight();
         rect=new RectF(marginWidth,marginHeight,mWidth-marginWidth,mHeight*2f+marginHeight);
-        canvas.drawArc(rect, 180+60, 180-60, false, mPaint);
+        mPaint.setPathEffect(effects);
+        canvas.drawArc(rect, 180 + 60, 180 - 60, false, mPaint);
         mAlphaPaint.setStyle(Paint.Style.FILL);
         canvas.drawArc(rect, 180, 60, true, mAlphaPaint);
+        mPaint.setPathEffect(null);
+        canvas.drawArc(rect, 180, 60, false, mPaint);
         mPath.addArc(rect, 180, 60);
         PathMeasure pathMeasure=new PathMeasure(mPath, false);
         pathMeasure.getPosTan(pathMeasure.getLength(), mCurrentPoint, null);
         canvas.drawLine(0, mHeight, mWidth, mHeight, mPaint);
-        canvas.drawBitmap(mBitmap, mCurrentPoint[0]-BitmapWidth/2,mCurrentPoint[1]-BitmapHeight/2,mPaint);
+        canvas.drawBitmap(mBitmap, mCurrentPoint[0] - BitmapWidth / 2, mCurrentPoint[1] - BitmapHeight / 2, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
+        canvas.drawText("13:41",mCurrentPoint[0]-textWidth/2,mCurrentPoint[1]-BitmapHeight/2-15,mPaint);
     }
 }

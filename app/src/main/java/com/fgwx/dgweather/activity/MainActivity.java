@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Created by senghor on 2015/12/23.
@@ -40,19 +41,33 @@ import java.util.TreeMap;
 public class MainActivity extends BaseActivity {
 
     private RadioGroup rg_tabs;
+
     private RadioButton rb_forecast, rb_warn, rb_monitor, rb_interact, rb_mine;
+
     private List<Fragment> fragments = new ArrayList<Fragment>();
+
     private FragmentManager manager;
+
     private ForecastFragment mForecastFragment;
+
     private EarlyWarnFragment mEarlyWarnFragment;
+
     private MonitorFragment mMonitorFragment;
+
     private InteractFragment mInteractFragment;
+
     private MineFragment mMineFragment;
+
     private Gson gson;
+
     public static final String FORECAST_TAG = "Forecast";
+
     public static final String EARLYWARN_TAG = "EarlyWarn";
+
     public static final String MONITOR_TAG = "Monitor";
+
     public static final String INTERACT_TAG = "Interact";
+
     public static final String MINE_TAG = "Mine";
 
     /**
@@ -114,7 +129,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
     /**
      * 将所有的Fragment都置为隐藏状态。
      *
@@ -154,14 +168,14 @@ public class MainActivity extends BaseActivity {
             case 0:
                 // 当点击了预报tab时，改变控件的图片和文字颜色
                 rb_forecast.setChecked(true);
-                    if (mForecastFragment == null) {
-                        // 如果mForecastFragment为空，则创建一个并添加到界面上
-                        mForecastFragment = new ForecastFragment();
-                        transaction.add(R.id.fl_tab_content, mForecastFragment, FORECAST_TAG);
-                    } else {
-                        // 如果mForecastFragment不为空，则直接将它显示出来
-                        transaction.show(mForecastFragment);
-                    }
+                if (mForecastFragment == null) {
+                    // 如果mForecastFragment为空，则创建一个并添加到界面上
+                    mForecastFragment = new ForecastFragment();
+                    transaction.add(R.id.fl_tab_content, mForecastFragment, FORECAST_TAG);
+                } else {
+                    // 如果mForecastFragment不为空，则直接将它显示出来
+                    transaction.show(mForecastFragment);
+                }
                 break;
             case 1:
                 // 当点击了预警tab时，改变控件的图片和文字颜色
@@ -217,9 +231,9 @@ public class MainActivity extends BaseActivity {
         transaction.commit();
     }
 
-    //    初始化控件
+    // 初始化控件
     public void init() {
-        gson=new Gson();
+        gson = new Gson();
         rg_tabs = (RadioGroup) findViewById(R.id.rg_tab);
         rb_forecast = (RadioButton) findViewById(R.id.rb_tab_forecast);
         rb_warn = (RadioButton) findViewById(R.id.rb_tab_warn);
@@ -233,15 +247,17 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MonitorFragment());// 监测
         fragments.add(new InteractFragment());// 互动
         fragments.add(new MineFragment());// 我的
-        //getForecastNetData();
+        // getForecastNetData();
     }
 
     public void goSecondPage() {
-        if(mForecastFragment!=null)
+        if (mForecastFragment != null)
             mForecastFragment.setSecondPage();
     }
-    public void getForecastData(CityBean cityBean,SiteBean.DataEntity siteBean){
-        if(mForecastFragment!=null)
+
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
+        if (mForecastFragment != null)
             mForecastFragment.getForecastNetData(cityBean, siteBean);
     }
+
 }

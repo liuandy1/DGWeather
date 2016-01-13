@@ -40,12 +40,14 @@ public class CityUtil {
     }
 
     /**
+     * 这个方法还有点问题。先不用
+     *
      * 根据经纬度获取城市名
      *
      * @param lat
      * @param lon
      */
-    public static String getCityByLocation(float lat, float lon) {
+    private static String getCityByLocation(float lat, float lon) {
         GeoCoder mSearch = GeoCoder.newInstance();
         final String[] city = new String[1];
         mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {

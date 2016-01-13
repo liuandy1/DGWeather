@@ -8,9 +8,9 @@
         android:id="@+id/tv_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试"/>
+        android:text="互动"/>
 
-    <include
+   <!-- <include
         layout="@layout/layout_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -18,5 +18,5 @@
     <include
         layout="@layout/layout_forecast_weather_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 </LinearLayout>
