@@ -37,6 +37,18 @@ public class TimeUtil {
     }
 
     /**
+     * 格式化date
+     * 模板:2015-12-31 09:30:53 周四
+     *
+     * @param date
+     * @return
+     */
+    public static String formatDate1(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E  MM月dd日");
+        return dateFormat.format(date);
+    }
+
+    /**
      * 格式化日期
      * 模板:12-31 09:30
      *

@@ -2,12 +2,14 @@ package com.fgwx.dgweather.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,13 +33,16 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
 import com.fgwx.dgweather.utils.CityUtil;
+import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
@@ -46,6 +51,8 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
 import java.util.ArrayList;
+
+import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Class description goes here.
@@ -68,6 +75,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private TextView tvHumidy;
     private TextView tvWind;
     private TextView tvFreshTime;
+    private RelativeLayout rvLocal;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -109,14 +117,20 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     }
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
+
+        tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
+        tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
+
+        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
+        viewPager.addView(w1_move1);
+        new Thread(w1_move1).start();
+
         if (homeForecastBaseBean != null) {
             try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
                 String strTime = siteInfo.getDataTime();
                 LogUtil.e(strTime);
-//                LogUtil.e(TimeUtil.strToDateStr(strTime));
-//                LogUtil.e(strTime);
                 tvCurrentTemp = (TextView) pagerView.findViewById(R.id.tv_info_currentTemp);
                 tvCurrentTemp.setText(siteInfo.getAirTemp());
 
@@ -124,13 +138,15 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
 
                 tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
-                tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime))+" 发布");
+                tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime)) + " 发布");
 
                 tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
-                tvHumidy.setText(siteInfo.getRelativeWet()+"%");
+                tvHumidy.setText(siteInfo.getRelativeWet() + "%");
 
                 tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
-                tvHumidy.setText("相对湿度 "+siteInfo.getRelativeWet()+"%");
+                tvHumidy.setText("相对湿度 " + siteInfo.getRelativeWet() + "%");
+
+
             } catch (Exception e) {
                 LogUtil.e(e.toString());
             }
@@ -138,12 +154,14 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     }
 
     private void initUi(View view) {
+        rvLocal = (RelativeLayout) view.findViewById(R.id.rv_top_local);
         view.findViewById(R.id.iv_home_full).setOnClickListener(this);
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
         view.findViewById(R.id.ly_home_down).setOnClickListener(this);
         view.findViewById(R.id.iv_home_more).setOnClickListener(this);
         view.findViewById(R.id.ib_home_play).setOnClickListener(this);
         tvHomeCity = (TextView) view.findViewById(R.id.tv_home_city);
+        view.findViewById(R.id.ib_home_share).setOnClickListener(this);
 
         rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
         lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
@@ -183,6 +201,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
         pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+//        viewPager.setBackgroundResource(R.drawable.bg_qing);
+//        pagerView.setBackgroundResource(R.drawable.bg_qing);
+        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         View pagerView2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
@@ -310,14 +331,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         tvHomeCity.setText(addressDetail.district);
         isSetLoc = true;
         LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
-//        Toast.makeText(getContext(), "位置是:" + reverseGeoCodeResult.getAddress(), Toast.LENGTH_SHORT).show();
+        MPreferencesUtil.getInstance().setValue(Constant.NOWLOCAL,reverseGeoCodeResult.getAddress());
         String city = addressDetail.city;
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
         if (mCurrentLng != null)
             mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-//          addressDetail
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
@@ -339,6 +359,40 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     public void onPause() {
         mMapView.onPause();
     }
+
+
+    /**
+     * 分享
+     */
+    private void showShare() {
+        cn.sharesdk.onekeyshare.OnekeyShare oks = new cn.sharesdk.onekeyshare.OnekeyShare();
+        // 关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+        // 分享时Notification的图标和文字 2.5.9以后的版本不调用此方法
+        // oks.setNotification(R.drawable.ic_launcher,
+        // getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(mMainActivity.getString(R.string.share));
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl("http://www.baidu.com");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath("/sdcard/test.jpg");// 确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+                oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(mMainActivity.getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://www.baidu.com");
+
+        // 启动分享GUI
+        oks.show(mMainActivity);
+    }
+
 
     private class MyLocationListenner implements BDLocationListener {
 
@@ -400,6 +454,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                     broadWeather("你好啊，今天天气不错！");
                 else
                     Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rv_top_local:
+                mMainActivity.startActivity(new Intent(mMainActivity, AddCityActivity.class));
+                break;
+
+            case R.id.ib_home_share:
+                showShare();
                 break;
         }
     }

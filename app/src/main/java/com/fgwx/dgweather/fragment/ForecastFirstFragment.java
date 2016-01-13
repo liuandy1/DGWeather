@@ -295,6 +295,9 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
         super.onResume();
     }
 
+
+
+
     @Override
     public void onPause() {
         mMapView.onPause();

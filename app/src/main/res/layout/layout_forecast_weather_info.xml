@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/title_bar_bg"
-    android:paddingTop="8dp"
+    android:background="@color/button_bg_blue"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingRight="10dp"
+    android:paddingTop="8dp">
 
     <LinearLayout
         android:id="@+id/ll_info_left"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
         android:layout_weight="1"
-        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -118,13 +118,15 @@
 
         <TextView
             android:id="@+id/tv_info_refresh"
-            style="@style/CommTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_refresh"
+            android:paddingTop="@dimen/px_10"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:text="15分钟前发布" />
+            android:text="15分钟前发布"
+            android:textColor="@color/common_text_color"
+            android:textSize="@dimen/common_text_size" />
     </LinearLayout>
 
     <RelativeLayout

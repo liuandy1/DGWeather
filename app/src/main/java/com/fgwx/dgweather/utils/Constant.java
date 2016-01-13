@@ -9,5 +9,6 @@ public class Constant {
     public static final String ISFIRST = "isFirst";
     public static final String CITYSAVED = "city_save";
     public static final String SITESVAED = "site_save";
+    public static final String NOWLOCAL = "now_local";
 
 }
