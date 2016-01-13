@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import cn.sharesdk.framework.ShareSDK;
+
 
 /**
  * Created by senghor on 2015/12/23.
@@ -34,6 +36,7 @@ public class WeatherAppContext extends Application {
 
     private static WeatherAppContext sInstance;
     private MPreferencesUtil preferencesUtil;
+    public String LocalStr;
 
     @Override
     public void onCreate() {
@@ -41,6 +44,7 @@ public class WeatherAppContext extends Application {
         sInstance = this;
         VolleySingleton.init(this);
         SDKInitializer.initialize(this);
+        ShareSDK.initSDK(this);
         initImageLoader();
         initSpeech();
         preferencesUtil = MPreferencesUtil.getInstance();
@@ -116,4 +120,11 @@ public class WeatherAppContext extends Application {
         return sInstance;
     }
 
+    public String getLocalStr() {
+        return LocalStr;
+    }
+
+    public void setLocalStr(String localStr) {
+        LocalStr = localStr;
+    }
 }

@@ -15,6 +15,7 @@
         android:background="@drawable/icon_play" />
 
     <RelativeLayout
+        android:id="@+id/rv_top_local"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
