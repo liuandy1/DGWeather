@@ -51,7 +51,7 @@ public class InteractFragment extends Fragment {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(getString(R.string.share));
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://sharesdk.cn");
+        oks.setTitleUrl("http://www.baidu.com");
         // text是分享文本，所有平台都需要这个字段
         oks.setText("我是分享文本");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
@@ -63,7 +63,7 @@ public class InteractFragment extends Fragment {
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
+        oks.setSiteUrl("http://www.baidu.com");
 
         // 启动分享GUI
         oks.show(getActivity());
