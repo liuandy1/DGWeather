@@ -3,6 +3,7 @@ package com.fgwx.dgweather.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.tv.TvView;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -74,6 +75,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private TextView tvCurrentTemp;
     private TextView tvTempRange;
     private TextView tvHumidy;
+    private TextView tvWeatherDes;
     private TextView tvWind;
     private TextView tvFreshTime;
     private RelativeLayout rvLocal;
@@ -147,6 +149,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
                 tvHumidy.setText("相对湿度 " + siteInfo.getRelativeWet() + "%");
 
+
+                tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
+                tvWeatherDes.setText(data.getDays().get(0).getWeaDesc());
+
+                tvWind = (TextView) pagerView.findViewById(R.id.tv_info_wind);
+                tvWind.setText(data.getDays().get(0).getWind());
 
             } catch (Exception e) {
                 LogUtil.e(e.toString());
@@ -505,6 +513,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             case R.id.ib_home_share:
                 showShare("东莞", "多云转晴", "21~30度", "东南风", "3~4级");
+                break;
+
+            case R.id.tv_info_refresh:
+                Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

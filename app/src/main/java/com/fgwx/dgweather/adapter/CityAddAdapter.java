@@ -13,7 +13,6 @@ import com.fgwx.dgweather.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by AllenHu on 2016/1/13.

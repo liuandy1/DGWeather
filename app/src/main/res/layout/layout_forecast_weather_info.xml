@@ -117,13 +117,19 @@
         </RelativeLayout>
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据获取失败"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <TextView
             android:id="@+id/tv_info_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_refresh"
-            android:paddingTop="@dimen/px_10"
             android:drawablePadding="8dp"
             android:gravity="center"
+            android:paddingTop="@dimen/px_10"
             android:text="15分钟前发布"
             android:textColor="@color/common_text_color"
             android:textSize="@dimen/common_text_size" />
