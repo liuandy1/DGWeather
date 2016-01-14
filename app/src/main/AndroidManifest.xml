@@ -107,7 +107,8 @@
             android:process=":remote" />
         <service android:name=".service.WeatherService" />
 
-        <activity android:name=".activity.AddCityActivity"></activity>
+        <activity android:name=".activity.AddCityActivity" />
+        <activity android:name=".activity.CityManagerActivity"></activity>
     </application>
 
 </manifest>

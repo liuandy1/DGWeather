@@ -33,4 +33,116 @@ public class ForecastPeopleLifeBean {
     private String sunDry;
     private String travel;
     private String umbella;
+
+    public String getAirPolDesc() {
+        return airPolDesc;
+    }
+
+    public void setAirPolDesc(String airPolDesc) {
+        this.airPolDesc = airPolDesc;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getAirQuan() {
+        return airQuan;
+    }
+
+    public void setAirQuan(String airQuan) {
+        this.airQuan = airQuan;
+    }
+
+    public String getBodySoft() {
+        return bodySoft;
+    }
+
+    public void setBodySoft(String bodySoft) {
+        this.bodySoft = bodySoft;
+    }
+
+    public String getCurDate() {
+        return curDate;
+    }
+
+    public void setCurDate(String curDate) {
+        this.curDate = curDate;
+    }
+
+    public String getFire() {
+        return fire;
+    }
+
+    public void setFire(String fire) {
+        this.fire = fire;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMornExercise() {
+        return mornExercise;
+    }
+
+    public void setMornExercise(String mornExercise) {
+        this.mornExercise = mornExercise;
+    }
+
+    public String getMould() {
+        return mould;
+    }
+
+    public void setMould(String mould) {
+        this.mould = mould;
+    }
+
+    public String getOuting() {
+        return outing;
+    }
+
+    public void setOuting(String outing) {
+        this.outing = outing;
+    }
+
+    public String getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(String reportTime) {
+        this.reportTime = reportTime;
+    }
+
+    public String getSunDry() {
+        return sunDry;
+    }
+
+    public void setSunDry(String sunDry) {
+        this.sunDry = sunDry;
+    }
+
+    public String getTravel() {
+        return travel;
+    }
+
+    public void setTravel(String travel) {
+        this.travel = travel;
+    }
+
+    public String getUmbella() {
+        return umbella;
+    }
+
+    public void setUmbella(String umbella) {
+        this.umbella = umbella;
+    }
 }

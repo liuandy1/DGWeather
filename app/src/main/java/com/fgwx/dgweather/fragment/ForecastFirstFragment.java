@@ -198,7 +198,6 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
             broadWeather("你好啊，今天天气不错！");
             break;
         case R.id.ib_home_share:
-            showShare();
             break;
 
         }
@@ -360,10 +359,4 @@ public class ForecastFirstFragment extends Fragment implements View.OnClickListe
 
     }
 
-    /**
-     * 分享
-     */
-    private void showShare() {
-
-    }
 }

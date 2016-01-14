@@ -39,7 +39,7 @@
     <string name="share">分享</string>
 
     <!--预报页面2-->
-    <string name="title_48_hour_weather_forecast">48小时精准天气预报</string>
+    <string name="title_48_hour_weather_forecast">精准天气预报</string>
     <string name="title_10_day_weather_forecast">10天天气预报</string>
     <string name="sun_rise_set">日出日落</string>
     <!-- 提示信息-->
