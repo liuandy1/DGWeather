@@ -33,6 +33,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
+import com.fgwx.dgweather.base.HomeCallBack;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
@@ -254,9 +255,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         });
     }
 
-    public void showPopupwindow() {
+    public void showPopupwindow(HomeCallBack callBack) {
         MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(mMainActivity);
         popupWindown.showAtLocation(mMainActivity.findViewById(R.id.ll), Gravity.CENTER, 0, 0);
+        callBack.callBack(1);
     }
 
     /**
@@ -392,7 +394,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 }
                 break;
             case R.id.iv_home_more:
-                showPopupwindow();
+                showPopupwindow(new HomeCallBack() {
+                    @Override
+                    public void callBack(int a) {
+
+                    }
+                });
                 break;
             case R.id.ib_home_play:
                 //判断有没有网络，语音播报需要网络合成
