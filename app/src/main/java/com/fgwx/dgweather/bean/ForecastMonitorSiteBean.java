@@ -102,6 +102,34 @@ public class ForecastMonitorSiteBean {
     private String wet;
     private String windDirect;
 
+    private String windLevelId;
+    private String windDirId;
+    private String speedDir;
+
+    public String getWindLevelId() {
+        return windLevelId;
+    }
+
+    public void setWindLevelId(String windLevelId) {
+        this.windLevelId = windLevelId;
+    }
+
+    public String getWindDirId() {
+        return windDirId;
+    }
+
+    public void setWindDirId(String windDirId) {
+        this.windDirId = windDirId;
+    }
+
+    public String getSpeedDir() {
+        return speedDir;
+    }
+
+    public void setSpeedDir(String speedDir) {
+        this.speedDir = speedDir;
+    }
+
     public String getAirTemp() {
         return airTemp;
     }

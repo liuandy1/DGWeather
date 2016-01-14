@@ -17,7 +17,7 @@ public class EarlyWarnFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_forecast_living_index,null,false);
+        View view=inflater.inflate(R.layout.fragment_early_warn,null,false);
 
         return view;
     }

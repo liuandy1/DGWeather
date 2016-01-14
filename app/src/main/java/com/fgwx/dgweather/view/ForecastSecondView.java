@@ -8,11 +8,14 @@ import android.widget.RelativeLayout;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
+import com.fgwx.dgweather.adapter.LivingIndexAdapter;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.fgwx.dgweather.R.*;
 
 /**
  * Class description goes here.
@@ -25,6 +28,10 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private WeatherHoursTrendView mWeatherHoursTrendView;
     private WeatherDayTrendView mWeathDayTrendView;
     private RelativeLayout mRootScrollView;
+
+    private AdapterScroListView aslv_LivingIndex;//生活指数
+    private LivingIndexAdapter livingIndexAdapter ;
+
     public ForecastSecondView(Context context) {
         this(context, null);
     }
@@ -41,17 +48,23 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         super.onFinishInflate();
     }
     private void init() {
-        View view=LayoutInflater.from(getContext()).inflate(R.layout.fragment_second_forecast, this);
+        View view=LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
 
     public void setSecondForecastData(HomeForecastBaseBean homeForecastBaseBean){
         if(homeForecastBaseBean.getData()!=null&&homeForecastBaseBean.getData().getDays()!=null)
         mWeathDayTrendView.setDataBean(homeForecastBaseBean.getData().getDays());
+
+        livingIndexAdapter = new LivingIndexAdapter(mMainActivity,homeForecastBaseBean.getData().getLife());
+        aslv_LivingIndex.setAdapter(livingIndexAdapter);
     }
     public void initView(View view){
-        mWeatherHoursTrendView= (WeatherHoursTrendView) view.findViewById(R.id.wtv_hour_trend_view);
-        mWeathDayTrendView= (WeatherDayTrendView) view.findViewById(R.id.wtv_day_trend_view);
+        mWeatherHoursTrendView= (WeatherHoursTrendView) view.findViewById(id.wtv_hour_trend_view);
+        mWeathDayTrendView= (WeatherDayTrendView) view.findViewById(id.wtv_day_trend_view);
+
+        aslv_LivingIndex = (AdapterScroListView) view.findViewById(id.aslv_livingIndex);
+
         //mRootScrollView= (RelativeLayout) view.findViewById(R.id.scroll_forecast_more);
         List<ForecastForTenDayBean> beans=new ArrayList<>();
         ForecastForTenDayBean bean;

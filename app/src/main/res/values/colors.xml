@@ -17,6 +17,8 @@
 
     <!-- 地图设置字体颜色  浅灰色-->
     <color name="map_setting_text_light_gray">#ABACAD</color>
+    <color name="add_city_text_gray">#A1AdB6</color>
+    <color name="gray_f5f5f5">#f5f5f5</color>
 
     <!-- 背景颜色-  深蓝色-->
     <color name="common_bg_color">#b2132b3d</color>
