@@ -1,7 +1,5 @@
 package com.fgwx.dgweather.fragment;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -42,6 +40,8 @@ import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.view.MapSettingPopupwindow;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
+
+import java.util.ArrayList;
 
 /**
  * 预报模块
