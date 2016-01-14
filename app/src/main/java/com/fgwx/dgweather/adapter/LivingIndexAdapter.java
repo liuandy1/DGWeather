@@ -9,19 +9,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.bean.ForecastPeopleLifeBean;
 
 public class LivingIndexAdapter extends BaseAdapter {
     private Activity context;
+
     private String[] info;
 
-    private int[] imgIcon = new int[]{R.drawable.icon_life_air_index, R.drawable.icon_life_comfort_index, R.drawable.icon_life_umbrella_index, R.drawable.icon_life_exercise_index, R.drawable.icon_life_outing_index, R.drawable.icon_life_moldew_index, R.drawable.icon_life_dry_index, R.drawable.icon_life_trafic_index};
+    private ForecastPeopleLifeBean bean;
+
+    private int[] imgIcon = new int[] { R.drawable.icon_life_air_index, R.drawable.icon_life_comfort_index,
+            R.drawable.icon_life_umbrella_index, R.drawable.icon_life_exercise_index, R.drawable.icon_life_outing_index,
+            R.drawable.icon_life_moldew_index, R.drawable.icon_life_dry_index, R.drawable.icon_life_trafic_index };
+
     private String[] txtIndex;
 
-    public LivingIndexAdapter(Activity context, String[] info) {
+    public LivingIndexAdapter(Activity context, ForecastPeopleLifeBean bean) {
         super();
         this.context = context;
-        this.info = info;
-        txtIndex = new String[]{context.getResources().getString(R.string.air_index), context.getResources().getString(R.string.comfort_of_human_body), context.getResources().getString(R.string.umbrella_index), context.getResources().getString(R.string.exercise_index), context.getResources().getString(R.string.outing_index), context.getResources().getString(R.string.mildew_index), context.getResources().getString(R.string.dry_index), context.getResources().getString(R.string.trafic_index)};
+        this.bean = bean;
+        txtIndex = new String[] { context.getResources().getString(R.string.air_index),
+                context.getResources().getString(R.string.comfort_of_human_body),
+                context.getResources().getString(R.string.umbrella_index),
+                context.getResources().getString(R.string.exercise_index),
+                context.getResources().getString(R.string.outing_index),
+                context.getResources().getString(R.string.mildew_index),
+                context.getResources().getString(R.string.dry_index),
+                context.getResources().getString(R.string.trafic_index) };
+        info = new String[] { bean.getAirQuan() == null ? "" : bean.getAirQuan(),
+                bean.getBodySoft() == null ? "" : bean.getBodySoft(),
+                bean.getUmbella() == null ? "" : bean.getUmbella(),
+                bean.getMornExercise() == null ? "" : bean.getMornExercise(),
+                bean.getOuting() == null ? "" : bean.getOuting(), bean.getMould() == null ? "" : bean.getMould(),
+                bean.getSunDry() == null ? "" : bean.getSunDry(), bean.getTravel() == null ? "" : bean.getTravel() };
     }
 
     @Override
@@ -78,6 +98,7 @@ public class LivingIndexAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         ImageView iv_icon;
+
         TextView tv_index, tv_indexInfo;
     }
 
