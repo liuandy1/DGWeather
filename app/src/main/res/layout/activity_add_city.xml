@@ -13,13 +13,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_add_city_top">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/px_20"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -64,59 +64,82 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="@dimen/px_40"
                 android:drawableLeft="@drawable/icon_add_city_local"
                 android:drawablePadding="5dp"
+                android:paddingBottom="@dimen/px_30"
                 android:text="东莞松山湖"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/ly_add_dg"
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px_100"
+            android:layout_marginTop="@dimen/px_20"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/dongguan" />
+
+        <com.fgwx.dgweather.view.AdapterScroGridView
+            android:id="@+id/asgv_dongguanCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/px_40"
+            android:layout_marginRight="@dimen/px_40"
+            android:horizontalSpacing="@dimen/px_40"
+            android:numColumns="3"
+            android:verticalSpacing="@dimen/px_20" />
 
-            <GridView
-                android:id="@+id/gridView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="3"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right|center_vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_close" />
+            android:gravity="right|center_vertical"
+            android:padding="@dimen/px_20">
 
             <TextView
+                android:id="@+id/tv_openOrClose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关闭"
+                android:layout_marginRight="@dimen/px_20"
+                android:drawableLeft="@drawable/open_or_close_selector"
+                android:drawablePadding="@dimen/px_20"
+                android:text="@string/open"
                 android:textColor="@color/add_city_text_gray"
                 android:textSize="@dimen/common_text_size" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ly_add_hot"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_100"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/px_20"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/hot_city" />
+
+
+        <com.fgwx.dgweather.view.AdapterScroGridView
+            android:id="@+id/asgv_hotCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/px_40"
+            android:layout_marginRight="@dimen/px_40"
+            android:layout_marginTop="@dimen/px_20"
+            android:horizontalSpacing="@dimen/px_40"
+            android:numColumns="3"
+            android:verticalSpacing="@dimen/px_20" />
+
+        <Button
+            android:id="@+id/bt_openAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px_40"
             android:background="@color/white"
-            android:orientation="vertical">
-
-
-        </LinearLayout>
-
-
+            android:gravity="center"
+            android:orientation="vertical"
+            android:text="@string/open_all" />
     </LinearLayout>
 
 </ScrollView>

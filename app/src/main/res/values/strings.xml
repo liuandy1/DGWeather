@@ -37,6 +37,12 @@
     <!-- 公用-->
     <string name="sure">确定</string>
     <string name="share">分享</string>
+    <string name="close">关闭</string>
+    <string name="open">展开</string>
+    <string name="hot_city">热门城市</string>
+    <string name="dongguan">东莞</string>
+    <string name="open_all">展开全部</string>
+    <string name="take_back">收回</string>
 
     <!--预报页面2-->
     <string name="title_48_hour_weather_forecast">精准天气预报</string>

@@ -85,17 +85,15 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 分享 -->
+
         <activity
             android:name=".activity.HomePageActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.TestActivity" />
 
@@ -107,7 +105,13 @@
             android:process=":remote" />
         <service android:name=".service.WeatherService" />
 
-        <activity android:name=".activity.AddCityActivity" />
+        <activity android:name=".activity.AddCityActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.CityManagerActivity"></activity>
     </application>
 
