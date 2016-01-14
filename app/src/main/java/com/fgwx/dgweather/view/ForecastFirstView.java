@@ -154,7 +154,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvWeatherDes.setText(data.getDays().get(0).getWeaDesc());
 
                 tvWind = (TextView) pagerView.findViewById(R.id.tv_info_wind);
-                tvWind.setText(data.getDays().get(0).getWind());
+                tvWind.setText(siteInfo.getSpeedDir());
 
             } catch (Exception e) {
                 LogUtil.e(e.toString());
