@@ -65,7 +65,6 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
 
         aslv_LivingIndex = (AdapterScroListView) view.findViewById(id.aslv_livingIndex);
 
-        //mRootScrollView= (RelativeLayout) view.findViewById(R.id.scroll_forecast_more);
         List<ForecastForTenDayBean> beans=new ArrayList<>();
         ForecastForTenDayBean bean;
         for(int i=0;i<6;i++){
@@ -76,6 +75,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         }
         mWeatherHoursTrendView.setDataBean(beans);
         mWeathDayTrendView.setDataBean(beans);
+
     }
     @Override
     public void onClick(View v) {

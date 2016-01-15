@@ -40,4 +40,6 @@
 
     <!-- 蓝色按钮-->
     <color name="button_bg_blue">#094375</color>
+    <!-- 半透明 -->
+    <color name="transparent_half">#99000000</color>
 </resources>

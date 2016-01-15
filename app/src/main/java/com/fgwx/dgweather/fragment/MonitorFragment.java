@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.TestActivity;
+import com.fgwx.dgweather.base.BaseFragment;
 
 /**
  * Created by senghor on 2015/12/24.
  */
 //监测
-public class MonitorFragment extends Fragment implements View.OnClickListener{
+public class MonitorFragment extends BaseFragment implements View.OnClickListener{
 
     @Nullable
     @Override
