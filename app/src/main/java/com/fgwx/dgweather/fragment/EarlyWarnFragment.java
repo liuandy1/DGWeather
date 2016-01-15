@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseFragment;
+
 /**
  * Created by senghor on 2015/12/24.
  */
 //预警
-public class EarlyWarnFragment extends Fragment{
+public class EarlyWarnFragment extends BaseFragment{
 
     @Nullable
     @Override

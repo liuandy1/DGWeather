@@ -12,13 +12,14 @@ import android.widget.TextView;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.view.MultiWarnPopupwindow;
 
 /**
  * Created by senghor on 2015/12/24.
  */
 // 互动
-public class InteractFragment extends Fragment {
+public class InteractFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

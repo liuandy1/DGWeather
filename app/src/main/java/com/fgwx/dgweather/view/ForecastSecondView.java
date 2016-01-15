@@ -38,7 +38,6 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private RelativeLayout mRlPerHourWeather;
     private AdapterScroListView aslv_LivingIndex;//生活指数
     private LivingIndexAdapter livingIndexAdapter ;
-    private float factor;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -63,6 +62,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     public void setSecondForecastData(HomeForecastBaseBean homeForecastBaseBean){
         if(homeForecastBaseBean.getData()!=null&&homeForecastBaseBean.getData().getDays()!=null)
         mWeathDayTrendView.setDataBean(homeForecastBaseBean.getData().getDays());
+
         livingIndexAdapter = new LivingIndexAdapter(mMainActivity,homeForecastBaseBean.getData().getLife());
         aslv_LivingIndex.setAdapter(livingIndexAdapter);
     }
@@ -77,6 +77,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mRlPerHourWeather = (RelativeLayout) view.findViewById(id.rl_per_hour_weather);
         mHorizontalScrollView.setHorizontalScrollViewListener(this);
         //mRootScrollView= (RelativeLayout) view.findViewById(R.id.scroll_forecast_more);
+
         List<ForecastForTenDayBean> beans=new ArrayList<>();
         ForecastForTenDayBean bean;
         for(int i=0;i<48;i++){
@@ -87,6 +88,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         }
         mWeatherHoursTrendView.setDataBean(beans);
         mWeathDayTrendView.setDataBean(beans);
+
     }
 
     @Override

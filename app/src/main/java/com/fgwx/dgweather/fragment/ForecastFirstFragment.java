@@ -35,6 +35,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
+import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.view.MapSettingPopupwindow;
@@ -42,13 +43,15 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 预报模块
  * <p/>
  * Created by senghor on 2015/12/24.
  */
-public class ForecastFirstFragment extends Fragment implements View.OnClickListener, OnGetGeoCoderResultListener {
+public class ForecastFirstFragment extends BaseFragment implements View.OnClickListener, OnGetGeoCoderResultListener {
     private MainActivity mMainActivity;
 
     public static boolean isFull = false;

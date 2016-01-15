@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseFragment;
 
 /**
  * Created by senghor on 2015/12/24.
  */
-public class MineFragment extends Fragment{
+public class MineFragment extends BaseFragment {
 
     @Nullable
     @Override

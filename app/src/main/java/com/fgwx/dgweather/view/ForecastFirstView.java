@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,10 +20,14 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -33,13 +36,15 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.R;
-import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
+import com.fgwx.dgweather.base.HomeCallBack;
+import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
+import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -74,9 +79,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private TextView tvCurrentTemp;
     private TextView tvTempRange;
     private TextView tvHumidy;
+    private TextView tvWeatherDes;
     private TextView tvWind;
     private TextView tvFreshTime;
     private RelativeLayout rvLocal;
+    private ImageView ivAirQuality;
+    private TextView tvFail;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -120,6 +128,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
 
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
+        tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
 
         MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
@@ -127,6 +136,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         new Thread(w1_move1).start();
 
         if (homeForecastBaseBean != null) {
+
             try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
@@ -148,10 +158,50 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvHumidy.setText("相对湿度 " + siteInfo.getRelativeWet() + "%");
 
 
+                tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
+                ForecastForTenDayBean firstDay = data.getDays().get(0);
+                tvWeatherDes.setText(firstDay.getWeaDesc());
+
+                tvWind = (TextView) pagerView.findViewById(R.id.tv_info_wind);
+                tvWind.setText(siteInfo.getSpeedDir());
+
+                ivAirQuality = (ImageView) pagerView.findViewById(R.id.iv_info_airQuality);
+                String qua = data.getLife().getAirQuan();
+//                String qua = data.getDays().get(0).getAirQua();
+                char c = qua.charAt(qua.length() - 2);
+                if (c == '优') {
+                    LogUtil.e("空气质量是优");
+                    ivAirQuality.setImageResource(R.drawable.icon_air_excellent);
+                } else if (c == '良') {
+                    ivAirQuality.setImageResource(R.drawable.icon_air_good);
+                    LogUtil.e("空气质量是良");
+                } else if (c == '差') {
+                    ivAirQuality.setImageResource(R.drawable.icon_air_bad);
+                    LogUtil.e("空气质量是差");
+                }
+                tvFail.setVisibility(GONE);
+                addOverSite(siteInfo);
             } catch (Exception e) {
                 LogUtil.e(e.toString());
+                tvFail.setVisibility(VISIBLE);
             }
+        } else {
+            tvFail.setVisibility(VISIBLE);
         }
+    }
+
+    private void addOverSite(ForecastMonitorSiteBean siteInfo) {
+        SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
+        LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
+        //构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_map_humidity);
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        //在地图上添加Marker，并显示
+        mBaiduMap.addOverlay(option);
     }
 
     private void initUi(View view) {
@@ -277,9 +327,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         });
     }
 
-    public void showPopupwindow() {
+    public void showPopupwindow(HomeCallBack callBack) {
         MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(mMainActivity);
         popupWindown.showAtLocation(mMainActivity.findViewById(R.id.ll), Gravity.CENTER, 0, 0);
+        callBack.callBack(1);
     }
 
     /**
@@ -489,7 +540,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 }
                 break;
             case R.id.iv_home_more:
-                showPopupwindow();
+                showPopupwindow(new HomeCallBack() {
+                    @Override
+                    public void callBack(int a) {
+
+                    }
+                });
                 break;
             case R.id.ib_home_play:
                 //判断有没有网络，语音播报需要网络合成
@@ -505,6 +561,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             case R.id.ib_home_share:
                 showShare("东莞", "多云转晴", "21~30度", "东南风", "3~4级");
+                break;
+
+            case R.id.tv_info_refresh:
+                Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.fgwx.dgweather.test;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
@@ -29,22 +30,31 @@ public class Test extends AndroidTestCase {
 //            for (BaseCityBean cityBean : citys) {
 //                LogUtil.e("城市名字:" + cityBean.);
 //            }
+        SiteDao dao = new SiteDao(getContext());
+        List<SiteBean.DataEntity> list = dao.getSiteBycode("G1991");
+        if (list == null) {
+            LogUtil.e("没查询到数据");
+        }else{
+            for (SiteBean.DataEntity siteBean:list){
+                LogUtil.e(siteBean.getName()+"");
+            }
+        }
     }
 
-    public void testSite(){
+    public void testSite() {
         SiteDao dao = new SiteDao(getContext());
         List<SiteBean.DataEntity> list = dao.getAllSite();
 
-        LogUtil.e("站点个数:"+list.get(0).getName());
-        LogUtil.e("站点个数:"+list.size());
+        LogUtil.e("站点个数:" + list.get(0).getName());
+        LogUtil.e("站点个数:" + list.size());
     }
 
     public void testVoice() {
         CityBean city = CityUtil.getCityByName(getContext(), "东莞市");
-        LogUtil.e(""+city.getName()+":"+city.getId());
+        LogUtil.e("" + city.getName() + ":" + city.getId());
 //        114.028532,23.079036
         SiteBean.DataEntity site = SiteUtil.getCloseSite(getContext(), 23.079036f, 114.028532f);
-        LogUtil.e("地址:"+site.getAddress()+"  id"+site.getId()+"  名字:"+site.getName());
+        LogUtil.e("地址:" + site.getAddress() + "  id" + site.getId() + "  名字:" + site.getName());
     }
 
     public void testStr() {
@@ -120,7 +130,7 @@ public class Test extends AndroidTestCase {
     }
 
 
-    public void testTime(){
+    public void testTime() {
         String dateStr = "1453286246000";
         LogUtil.e(TimeUtil.strToDateStr(dateStr));
     }
