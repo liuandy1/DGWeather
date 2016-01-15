@@ -33,6 +33,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private RelativeLayout mRootScrollView;
     private ObserverHorizontalScrollView mHorizontalScrollView;
     private int padding;
+    private float factor;
     private LinearLayout mPerHourWeatherLayout;
     private TextView mTvPerHourWeather;
     private RelativeLayout mRlPerHourWeather;
@@ -82,7 +83,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         ForecastForTenDayBean bean;
         for(int i=0;i<48;i++){
             bean=new ForecastForTenDayBean();
-            bean.setCurMaxTemp(20 + i);
+            bean.setCurMaxTemp(20 + 1);
             bean.setCurMinTemp(20 - i * 2);
             beans.add(bean);
         }
