@@ -5,6 +5,11 @@
     <stroke
         android:width="0.5dip"
         android:color="@color/map_setting_bg" />
+    <padding
+        android:bottom="@dimen/px_20"
+        android:left="@dimen/px_20"
+        android:right="@dimen/px_20"
+        android:top="@dimen/px_20" />
     <corners
         android:bottomLeftRadius="7.0dip"
         android:bottomRightRadius="7.0dip"

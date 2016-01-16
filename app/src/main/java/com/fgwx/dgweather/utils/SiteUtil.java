@@ -1,10 +1,12 @@
 package com.fgwx.dgweather.utils;
 
 import android.content.Context;
+
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.db.SiteDao;
+
 import java.util.List;
 
 /**
@@ -17,14 +19,15 @@ public class SiteUtil {
 
     /**
      * 获取最近的站点
+     *
      * @param context
-     * @param p1  当前的位置
+     * @param p1      当前的位置
      * @return
      */
     public static SiteBean.DataEntity getCloseSite(Context context, LatLng p1) {
         SiteDao siteDao = new SiteDao(context);
         SiteBean.DataEntity closeSite = null;
-        List<SiteBean.DataEntity> list = siteDao.getAddSite();
+        List<SiteBean.DataEntity> list = siteDao.getAllSite();
         double distance = DistanceUtil.getDistance(p1, new LatLng(Double.parseDouble(list.get(0).getLatitude()),
                 Double.parseDouble(list.get(0).getLatitude())));
         for (SiteBean.DataEntity data : list) {
@@ -38,15 +41,26 @@ public class SiteUtil {
     }
 
     /**
-     *
      * @param context
      * @param lat
      * @param lon
      * @return
      */
-    public static SiteBean.DataEntity getCloseSite(Context context, float lat,float lon) {
-        SiteDao siteDao = new SiteDao(context);
+    public static SiteBean.DataEntity getCloseSite(Context context, float lat, float lon) {
         LatLng p1 = new LatLng(lat, lon);
-        return  getCloseSite(context,p1);
+        return getCloseSite(context, p1);
+    }
+
+    /**
+     * 根据站点id查询站点
+     *
+     * @param context
+     * @param code
+     * @return
+     */
+    public static SiteBean.DataEntity getSiteBycode(Context context, String code) {
+        SiteDao siteDao = new SiteDao(context);
+        List<SiteBean.DataEntity> list = siteDao.getSiteBycode(code);
+        return list != null ? list.get(0) : null;
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 	android:id="@+id/rl_loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_half" >
+
+    <com.fgwx.dgweather.view.ProgressWheel
+        xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progress_bar_one"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        ProgressWheel:barColor="#222"
+        ProgressWheel:barLength="30dp"
+        ProgressWheel:barWidth="6dp"
+        ProgressWheel:delayMillis="75"
+        ProgressWheel:rimColor="#4000"
+        ProgressWheel:rimWidth="2dp"
+        ProgressWheel:spinSpeed="20dp"
+        ProgressWheel:textColor="#222222"
+        ProgressWheel:textSize="14sp" />
+
+</RelativeLayout>

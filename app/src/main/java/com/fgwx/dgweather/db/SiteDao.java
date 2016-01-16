@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.utils.LogUtil;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -46,15 +47,33 @@ public class SiteDao {
     /**
      * 获取所有站点
      */
-    public List<SiteBean.DataEntity> getAddSite(){
+    public List<SiteBean.DataEntity> getAllSite() {
         List<SiteBean.DataEntity> list = null;
-
         try {
             list = siteDaoOpe.queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            LogUtil.e("查询所有的站点数据失败-->getAllSite" + e.toString());
         }
         return list;
     }
+
+    /**
+     * 根据站点id获取站点
+     *
+     * @param code 站点id
+     * @return
+     */
+    public List<SiteBean.DataEntity> getSiteBycode(String code) {
+        List<SiteBean.DataEntity> list = null;
+        try {
+            list = siteDaoOpe.queryForEq("_id",code);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LogUtil.e("根据站点id获取站点失败-->getSiteBycode" + e.toString());
+        }
+        return list;
+    }
+
 
 }

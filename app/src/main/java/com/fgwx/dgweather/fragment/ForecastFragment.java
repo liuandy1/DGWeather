@@ -2,6 +2,8 @@ package com.fgwx.dgweather.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.adapter.ForecastSortAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
+import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
@@ -27,14 +30,17 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
+import java.util.logging.LogRecord;
 
 /**
  * Class description goes here.
  *
  * @author liu shanguang (account@sohu-inc.com)
  */
-public class ForecastFragment extends Fragment{
+public class ForecastFragment extends BaseFragment {
 
     private List<View> mViews;
     private BaseActivity mContext;
@@ -43,18 +49,21 @@ public class ForecastFragment extends Fragment{
     private ForecastFirstView mForecastFirstView;
     private ForecastSecondView mForecastSecondView;
     private Gson gson;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragnent_forecast,null,false);
+        View view = inflater.inflate(R.layout.fragnent_forecast, null, false);
         initUI(view);
-       // getAreaData();
+        // getAreaData();
         return view;
     }
+
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mContext= (BaseActivity) activity;
+        mContext = (BaseActivity) activity;
     }
 
     @Override
@@ -64,56 +73,60 @@ public class ForecastFragment extends Fragment{
         setForecastData(getCacheData());
     }
 
-    private void initUI(View view){
-        gson=new Gson();
-        mViews=new ArrayList<>();
-        mViewPager= (WeatherVerticalViewPager) view.findViewById(R.id.vp_home_page_fragment);
+    private void initUI(View view) {
+        gson = new Gson();
+        mViews = new ArrayList<>();
+        mViewPager = (WeatherVerticalViewPager) view.findViewById(R.id.vp_home_page_fragment);
         mForecastFirstView = new ForecastFirstView(mContext);
-        mForecastSecondView =new ForecastSecondView(mContext);
+        mForecastSecondView = new ForecastSecondView(mContext);
         mViews.add(mForecastFirstView);
         mViews.add(mForecastSecondView);
-        adapter=new ForecastSortAdapter(mViews);
+        adapter = new ForecastSortAdapter(mViews);
         mViewPager.setAdapter(adapter);
     }
-    public void setSecondPage(){
+
+    public void setSecondPage() {
         mViewPager.setCurrentItem(1);
     }
 
-    private void setCacheData(HomeForecastBaseBean data){
+    private void setCacheData(HomeForecastBaseBean data) {
         MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA, gson.toJson(data));
     }
-    private HomeForecastBaseBean getCacheData(){
-        String string=MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA,"");
-        if(TextUtils.isEmpty(string)){
+
+    private HomeForecastBaseBean getCacheData() {
+        String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA, "");
+        if (TextUtils.isEmpty(string)) {
             return null;
         }
-        return  gson.fromJson(string,HomeForecastBaseBean.class);
+        return gson.fromJson(string, HomeForecastBaseBean.class);
     }
-    public void getForecastNetData(CityBean cityBean,SiteBean.DataEntity siteBean){
+
+    public void getForecastNetData(CityBean cityBean, SiteBean.DataEntity siteBean) {
+
         TreeMap<String, String> map = new TreeMap<>();
         //if(!TextUtils.isEmpty(cityBean.getId()))
-            map.put("cityId", "441900");//城市Id，必须
+        map.put("cityId", "441900");//城市Id，必须
         //map.put("streetId", null);//街道Id
         //if(!TextUtils.isEmpty(siteBean.getId()))
-            map.put("siteId", "G1991");//站点Id
+        map.put("siteId", "G1991");//站点Id
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
         //map.put("lastExactTime", null);//精确预报最后更新时间
         //map.put("lastSiteTime", null);
         map.put("queryLife", "1");
-        map.put("lastLifeTime","1");
-        map.put("querySun","1");
+        map.put("lastLifeTime", "1");
+        map.put("querySun", "1");
         //map.put("lastSunTime",null);
         WeatherNetUtils.getHomeForecastData(new Response.Listener<HomeForecastBaseBean>() {
             @Override
             public void onResponse(HomeForecastBaseBean response) {
                 LogUtil.e("访问成功了");
-                if(response==null){
+                if (response == null) {
                     return;
                 }
-                int code=response.getCode();
-                switch (code){
+                int code = response.getCode();
+                switch (code) {
                     case 200:
                         setCacheData(response);
                         setForecastData(response);
@@ -133,18 +146,20 @@ public class ForecastFragment extends Fragment{
     }
 
 
-    private void setForecastData(HomeForecastBaseBean homeForecastBaseBean){
-        if(homeForecastBaseBean==null)
+    private void setForecastData(HomeForecastBaseBean homeForecastBaseBean) {
+        if (homeForecastBaseBean == null)
             return;
         setFirstPageData(homeForecastBaseBean);
         setSecondePageData(homeForecastBaseBean);
 
     }
-    private void setFirstPageData(HomeForecastBaseBean homeForecastBaseBean){
-         mForecastFirstView.setFirstForecastData(homeForecastBaseBean);
+
+    private void setFirstPageData(HomeForecastBaseBean homeForecastBaseBean) {
+        mForecastFirstView.setFirstForecastData(homeForecastBaseBean);
     }
-    private void setSecondePageData(HomeForecastBaseBean homeForecastBaseBean){
-         mForecastSecondView.setSecondForecastData(homeForecastBaseBean);
+
+    private void setSecondePageData(HomeForecastBaseBean homeForecastBaseBean) {
+        mForecastSecondView.setSecondForecastData(homeForecastBaseBean);
     }
    /* private void getAreaData(){
         WeatherNetUtils.getAreaData(new Response.Listener<AreaBaseBean>() {

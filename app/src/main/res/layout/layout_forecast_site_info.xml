@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:paddingLeft="@dimen/px_20"
+    android:paddingRight="@dimen/px_20"
+    android:paddingTop="@dimen/px_20">
 
     <LinearLayout
         android:id="@+id/ll_siteInfo_site"
@@ -59,7 +61,7 @@
                 android:id="@+id/tv_siteInfo_type"
                 style="@style/SiteInfoTextStyle"
                 android:layout_below="@id/tv_siteInfo_siteAddr"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/px_30"
                 android:text="实时温度" />
 
             <TextView
@@ -119,10 +121,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/common_line_height"
-        android:layout_below="@id/ll_siteInfo_site"
-        android:layout_marginTop="10dp"
-        android:background="#ECEAEC"/>
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.fgwx.dgweather.db;
 
 import android.content.Context;
+
 import com.fgwx.dgweather.bean.CityBean;
 import com.j256.ormlite.dao.Dao;
 
@@ -61,7 +62,7 @@ public class CityDao {
     /**
      * 获取所有的城市
      */
-    public List<CityBean> getAllCity(){
+    public List<CityBean> getAllCity() {
         List<CityBean> list = null;
         try {
             list = userDaoOpe.queryForAll();
@@ -73,10 +74,11 @@ public class CityDao {
 
     /**
      * 根据城市名获取城市
+     *
      * @param name
      * @return
      */
-    public List<CityBean> getCityByName(String name){
+    public List<CityBean> getCityByName(String name) {
         List<CityBean> list = null;
         try {
             list = userDaoOpe.queryBuilder().where().eq("name", name).query();
@@ -84,5 +86,20 @@ public class CityDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 根据关键字来找城市
+     * @param keyWords
+     * @return
+     */
+    public List<CityBean> getCityByKeyWords(String keyWords) {
+
+        try {
+            return userDaoOpe.queryBuilder().where().like("comment",keyWords).or().like("name",keyWords).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
