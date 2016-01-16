@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -85,6 +87,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private RelativeLayout rvLocal;
     private ImageView ivAirQuality;
     private TextView tvFail;
+    private View siteView;
+    private View weatherView;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -232,6 +236,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(false);
         mMapView.removeViewAt(1);
+//        mMapView.getLocationOnScreen();
 
         mMapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
@@ -248,14 +253,20 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         // 初始化搜索模块，注册事件监听
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(this);
+        mBaiduMap.setOnMapTouchListener(new MyonTouchListener());
+        mBaiduMap.setOnMarkerClickListener(new MyMarkerListener());
     }
 
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
         pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+        siteView = pagerView.findViewById(R.id.layout_site);
+        weatherView = pagerView.findViewById(R.id.ly_home_weather);
+        changeView(weatherView,siteView);
 //        viewPager.setBackgroundResource(R.drawable.bg_qing);
 //        pagerView.setBackgroundResource(R.drawable.bg_qing);
-        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+//        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         View pagerView2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
@@ -367,6 +378,17 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             }
             pointLayout.addView(point);
         }
+    }
+
+    /**
+     * 首页上面的显示天气和显示站点的切换
+     *
+     * @param showView 要显示的view
+     * @param hideView 要隐藏的view
+     */
+    private void changeView(View showView,View hideView){
+        showView.setVisibility(VISIBLE);
+        hideView.setVisibility(GONE);
     }
 
     @Override
@@ -497,9 +519,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 //访问缓存数据
                 return;
             }
-            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
-//            113.676795,22.941322
-//            mCurrentLng = new LatLng(22.941322, 113.676795);
+//            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            113.796164,23.04701
+            mCurrentLng = new LatLng(23.04701, 113.796164);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
@@ -521,6 +543,29 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
 
         public void onReceivePoi(BDLocation poiLocation) {
+        }
+    }
+
+
+    /**
+     * 百度地图触摸事件的监听
+     */
+    private class MyonTouchListener implements BaiduMap.OnMapTouchListener {
+
+        @Override
+        public void onTouch(MotionEvent motionEvent) {
+
+        }
+    }
+
+    private class MyMarkerListener implements BaiduMap.OnMarkerClickListener{
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+
+            changeView(siteView,weatherView);
+
+            return true;
         }
     }
 

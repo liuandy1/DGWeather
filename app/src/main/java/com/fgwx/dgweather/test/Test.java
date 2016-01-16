@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.db.SiteDao;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -30,12 +31,12 @@ public class Test extends AndroidTestCase {
 //            for (BaseCityBean cityBean : citys) {
 //                LogUtil.e("城市名字:" + cityBean.);
 //            }
-        SiteDao dao = new SiteDao(getContext());
-        List<SiteBean.DataEntity> list = dao.getSiteBycode("G1991");
+        CityDao dao = new CityDao(getContext());
+        List<CityBean> list = dao.getCityByKeyWords("中");
         if (list == null) {
             LogUtil.e("没查询到数据");
         }else{
-            for (SiteBean.DataEntity siteBean:list){
+            for (CityBean siteBean:list){
                 LogUtil.e(siteBean.getName()+"");
             }
         }
