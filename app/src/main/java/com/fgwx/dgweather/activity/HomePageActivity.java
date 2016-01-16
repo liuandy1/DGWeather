@@ -26,6 +26,9 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
     public static final int FORECAST_TAB = 0;
     public static final int EARLYWARN_TAB = 1;
     public static final int MONITOR_TAB = 2;
+
+
+
     public static final int INTERACT_TAB = 3;
     public static final int MINE_TAB = 4;
 
