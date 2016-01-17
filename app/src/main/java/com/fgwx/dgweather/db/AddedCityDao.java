@@ -2,7 +2,7 @@ package com.fgwx.dgweather.db;
 
 import android.content.Context;
 
-import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.AddedCityBean;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -14,16 +14,16 @@ import java.util.List;
  * <p/>
  * 城市表的数据库的操作
  */
-public class CityDao {
+public class AddedCityDao {
     private Context context;
-    private Dao<CityBean, Integer> userDaoOpe;
+    private Dao<AddedCityBean, Integer> userDaoOpe;
     private DatabaseHelper helper;
 
-    public CityDao(Context context) {
+    public AddedCityDao(Context context) {
         this.context = context;
         try {
             helper = DatabaseHelper.getHelper(context);
-            userDaoOpe = helper.getDao(CityBean.class);
+            userDaoOpe = helper.getDao(AddedCityBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,9 +34,9 @@ public class CityDao {
      *
      * @param city
      */
-    public void add(CityBean city) {
+    public void add(AddedCityBean city) {
         try {
-            userDaoOpe.create(city);
+            userDaoOpe.createOrUpdate(city);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,9 +48,9 @@ public class CityDao {
      *
      * @return
      */
-    public List<CityBean> getLocalCity() {
+    public List<AddedCityBean> getLocalCity() {
         try {
-            List<CityBean> citys = userDaoOpe.queryBuilder().where().eq("city_local", true).query();
+            List<AddedCityBean> citys = userDaoOpe.queryBuilder().where().eq("city_local", true).query();
 
             return citys;
         } catch (SQLException e) {
@@ -62,8 +62,8 @@ public class CityDao {
     /**
      * 获取所有的城市
      */
-    public List<CityBean> getAllCity() {
-        List<CityBean> list = null;
+    public List<AddedCityBean> getAllCity() {
+        List<AddedCityBean> list = null;
         try {
             list = userDaoOpe.queryForAll();
         } catch (SQLException e) {
@@ -78,8 +78,8 @@ public class CityDao {
      * @param name
      * @return
      */
-    public List<CityBean> getCityByName(String name) {
-        List<CityBean> list = null;
+    public List<AddedCityBean> getCityByName(String name) {
+        List<AddedCityBean> list = null;
         try {
             list = userDaoOpe.queryBuilder().where().eq("name", name).query();
         } catch (SQLException e) {
@@ -94,8 +94,8 @@ public class CityDao {
      * @param keyWords
      * @return
      */
-    public List<CityBean> getCityByKeyWords(String keyWords) {
-        List<CityBean> list = null;
+    public List<AddedCityBean> getCityByKeyWords(String keyWords) {
+        List<AddedCityBean> list = null;
         if (keyWords == null || "".equals(keyWords)) {
             return null;
         }
@@ -105,7 +105,7 @@ public class CityDao {
                 if (list.get(i).getId().length() > 6) {
                     list.get(i).setName(list.get(i).getName() + "，东莞市，广东省");
                 } else if (!"100000".equals(list.get(i).getParentCode())) {
-                    List<CityBean> provinceName = userDaoOpe.queryBuilder().where().eq("_id", list.get(i).getParentCode()).query();
+                    List<AddedCityBean> provinceName = userDaoOpe.queryBuilder().where().eq("_id", list.get(i).getParentCode()).query();
                     list.get(i).setName(list.get(i).getName() + "，" + provinceName.get(0).getName());
                 }
             }

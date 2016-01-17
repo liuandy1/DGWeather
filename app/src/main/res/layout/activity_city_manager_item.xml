@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/px_20">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/icon_map_location" />
+
+    <TextView
+        style="@style/SiteInfoTextStyle"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="东莞市" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_weather_big_rain"/>
+
+    <TextView
+        style="@style/SiteInfoTextStyle"
+        android:layout_marginLeft="@dimen/px_30"
+        android:layout_marginRight="@dimen/px_40"
+        android:text="10"/>
+</LinearLayout>
