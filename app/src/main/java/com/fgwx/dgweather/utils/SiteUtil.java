@@ -63,4 +63,14 @@ public class SiteUtil {
         List<SiteBean.DataEntity> list = siteDao.getSiteBycode(code);
         return list != null ? list.get(0) : null;
     }
+
+    public static String  setSiteBeanIdToStringList(List<SiteBean.DataEntity> dataEntities ){
+        String str="";
+        if(dataEntities==null)return str;
+        for(int i=0;i<dataEntities.size()-1;i++){
+            str=str+dataEntities.get(i).getId()+",";
+        }
+        str=str+dataEntities.get(dataEntities.size()-1);
+        return str;
+    }
 }

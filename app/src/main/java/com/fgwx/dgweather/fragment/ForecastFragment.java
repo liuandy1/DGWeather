@@ -23,6 +23,7 @@ import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.fgwx.dgweather.view.ForecastFirstView;
 import com.fgwx.dgweather.view.ForecastSecondView;
@@ -102,8 +103,9 @@ public class ForecastFragment extends BaseFragment {
         return gson.fromJson(string, HomeForecastBaseBean.class);
     }
 
-    public void getSiteMonitorData(){
+    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities){
         TreeMap<String, String> map = new TreeMap<>();
+        map.put("siteId", SiteUtil.setSiteBeanIdToStringList(dataEntities));
         WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
             @Override
             public void onResponse(SiteMonitorBaseBean response) {
@@ -114,7 +116,7 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        },null);
+        }, null);
     }
     public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 

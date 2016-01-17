@@ -413,6 +413,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         //请求网络信息
         if (mCurrentLng != null)
             mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+            mMainActivity.getSiteMonitorData(null);
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
