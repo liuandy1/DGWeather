@@ -11,4 +11,11 @@ public class Constant {
     public static final String SITESVAED = "site_save";
     public static final String NOWLOCAL = "now_local";
 
+
+    public static final int WIN = 1;
+    public static final int TEM = 2;
+    public static final int RAIN = 3;
+    public static final int HUM = 4;
+
+
 }

@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.db.SiteDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,5 +64,36 @@ public class SiteUtil {
         SiteDao siteDao = new SiteDao(context);
         List<SiteBean.DataEntity> list = siteDao.getSiteBycode(code);
         return list != null ? list.get(0) : null;
+    }
+
+
+    /**
+     * 查询所有的站点
+     *
+     * @param context
+     * @return
+     */
+    public static List<SiteBean.DataEntity> getAllSite(Context context) {
+        SiteDao siteDao = new SiteDao(context);
+        List<SiteBean.DataEntity> list = siteDao.getAllSite();
+        return list != null ? list : null;
+    }
+
+    /**
+     * 获取radium为半径的圆里面的点
+     * @param context
+     * @param radius
+     * @return
+     */
+    public static List<SiteBean.DataEntity> getSiteInCircle(Context context,LatLng pCenter,int radius){
+        List<SiteBean.DataEntity> list = getAllSite(context);
+        ArrayList list1 = new ArrayList();
+        for(SiteBean.DataEntity dataEntity:list){
+            LatLng latLng = new LatLng(Double.parseDouble(dataEntity.getLatitude()),Double.parseDouble(dataEntity.getLongitude()));
+            if (SpatialRelationUtil.isCircleContainsPoint(pCenter, radius, latLng)){
+                list1.add(dataEntity);
+            }
+        }
+        return list1;
     }
 }

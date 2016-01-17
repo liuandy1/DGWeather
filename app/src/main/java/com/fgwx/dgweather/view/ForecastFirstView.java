@@ -29,7 +29,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -99,6 +98,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private boolean isSetLoc = false;
     private MapStatusUpdate mMapStatusUpdate;
     private GeoCoder mSearch;
+    private HomeForecastBean baseBean;
+    private BitmapDescriptor temDescriptor;
+    private BitmapDescriptor winDescriptor;
+    private BitmapDescriptor humDescriptor;
+    private BitmapDescriptor rainDescriptor;
 
     /**
      * 信息预报部分的view
@@ -135,12 +139,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
 
-        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
-        viewPager.addView(w1_move1);
-        new Thread(w1_move1).start();
+//        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
+//        viewPager.addView(w1_move1);
+//        new Thread(w1_move1).start();
 
         if (homeForecastBaseBean != null) {
-
+            baseBean = homeForecastBaseBean.getData();
             try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
@@ -174,17 +178,14 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //                String qua = data.getDays().get(0).getAirQua();
                 char c = qua.charAt(qua.length() - 2);
                 if (c == '优') {
-                    LogUtil.e("空气质量是优");
                     ivAirQuality.setImageResource(R.drawable.icon_air_excellent);
                 } else if (c == '良') {
                     ivAirQuality.setImageResource(R.drawable.icon_air_good);
-                    LogUtil.e("空气质量是良");
                 } else if (c == '差') {
                     ivAirQuality.setImageResource(R.drawable.icon_air_bad);
-                    LogUtil.e("空气质量是差");
                 }
                 tvFail.setVisibility(GONE);
-                addOverSite(siteInfo);
+                addOverSite(siteInfo,Constant.RAIN);
             } catch (Exception e) {
                 LogUtil.e(e.toString());
                 tvFail.setVisibility(VISIBLE);
@@ -194,38 +195,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    private void addOverSite(ForecastMonitorSiteBean siteInfo) {
-        SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
-        LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_map_humidity);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-    }
-
-    private void initUi(View view) {
-        rvLocal = (RelativeLayout) view.findViewById(R.id.rv_top_local);
-        rvLocal.setOnClickListener(this);
-        view.findViewById(R.id.iv_home_full).setOnClickListener(this);
-        view.findViewById(R.id.iv_home_location).setOnClickListener(this);
-        view.findViewById(R.id.ly_home_down).setOnClickListener(this);
-        view.findViewById(R.id.iv_home_more).setOnClickListener(this);
-        view.findViewById(R.id.ib_home_play).setOnClickListener(this);
-        tvHomeCity = (TextView) view.findViewById(R.id.tv_home_city);
-        view.findViewById(R.id.ib_home_share).setOnClickListener(this);
-
-        rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
-        lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager_home);
-        pointLayout = (LinearLayout) view.findViewById(R.id.ll_home_dots);
-        initViewPager();
-        initMap(view);
-    }
 
     private void initMap(View view) {
         mMapView = (MapView) view.findViewById(R.id.map_view_home);
@@ -250,19 +219,77 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         mLocClient.setLocOption(option);
         mLocClient.start();
 
+
+        //构建Marker图标
+        humDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_humidity);
+        temDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_temprature);
+        winDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_wind);
+        rainDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_rainfall);
         // 初始化搜索模块，注册事件监听
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(this);
-        mBaiduMap.setOnMapTouchListener(new MyonTouchListener());
+        mBaiduMap.setOnMapTouchListener(new MyOnTouchListener());
         mBaiduMap.setOnMarkerClickListener(new MyMarkerListener());
+        ;
+        for (SiteBean.DataEntity dataEntity : SiteUtil.getAllSite(mMainActivity))
+            addOverSite(dataEntity);
     }
+
+    private void addOverSite(SiteBean.DataEntity dataEntity) {
+        LatLng point = new LatLng(Double.parseDouble(dataEntity.getLatitude()), Double.parseDouble(dataEntity.getLongitude()));
+
+    }
+
+    private void addOverSite(ForecastMonitorSiteBean siteInfo, int i) {
+        SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
+        LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
+        MarkerOptions option = null;
+        switch (i) {
+            case Constant.TEM:
+            //构建MarkerOption，用于在地图上添加Marker
+                option = new MarkerOptions().position(point).icon(temDescriptor);
+                break;
+
+            case Constant.HUM:
+                option = new MarkerOptions().position(point).icon(humDescriptor);
+                break;
+            case Constant.WIN:
+                option = new MarkerOptions().position(point).icon(winDescriptor);
+                break;
+            case Constant.RAIN:
+                option = new MarkerOptions().position(point).icon(rainDescriptor);
+                break;
+        }
+        //在地图上添加Marker，并显示
+        mBaiduMap.addOverlay(option);
+    }
+
+    private void initUi(View view) {
+        rvLocal = (RelativeLayout) view.findViewById(R.id.rv_top_local);
+        rvLocal.setOnClickListener(this);
+        view.findViewById(R.id.iv_home_full).setOnClickListener(this);
+        view.findViewById(R.id.iv_home_location).setOnClickListener(this);
+        view.findViewById(R.id.ly_home_down).setOnClickListener(this);
+        view.findViewById(R.id.iv_home_more).setOnClickListener(this);
+        view.findViewById(R.id.ib_home_play).setOnClickListener(this);
+        tvHomeCity = (TextView) view.findViewById(R.id.tv_home_city);
+        view.findViewById(R.id.ib_home_share).setOnClickListener(this);
+
+        rvHomeInfo = (RelativeLayout) view.findViewById(R.id.rv_home_info);
+        lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager_home);
+        pointLayout = (LinearLayout) view.findViewById(R.id.ll_home_dots);
+        initViewPager();
+        initMap(view);
+    }
+
 
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
         pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         siteView = pagerView.findViewById(R.id.layout_site);
         weatherView = pagerView.findViewById(R.id.ly_home_weather);
-        changeView(weatherView,siteView);
+        changeView(weatherView, siteView);
 //        viewPager.setBackgroundResource(R.drawable.bg_qing);
 //        pagerView.setBackgroundResource(R.drawable.bg_qing);
 //        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
@@ -386,7 +413,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
      * @param showView 要显示的view
      * @param hideView 要隐藏的view
      */
-    private void changeView(View showView,View hideView){
+    private void changeView(View showView, View hideView) {
         showView.setVisibility(VISIBLE);
         hideView.setVisibility(GONE);
     }
@@ -519,7 +546,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 //访问缓存数据
                 return;
             }
-//            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+            int[] locations = new int[2];
+            mMapView.getLocationOnScreen(locations);
+//            Point mBaiduMapStartPosition = new Point(locations[0], locations[1]);
+//            Point mBaiduMapCenterPosition = new Point((locations[0] + mMapView.getWidth()) / 2, locations[1]
+//                    + mMapView.getHeight() / 2);
+//            LatLng cent = mBaiduMap.getProjection().fromScreenLocation(mBaiduMapCenterPosition);
+            //            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.796164,23.04701
             mCurrentLng = new LatLng(23.04701, 113.796164);
 
@@ -535,6 +568,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 LatLng ll = new LatLng(mCurrentLng.latitude, mCurrentLng.longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
+
             }
             if (!isSetLoc) {
                 // 反Geo搜索
@@ -550,7 +584,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     /**
      * 百度地图触摸事件的监听
      */
-    private class MyonTouchListener implements BaiduMap.OnMapTouchListener {
+    private class MyOnTouchListener implements BaiduMap.OnMapTouchListener {
 
         @Override
         public void onTouch(MotionEvent motionEvent) {
@@ -558,12 +592,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    private class MyMarkerListener implements BaiduMap.OnMarkerClickListener{
+    private class MyMarkerListener implements BaiduMap.OnMarkerClickListener {
 
         @Override
         public boolean onMarkerClick(Marker marker) {
 
-            changeView(siteView,weatherView);
+            changeView(siteView, weatherView);
 
             return true;
         }
@@ -594,9 +628,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.ib_home_play:
                 //判断有没有网络，语音播报需要网络合成
-                if (NetWorkUtil.isNetworkAvailable(getContext()))
-                    broadWeather("你好啊，今天天气不错！");
-                else
+                /**
+                 * 亲！好的天气带来好的心情！东莞天气为您播报，东莞今天的天气是晴间多云，温度12到15度，西北风2到3级。
+                 */
+                if (NetWorkUtil.isNetworkAvailable(getContext())) {
+                    String weatherStr = "亲！好的天气带来好的心情！东莞天气为您播报，" + tvHomeCity.getText().toString() +
+                            "今天的天气是" + baseBean.getDays().get(0).getWeaDesc() + ","
+                            + baseBean.getSite().getMinTemp() + "℃到" + baseBean.getSite().getMaxTemp() + "℃,"
+                            + baseBean.getSite().getSpeedDir();
+                    broadWeather(weatherStr);
+                } else
                     Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rv_top_local:
