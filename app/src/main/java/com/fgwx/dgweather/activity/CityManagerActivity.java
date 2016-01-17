@@ -21,13 +21,14 @@ public class CityManagerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
 
         switch (v.getId()) {
-           /* case R.id.btn_add_city:
+//            case R.id.btn_add_city:
 //                startActivity(new Intent(this, AddCityActivity.class));
-                break;*/
+//                break;
         }
     }
-    public static void starCityManagerActivity(Context context){
-        Intent intent=new Intent(context,CityManagerActivity.class);
+
+    public static void starCityManagerActivity(Context context) {
+        Intent intent = new Intent(context, CityManagerActivity.class);
         context.startActivity(intent);
     }
 }

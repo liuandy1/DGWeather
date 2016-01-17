@@ -1,9 +1,11 @@
 package com.fgwx.dgweather.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by senghor on 2016/1/17.
  */
-public class SiteMonitorBean {
+public class SiteMonitorBean implements Serializable{
     private String airTemp;
     private String area;
     private String city;
