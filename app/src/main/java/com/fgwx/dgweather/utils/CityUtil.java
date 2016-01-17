@@ -66,7 +66,7 @@ public class CityUtil {
         return city[0];
     }
 
-    public List<CityBean> getCityByKeyWords(Context context, String keyWords){
+    public static List<CityBean> getCityByKeyWords(Context context, String keyWords){
        return new CityDao(context).getCityByKeyWords(keyWords);
     }
 }
