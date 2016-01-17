@@ -20,6 +20,7 @@ import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
@@ -101,14 +102,28 @@ public class ForecastFragment extends BaseFragment {
         return gson.fromJson(string, HomeForecastBaseBean.class);
     }
 
-    public void getForecastNetData(CityBean cityBean, SiteBean.DataEntity siteBean) {
+    public void getSiteMonitorData(){
+        TreeMap<String, String> map = new TreeMap<>();
+        WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
+            @Override
+            public void onResponse(SiteMonitorBaseBean response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        },null);
+    }
+    public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();
-        //if(!TextUtils.isEmpty(cityBean.getId()))
-        map.put("cityId", "441900");//城市Id，必须
+        if(!TextUtils.isEmpty(cityBean.getId()))
+        map.put("cityId", cityBean.getId());//城市Id，必须
         //map.put("streetId", null);//街道Id
-        //if(!TextUtils.isEmpty(siteBean.getId()))
-        map.put("siteId", "G1991");//站点Id
+        if(!TextUtils.isEmpty(siteBean.getId()))
+        map.put("siteId", siteBean.getId());//站点Id
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
@@ -128,6 +143,8 @@ public class ForecastFragment extends BaseFragment {
                 int code = response.getCode();
                 switch (code) {
                     case 200:
+                        //时间
+                        response.getData().setCityName(cityBean.getName());
                         setCacheData(response);
                         setForecastData(response);
                         break;

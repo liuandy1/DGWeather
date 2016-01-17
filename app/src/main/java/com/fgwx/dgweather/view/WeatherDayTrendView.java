@@ -64,10 +64,7 @@ public class WeatherDayTrendView extends View {
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
     public void setDataBean(List<ForecastForTenDayBean> beans){
-        if(beans.size()>10)mbeans=beans.subList(0,10);
-        else {
         mbeans=beans;
-        }
         mPointXs=new float[mbeans.size()];
         for(int i=0;i<mbeans.size();i++){
             mPointXs[i]=multipleX/2+multipleX*i;

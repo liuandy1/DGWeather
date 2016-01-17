@@ -42,4 +42,8 @@
     <color name="button_bg_blue">#094375</color>
     <!-- 半透明 -->
     <color name="transparent_half">#99000000</color>
+
+    <drawable name="common_host_list_background">#b2132b3d</drawable>
+    <drawable name="common_alpha_white">#00000000</drawable>
+
 </resources>

@@ -16,6 +16,9 @@
             android:layout_height="@dimen/px_112">
 
             <ImageView
+                android:padding="@dimen/px_10"
+                android:clickable="true"
+                android:background="@drawable/selector_common_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -23,6 +26,9 @@
                 android:src="@drawable/icon_play" />
 
             <ImageView
+                android:padding="@dimen/px_10"
+                android:clickable="true"
+                android:background="@drawable/selector_common_button"
                 android:id="@+id/iv_forcast_more_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,6 +38,9 @@
                 android:src="@drawable/icon_more" />
 
             <ImageView
+                android:padding="@dimen/px_10"
+                android:clickable="true"
+                android:background="@drawable/selector_common_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -40,11 +49,17 @@
                 android:src="@drawable/icon_share" />
 
             <TextView
+                android:text="未知"
+                android:clickable="true"
+                android:background="@drawable/selector_common_button"
+                android:drawablePadding="@dimen/px_10"
+                android:drawableRight="@drawable/icon_city_add"
+                android:id="@+id/tv_city_name"
                 style="@style/CommonTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="松山湖" />
+                />
         </RelativeLayout>
 
         <LinearLayout
@@ -138,41 +153,51 @@
                         android:layout_height="match_parent">
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <com.fgwx.dgweather.view.PerDayWeatherView
+                            android:id="@+id/wv_per_day_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

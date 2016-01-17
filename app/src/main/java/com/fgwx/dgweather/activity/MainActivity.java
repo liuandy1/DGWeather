@@ -258,6 +258,7 @@ public class MainActivity extends BaseActivity {
     public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
         if (mForecastFragment != null)
             mForecastFragment.getForecastNetData(cityBean, siteBean);
+            mForecastFragment.getSiteMonitorData();
     }
 
 }

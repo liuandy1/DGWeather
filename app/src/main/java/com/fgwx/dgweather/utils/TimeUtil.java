@@ -20,7 +20,24 @@ public class TimeUtil {
         Long time = Long.parseLong(dateStr);
         LogUtil.e("longtime"+time);
         Date date = longToDate(time);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E  MM月dd日");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日  E");
+        return dateFormat.format(date);
+    }
+
+      public static String perDaystrToDateStr(String dateStr) {
+        Long time = Long.parseLong(dateStr);
+        LogUtil.e("longtime"+time);
+        Date date = longToDate(time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd'\n'E");
+        return dateFormat.format(date);
+    }
+
+
+    public static String hourstrToDateStr(String dateStr) {
+        Long time = Long.parseLong(dateStr);
+        LogUtil.e("longtime"+time);
+        Date date = longToDate(time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("H:m");
         return dateFormat.format(date);
     }
 
