@@ -20,6 +20,7 @@ import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
@@ -101,6 +102,20 @@ public class ForecastFragment extends BaseFragment {
         return gson.fromJson(string, HomeForecastBaseBean.class);
     }
 
+    public void getSiteMonitorData(){
+        TreeMap<String, String> map = new TreeMap<>();
+        WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
+            @Override
+            public void onResponse(SiteMonitorBaseBean response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        },null);
+    }
     public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
@@ -135,7 +136,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case id.tv_city_name:
-                CityManagerActivity.starCityManagerActivity(mMainActivity);
+                AddCityActivity.starAddCityActivity(mMainActivity);
                 break;
 
         }

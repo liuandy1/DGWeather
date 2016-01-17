@@ -1,5 +1,7 @@
 package com.fgwx.dgweather.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -129,5 +131,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 hotAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    public static void starAddCityActivity(Context context){
+        Intent intent=new Intent(context,AddCityActivity.class);
+        context.startActivity(intent);
     }
 }
