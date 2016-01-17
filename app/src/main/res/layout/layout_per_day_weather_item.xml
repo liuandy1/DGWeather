@@ -34,6 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
  <TextView
+     android:paddingRight="@dimen/px_4"
+     android:paddingLeft="@dimen/px_4"
      style="@style/CommonTextStyle"
      android:id="@+id/tv_per_day_weather_wind_description"
      android:layout_marginBottom="@dimen/px_24"

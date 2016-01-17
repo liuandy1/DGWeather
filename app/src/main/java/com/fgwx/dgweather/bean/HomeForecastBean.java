@@ -6,11 +6,28 @@ import java.util.List;
  * Created by senghor on 2016/1/2.
  */
 public class HomeForecastBean {
+     private String cityName;
      private List<ForecastForTenDayBean> days;
-     private ForecastForHourBean hours;
+     private List<ForecastForHourBean> exacts;
      private ForecastEarlyWarnBean warn;
      private ForecastPeopleLifeBean life;
      private ForecastMonitorSiteBean site;
+
+     public String getCityName() {
+          return cityName;
+     }
+
+     public void setCityName(String cityName) {
+          this.cityName = cityName;
+     }
+
+     public List<ForecastForHourBean> getExacts() {
+          return exacts;
+     }
+
+     public void setExacts(List<ForecastForHourBean> exacts) {
+          this.exacts = exacts;
+     }
 
      public List<ForecastForTenDayBean> getDays() {
           return days;
@@ -20,13 +37,6 @@ public class HomeForecastBean {
           this.days = days;
      }
 
-     public ForecastForHourBean getHours() {
-          return hours;
-     }
-
-     public void setHours(ForecastForHourBean hours) {
-          this.hours = hours;
-     }
 
      public ForecastEarlyWarnBean getWarn() {
           return warn;
