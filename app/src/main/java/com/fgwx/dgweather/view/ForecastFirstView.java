@@ -46,6 +46,7 @@ import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -133,6 +134,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initUi(view);
     }
 
+    public void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean){
+
+    }
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
 
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);

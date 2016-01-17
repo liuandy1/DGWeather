@@ -109,14 +109,14 @@ public class ForecastFragment extends BaseFragment {
         WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
             @Override
             public void onResponse(SiteMonitorBaseBean response) {
-
+                setSiteMonitorData(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
             }
-        }, null);
+        }, map);
     }
     public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 
@@ -170,13 +170,16 @@ public class ForecastFragment extends BaseFragment {
             return;
         setFirstPageData(homeForecastBaseBean);
         setSecondePageData(homeForecastBaseBean);
-
     }
 
+    private void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
+        if (siteMonitorBaseBean == null)
+            return;
+        mForecastFirstView.setSiteMonitorData(siteMonitorBaseBean);
+    }
     private void setFirstPageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastFirstView.setFirstForecastData(homeForecastBaseBean);
     }
-
     private void setSecondePageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastSecondView.setSecondForecastData(homeForecastBaseBean);
     }
