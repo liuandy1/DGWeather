@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
@@ -67,7 +68,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             hotList.add(hotListAll.get(j));
         }
 
-        dgListData.addAll(dgListAll);
+        dgListData.addAll(dgList);
         hotListData.addAll(hotList);
 
         dgAdapter = new CityAddAdapter(this, dgListData);
@@ -133,5 +134,13 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     public static void starAddCityActivity(Context context){
         Intent intent=new Intent(context,AddCityActivity.class);
         context.startActivity(intent);
+    }
+
+    public class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 }
