@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
+import com.fgwx.dgweather.bean.MapSettingBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.bean.SiteMonitorBean;
@@ -58,6 +60,7 @@ import com.fgwx.dgweather.utils.NetWorkUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
+import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
@@ -114,6 +117,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
      * 信息预报部分的view
      */
     private View pagerView;
+    private List<SiteMonitorBean> sites;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -141,12 +145,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     public void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
 
-        List<SiteMonitorBean> sites = siteMonitorBaseBean.getData();
-        if (sites != null && sites.size() > 0) {
-            for (SiteMonitorBean bean : sites)
-                addOverSite(bean, Constant.TEM);
-        } else {
-            LogUtil.e("没有拿到数据");
+        sites = siteMonitorBaseBean.getData();
+        String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, null);
+        if(!TextUtils.isEmpty(set)){
+            MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
+            addOverSite(sites, bean.getSiteType());
+        }else {
+            addOverSite(sites, Constant.TEM);
         }
     }
 
@@ -247,44 +252,42 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         mBaiduMap.setOnMapTouchListener(new MyOnTouchListener());
         mBaiduMap.setOnMarkerClickListener(new MyMarkerListener());
 
-//        for (SiteBean.DataEntity dataEntity : SiteUtil.getAllSite(mMainActivity))
-//            addOverSite(dataEntity);
     }
 
-    private void addOverSite(SiteBean.DataEntity dataEntity) {
-        LatLng point = new LatLng(Double.parseDouble(dataEntity.getLatitude()), Double.parseDouble(dataEntity.getLongitude()));
 
-    }
+    private void addOverSite(List<SiteMonitorBean> list, int i) {
+        if (list != null && list.size() > 0) {
+            for (SiteMonitorBean siteInfo : list) {
+                SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
+                LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
+                MarkerOptions option = null;
+                switch (i) {
+                    case Constant.TEM:
+                        //构建MarkerOption，用于在地图上添加Marker
+                        option = new MarkerOptions().position(point).icon(temDescriptor);
+                        current = Constant.TEM;
+                        break;
 
-    private void addOverSite(SiteMonitorBean siteInfo, int i) {
-        SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
-        LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
-        MarkerOptions option = null;
-        switch (i) {
-            case Constant.TEM:
-                //构建MarkerOption，用于在地图上添加Marker
-                option = new MarkerOptions().position(point).icon(temDescriptor);
-                current = Constant.TEM;
-                break;
-
-            case Constant.HUM:
-                option = new MarkerOptions().position(point).icon(humDescriptor);
-                current = Constant.HUM;
-                break;
-            case Constant.WIN:
-                option = new MarkerOptions().position(point).icon(winDescriptor);
-                current = Constant.WIN;
-                break;
-            case Constant.RAIN:
-                option = new MarkerOptions().position(point).icon(rainDescriptor);
-                current = Constant.RAIN;
-                break;
+                    case Constant.HUM:
+                        option = new MarkerOptions().position(point).icon(humDescriptor);
+                        current = Constant.HUM;
+                        break;
+                    case Constant.WIN:
+                        option = new MarkerOptions().position(point).icon(winDescriptor);
+                        current = Constant.WIN;
+                        break;
+                    case Constant.RAIN:
+                        option = new MarkerOptions().position(point).icon(rainDescriptor);
+                        current = Constant.RAIN;
+                        break;
+                }
+                //在地图上添加Marker，并显示
+                Overlay marker = mBaiduMap.addOverlay(option);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("site", siteInfo);
+                marker.setExtraInfo(bundle);
+            }
         }
-        //在地图上添加Marker，并显示
-        Overlay marker = mBaiduMap.addOverlay(option);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("site", siteInfo);
-        marker.setExtraInfo(bundle);
     }
 
     private void initUi(View view) {
@@ -389,9 +392,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     }
 
     public void showPopupwindow(HomeCallBack callBack) {
-        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(mMainActivity);
+        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(mMainActivity, callBack);
         popupWindown.showAtLocation(mMainActivity.findViewById(R.id.ll), Gravity.CENTER, 0, 0);
-        callBack.callBack(1);
     }
 
     /**
@@ -555,7 +557,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         oks.setSite(mMainActivity.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.baidu.com");
-
         // 启动分享GUI
         oks.show(mMainActivity);
     }
@@ -650,11 +651,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             int distance = (int) DistanceUtil.getDistance(mCurrentLng,
                     new LatLng(Double.parseDouble(local.getLatitude()),
                             Double.parseDouble(local.getLongitude())));
-            if(distance>1000){
-                distance = distance/1000;
-                disStr = distance+"千米";
-            }else {
-                disStr = distance+"";
+            if (distance > 1000) {
+                distance = distance / 1000;
+                disStr = distance + "千米";
+            } else {
+                disStr = distance + "";
             }
             tv_siteInfo_siteDistance.setText("距离" + disStr);
             tv_siteInfo_siteName.setText(local.getName());
@@ -663,12 +664,34 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             switch (current) {
                 case Constant.RAIN:
 
+                    tv_siteInfo_type.setText("实时雨量");
+                    tv_siteInfo_value1.setText(siteBean.getHourRain() + "ml");
+                    tv_dgree.setVisibility(GONE);
+                    tv_siteInfo_value2.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                    tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
+                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
                     break;
                 case Constant.HUM:
+
+
+                    tv_siteInfo_type.setText("相对湿度");
+                    tv_siteInfo_value1.setText(siteBean.getRelativeWet());
+                    tv_dgree.setVisibility(VISIBLE);
+                    tv_dgree.setText("%");
+                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
+                    tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                    tv_siteInfo_value4.setText("风力风向  " + siteBean.getSpeedDir());
 
                     break;
                 case Constant.WIN:
 
+
+                    tv_siteInfo_type.setText("风力风向");
+                    tv_siteInfo_value1.setText(siteBean.getSpeedDir());
+                    tv_dgree.setVisibility(GONE);
+                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
+                    tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
                     break;
                 case Constant.TEM:
 
@@ -676,8 +699,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                     tv_siteInfo_value1.setText(siteBean.getAirTemp());
                     tv_dgree.setVisibility(VISIBLE);
                     tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
-                    tv_siteInfo_value3.setText("风力风向  "+siteBean.getSpeedDir());
-                    tv_siteInfo_value4.setText("风力风向  "+siteBean.getRelativeWet());
+                    tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
+                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
 
                     break;
             }
@@ -704,7 +727,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 showPopupwindow(new HomeCallBack() {
                     @Override
                     public void callBack(int a) {
-
+                        refreshOver(a);
                     }
                 });
                 break;
@@ -735,5 +758,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void refreshOver(int a) {
+        mBaiduMap.clear();
+        addOverSite(sites, a);
     }
 }

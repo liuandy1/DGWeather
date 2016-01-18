@@ -20,6 +20,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseFragment;
+import com.fgwx.dgweather.base.HomeCallBack;
 import com.fgwx.dgweather.bean.MapSettingBean;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -39,10 +41,11 @@ public class MapSettingPopupwindow extends PopupWindow {
     private LinearLayout ll_layout, ll_layout_content;
 
     private MapSettingBean bean;
-    private int siteType;
+    private HomeCallBack callBack;
 
-    public MapSettingPopupwindow(Activity context) {
+    public MapSettingPopupwindow(Activity context,HomeCallBack callBack) {
         super(context);
+        this.callBack = callBack;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -191,6 +194,7 @@ public class MapSettingPopupwindow extends PopupWindow {
                     bean.setRealWeather(cb_realTimeWeather.isChecked());
                     bean.setRefudge(cb_refudge.isChecked());
                     MPreferencesUtil.getInstance().setValue(Constant.MAPSETTING,gson.toJson(bean));
+                    callBack.callBack(bean.getSiteType());
                     dismiss();
                     break;
                 case R.id.ll_layout_mapsetting:
