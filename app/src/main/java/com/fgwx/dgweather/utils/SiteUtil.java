@@ -92,6 +92,7 @@ public class SiteUtil {
             LatLng latLng = new LatLng(Double.parseDouble(dataEntity.getLatitude()),Double.parseDouble(dataEntity.getLongitude()));
             if (SpatialRelationUtil.isCircleContainsPoint(pCenter, radius, latLng)){
                 list1.add(dataEntity);
+                LogUtil.e("在圆范围内:"+dataEntity.getName());
             }
         }
         return list1;

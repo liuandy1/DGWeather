@@ -29,7 +29,7 @@ public class WeatherNetUtils {
    }
     //站点监测数据
     public static void getSiteMonitorData(Response.Listener<SiteMonitorBaseBean> listener,Response.ErrorListener errorListener,TreeMap<String,String> map){
-        WeatherRequest<SiteMonitorBaseBean> request=new WeatherRequest<SiteMonitorBaseBean>(URL_HOME_FORECAST,SiteMonitorBaseBean.class,listener,map,errorListener);
+        WeatherRequest<SiteMonitorBaseBean> request=new WeatherRequest<SiteMonitorBaseBean>(URL_MONITOR,SiteMonitorBaseBean.class,listener,map,errorListener);
         VolleySingleton.getInstance().addToRequestQueue(request);
     }
 

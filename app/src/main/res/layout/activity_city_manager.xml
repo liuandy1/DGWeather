@@ -6,9 +6,10 @@
     android:orientation="vertical"
     tools:context="com.fgwx.dgweather.activity.CityManagerActivity">
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_title_bar"/>
+    <com.fgwx.dgweather.view.DeleteListView
+        android:id="@+id/dlv_cityManager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.fgwx.dgweather.utils;
 
+import java.util.List;
+
 import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
@@ -10,9 +12,6 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.db.CityDao;
-import com.fgwx.dgweather.db.SiteDao;
-
-import java.util.List;
 
 /**
  * 作者：燕青 $ on 16/1/10 18:20
@@ -66,7 +65,15 @@ public class CityUtil {
         return city[0];
     }
 
-    public List<CityBean> getCityByKeyWords(Context context, String keyWords){
+    public static List<CityBean> getCityByKeyWords(Context context, String keyWords){
        return new CityDao(context).getCityByKeyWords(keyWords);
+    }
+
+    public static List<CityBean> getHotCity(Context context){
+        return new CityDao(context).getHotCity();
+    }
+
+    public static List<CityBean> getLocalCity(Context context){
+        return new CityDao(context).getLocalCity();
     }
 }

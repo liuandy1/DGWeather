@@ -18,4 +18,6 @@ public class Constant {
     public static final int HUM = 4;
 
 
+    public static final String MAPSETTING = "mapSetting";
+
 }
