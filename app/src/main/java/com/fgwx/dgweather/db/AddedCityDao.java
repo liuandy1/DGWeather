@@ -44,6 +44,20 @@ public class AddedCityDao {
     }
 
     /**
+     * 增加一个城市
+     *
+     * @param city
+     */
+    public void deleteCity(AddedCityBean city) {
+        try {
+            userDaoOpe.delete(city);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * 获取东莞本地的城市
      *
      * @return

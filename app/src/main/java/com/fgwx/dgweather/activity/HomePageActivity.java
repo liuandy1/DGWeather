@@ -53,7 +53,6 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
     private ImageButton mIbMonitor;
     private ImageButton mIbInteract;
     private ImageButton mIbMine;
-
     private TextView mTvForecast;
     private TextView mTvEarlyWarn;
     private TextView mTvMonitor;
@@ -79,6 +78,7 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
             mMonitorFragment = (MonitorFragment) fragmentManager.findFragmentByTag(MONITOR_TAG);
             mInteractFragment = (InteractFragment) fragmentManager.findFragmentByTag(INTERACT_TAG);
         }
+
     }
 
 

@@ -32,7 +32,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/shape_white_solid"
@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:hint="搜索地区"
-                        android:padding="@dimen/px_4"
+                        android:padding="@dimen/px_20"
                         android:textColorHint="@color/add_city_text_gray"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -76,7 +76,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_100"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/px_20"
             android:layout_marginTop="@dimen/px_20"
             android:gravity="center"
             android:orientation="vertical"
@@ -88,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px_40"
             android:layout_marginRight="@dimen/px_40"
+            android:layout_marginTop="@dimen/px_20"
             android:horizontalSpacing="@dimen/px_40"
             android:numColumns="3"
             android:verticalSpacing="@dimen/px_20" />

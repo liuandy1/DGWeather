@@ -48,6 +48,10 @@ public class AddedCityUtil {
         new AddedCityDao(context).add(toAddedCityBean(bean));
     }
 
+    public static void deleteCity(Context context,CityBean bean){
+        new AddedCityDao(context).deleteCity(toAddedCityBean(bean));
+    }
+
     public static AddedCityBean toAddedCityBean(CityBean bean) {
         AddedCityBean city = new AddedCityBean();
         try {
