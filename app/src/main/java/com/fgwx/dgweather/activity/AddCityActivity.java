@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -18,6 +20,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.adapter.CityAddAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.view.AdapterScroGridView;
@@ -34,16 +37,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     private CityAddAdapter dgAdapter, hotAdapter;
     private Button bt_openAll;
     private boolean isOpen = false, isOpenAll = false;
-    private List<CityBean> dgListData, dgList,  hotListData, hotList, dgListAll, hotListAll;
-
-    private LinearLayout lyAddDg;
-//    private String[] dgName = {"莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
-//            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
-//    private String[] hotName = {"大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园", "莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
-//            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
+    private List<CityBean> dgListData, dgList, hotListData, hotList, dgListAll, hotListAll;
+    private ImageButton ib_back;
+    private EditText et_search;
+    private TextView tv_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +80,31 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
         asgv_hotCity = (AdapterScroGridView) findViewById(R.id.asgv_hotCity);
         tv_openOrClose = (TextView) findViewById(R.id.tv_openOrClose);
         bt_openAll = (Button) findViewById(R.id.bt_openAll);
+        ib_back = (ImageButton) findViewById(R.id.ib_add_city_back);
+        et_search = (EditText) findViewById(R.id.et_addCity_search);
+        tv_search = (TextView) findViewById(R.id.tv_search);
 
         bt_openAll.setOnClickListener(this);
         tv_openOrClose.setOnClickListener(this);
+        ib_back.setOnClickListener(this);
+        et_search.setOnClickListener(this);
+        tv_search.setOnClickListener(this);
+
+        asgv_dongguanCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
+                startActivity(new Intent(AddCityActivity.this,MainActivity.class));
+            }
+        });
+        asgv_hotCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
+                startActivity(new Intent(AddCityActivity.this, MainActivity.class));
+            }
+        });
     }
 
     @Override
@@ -112,7 +131,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                     tv_openOrClose.setText(getResources().getString(R.string.close));
                 }
                 dgAdapter.notifyDataSetChanged();
-                LogUtil.e("AAA",dgListData.size()+"");
+                LogUtil.e("AAA", dgListData.size() + "");
                 break;
             case R.id.bt_openAll:
                 if (isOpenAll) {
@@ -128,19 +147,21 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 }
                 hotAdapter.notifyDataSetChanged();
                 break;
+            case R.id.ib_add_city_back:
+                finish();
+                break;
+            case R.id.et_addCity_search:
+                startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
+                break;
+            case R.id.tv_search:
+                startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
+                break;
         }
     }
 
-    public static void starAddCityActivity(Context context){
-        Intent intent=new Intent(context,AddCityActivity.class);
+    public static void starAddCityActivity(Context context) {
+        Intent intent = new Intent(context, AddCityActivity.class);
         context.startActivity(intent);
     }
 
-    public class MyOnItemClickListener implements AdapterView.OnItemClickListener{
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-    }
 }
