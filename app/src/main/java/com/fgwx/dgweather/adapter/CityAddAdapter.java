@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -22,8 +23,12 @@ public class CityAddAdapter extends BaseAdapter {
     private List list;
     private Context context;
 
-    public CityAddAdapter(Context context, List list) {
-        this.list = list;
+    public CityAddAdapter(Context context, List<CityBean> beans) {
+        LogUtil.e("bbb",beans.size()+"");
+        this.list = new ArrayList();
+        for(CityBean bean:beans){
+            this.list.add(bean.getName());
+        }
         this.context = context;
     }
 
@@ -37,6 +42,7 @@ public class CityAddAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        LogUtil.e("aaa",list.size()+"");
         return list.size();
     }
 

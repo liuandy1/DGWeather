@@ -50,8 +50,7 @@ public class CityDao {
      */
     public List<CityBean> getLocalCity() {
         try {
-            List<CityBean> citys = userDaoOpe.queryBuilder().where().eq("city_local", true).query();
-
+            List<CityBean> citys = userDaoOpe.queryBuilder().where().eq("isLocal", 1).query();
             return citys;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,6 +69,18 @@ public class CityDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 获取热门城市
+     */
+    public List<CityBean> getHotCity() {
+        try {
+            return userDaoOpe.queryBuilder().where().eq("isHot", 1).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.adapter.CityAddAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
+import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.view.AdapterScroGridView;
 import com.fgwx.dgweather.view.AdapterScroListView;
@@ -31,16 +33,16 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     private CityAddAdapter dgAdapter, hotAdapter;
     private Button bt_openAll;
     private boolean isOpen = false, isOpenAll = false;
-    private List dgListData, dgList, dgListAll, hotListData, hotList, hotListAll;
+    private List<CityBean> dgListData, dgList,  hotListData, hotList, dgListAll, hotListAll;
 
     private LinearLayout lyAddDg;
-    private String[] dgName = {"莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
-            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
-    private String[] hotName = {"大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园", "莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
-            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
-            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
+//    private String[] dgName = {"莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
+//            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
+//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
+//    private String[] hotName = {"大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
+//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园", "莞城", "石龙", "虎门", "东城", "万江", "南城", "中堂", "望牛墩", "麻涌", "石碣", "高埗", "洪梅" +
+//            "道滘", "厚街", "沙田", "长安", "寮步", "大岭山", "大朗", "黄江", "樟木头", "凤岗", "塘厦", "谢岗", "清溪", "常平", "桥头", "横沥" +
+//            "东坑", "企石", "石排", "茶山", "松山湖", "虎门港", "生态园"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +53,18 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCityData() {
-        dgList = new ArrayList();
-        dgListAll = new ArrayList();
-        dgListData = new ArrayList();
-        hotList = new ArrayList();
-        hotListAll = new ArrayList();
-        hotListData = new ArrayList();
-        for (int i = 0; i < dgName.length; i++) {
-            if (i < 12) {
-                dgList.add(dgName[i]);
-            }
-            dgListAll.add(dgName[i]);
+        dgList = new ArrayList<CityBean>();
+        dgListAll = CityUtil.getLocalCity(AddCityActivity.this);
+        dgListData = new ArrayList<CityBean>();
+        hotList = new ArrayList<CityBean>();
+        hotListAll = CityUtil.getHotCity(AddCityActivity.this);
+        hotListData = new ArrayList<CityBean>();
+        for (int i = 0; i < 12; i++) {
+            dgList.add(dgListAll.get(i));
         }
 
-        for (int j = 0; j < hotName.length; j++) {
-            if (j < 18) {
-                hotList.add(hotName[j]);
-            }
-            hotListAll.add(hotName[j]);
+        for (int j = 0; j < 18; j++) {
+            hotList.add(hotListAll.get(j));
         }
 
         dgListData.addAll(dgList);
@@ -115,6 +111,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                     tv_openOrClose.setText(getResources().getString(R.string.close));
                 }
                 dgAdapter.notifyDataSetChanged();
+                LogUtil.e("AAA",dgListData.size()+"");
                 break;
             case R.id.bt_openAll:
                 if (isOpenAll) {
