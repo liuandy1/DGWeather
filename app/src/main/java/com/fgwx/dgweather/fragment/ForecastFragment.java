@@ -20,8 +20,10 @@ import com.fgwx.dgweather.base.BaseFragment;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.fgwx.dgweather.view.ForecastFirstView;
 import com.fgwx.dgweather.view.ForecastSecondView;
@@ -101,14 +103,29 @@ public class ForecastFragment extends BaseFragment {
         return gson.fromJson(string, HomeForecastBaseBean.class);
     }
 
-    public void getForecastNetData(CityBean cityBean, SiteBean.DataEntity siteBean) {
+    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities){
+        TreeMap<String, String> map = new TreeMap<>();
+        map.put("siteId", SiteUtil.setSiteBeanIdToStringList(dataEntities));
+        WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
+            @Override
+            public void onResponse(SiteMonitorBaseBean response) {
+                setSiteMonitorData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }, map);
+    }
+    public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();
-        //if(!TextUtils.isEmpty(cityBean.getId()))
-        map.put("cityId", "441900");//城市Id，必须
+        if(!TextUtils.isEmpty(cityBean.getId()))
+        map.put("cityId", cityBean.getId());//城市Id，必须
         //map.put("streetId", null);//街道Id
-        //if(!TextUtils.isEmpty(siteBean.getId()))
-        map.put("siteId", "G1991");//站点Id
+        if(!TextUtils.isEmpty(siteBean.getId()))
+        map.put("siteId", siteBean.getId());//站点Id
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
@@ -128,6 +145,8 @@ public class ForecastFragment extends BaseFragment {
                 int code = response.getCode();
                 switch (code) {
                     case 200:
+                        //时间
+                        response.getData().setCityName(cityBean.getName());
                         setCacheData(response);
                         setForecastData(response);
                         break;
@@ -151,13 +170,16 @@ public class ForecastFragment extends BaseFragment {
             return;
         setFirstPageData(homeForecastBaseBean);
         setSecondePageData(homeForecastBaseBean);
-
     }
 
+    private void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
+        if (siteMonitorBaseBean == null)
+            return;
+        mForecastFirstView.setSiteMonitorData(siteMonitorBaseBean);
+    }
     private void setFirstPageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastFirstView.setFirstForecastData(homeForecastBaseBean);
     }
-
     private void setSecondePageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastSecondView.setSecondForecastData(homeForecastBaseBean);
     }

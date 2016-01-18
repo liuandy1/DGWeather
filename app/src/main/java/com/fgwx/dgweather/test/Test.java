@@ -3,8 +3,10 @@ package com.fgwx.dgweather.test;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.db.SiteDao;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -30,13 +32,36 @@ public class Test extends AndroidTestCase {
 //            for (BaseCityBean cityBean : citys) {
 //                LogUtil.e("城市名字:" + cityBean.);
 //            }
-        SiteDao dao = new SiteDao(getContext());
-        List<SiteBean.DataEntity> list = dao.getSiteBycode("G1991");
+        CityDao dao = new CityDao(getContext());
+        List<CityBean> list = dao.getCityByKeyWords("中");
         if (list == null) {
             LogUtil.e("没查询到数据");
-        }else{
-            for (SiteBean.DataEntity siteBean:list){
-                LogUtil.e(siteBean.getName()+"");
+        } else {
+            for (CityBean siteBean : list) {
+                LogUtil.e(siteBean.getName() + "");
+            }
+        }
+    }
+
+    public void testCity1() {
+        CityDao dao = new CityDao(getContext());
+        List<CityBean> list = dao.getCityByName("湖南省");
+        if (list != null) {
+            for (CityBean siteBean : list) {
+                LogUtil.e(siteBean.getName() + "  查询成功");
+            }
+        } else {
+            LogUtil.e("没有查询到数据");
+        }
+    }
+
+    public void testCircle(){
+
+        LatLng mCurrentLng = new LatLng(23.04701, 113.796164);
+        List<SiteBean.DataEntity> list = SiteUtil.getSiteInCircle(getContext(), mCurrentLng, 8000);
+        if(list!=null&&list.size()>0){
+            for (SiteBean.DataEntity siteBean : list) {
+                LogUtil.e(siteBean.getName() + "  查询成功");
             }
         }
     }

@@ -260,4 +260,7 @@ public class MainActivity extends BaseActivity {
             mForecastFragment.getForecastNetData(cityBean, siteBean);
     }
 
+    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities){
+        mForecastFragment.getSiteMonitorData(dataEntities);
+    }
 }

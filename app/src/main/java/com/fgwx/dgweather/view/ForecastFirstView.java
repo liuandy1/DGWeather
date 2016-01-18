@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,9 +26,10 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -35,6 +37,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
@@ -45,6 +48,8 @@ import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
 import com.fgwx.dgweather.bean.SiteBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
+import com.fgwx.dgweather.bean.SiteMonitorBean;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -57,6 +62,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -69,6 +75,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     private MainActivity mMainActivity;
     public static boolean isFull = false;
+    public static int current;
     private RelativeLayout rvHomeInfo;
     private LinearLayout lyHomeSearch;
     private LinearLayout pointLayout;
@@ -85,6 +92,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private RelativeLayout rvLocal;
     private ImageView ivAirQuality;
     private TextView tvFail;
+    private View siteView;
+    private View weatherView;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -95,6 +104,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private boolean isSetLoc = false;
     private MapStatusUpdate mMapStatusUpdate;
     private GeoCoder mSearch;
+    private HomeForecastBean baseBean;
+    private BitmapDescriptor temDescriptor;
+    private BitmapDescriptor winDescriptor;
+    private BitmapDescriptor humDescriptor;
+    private BitmapDescriptor rainDescriptor;
 
     /**
      * 信息预报部分的view
@@ -125,18 +139,29 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initUi(view);
     }
 
+    public void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
+
+        List<SiteMonitorBean> sites = siteMonitorBaseBean.getData();
+        if (sites != null && sites.size() > 0) {
+            for (SiteMonitorBean bean : sites)
+                addOverSite(bean, Constant.TEM);
+        } else {
+            LogUtil.e("没有拿到数据");
+        }
+    }
+
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
 
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
 
-        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
-        viewPager.addView(w1_move1);
-        new Thread(w1_move1).start();
+//        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
+//        viewPager.addView(w1_move1);
+//        new Thread(w1_move1).start();
 
         if (homeForecastBaseBean != null) {
-
+            baseBean = homeForecastBaseBean.getData();
             try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
@@ -170,17 +195,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //                String qua = data.getDays().get(0).getAirQua();
                 char c = qua.charAt(qua.length() - 2);
                 if (c == '优') {
-                    LogUtil.e("空气质量是优");
                     ivAirQuality.setImageResource(R.drawable.icon_air_excellent);
                 } else if (c == '良') {
                     ivAirQuality.setImageResource(R.drawable.icon_air_good);
-                    LogUtil.e("空气质量是良");
                 } else if (c == '差') {
                     ivAirQuality.setImageResource(R.drawable.icon_air_bad);
-                    LogUtil.e("空气质量是差");
                 }
                 tvFail.setVisibility(GONE);
-                addOverSite(siteInfo);
             } catch (Exception e) {
                 LogUtil.e(e.toString());
                 tvFail.setVisibility(VISIBLE);
@@ -190,18 +211,80 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    private void addOverSite(ForecastMonitorSiteBean siteInfo) {
+
+    private void initMap(View view) {
+        mMapView = (MapView) view.findViewById(R.id.map_view_home);
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+        mMapView.showScaleControl(false);
+        mMapView.showZoomControls(false);
+        mMapView.removeViewAt(1);
+//        mMapView.getLocationOnScreen();
+
+        mMapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        // 定位初始化
+        mLocClient = new LocationClient(mMainActivity.getApplication());
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        // 打开gps
+        option.setCoorType("bd09ll");   // 设置坐标类型
+        option.setScanSpan(3000);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+
+
+        //构建Marker图标
+        humDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_humidity);
+        temDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_temprature);
+        winDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_wind);
+        rainDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_rainfall);
+        // 初始化搜索模块，注册事件监听
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
+        mBaiduMap.setOnMapTouchListener(new MyOnTouchListener());
+        mBaiduMap.setOnMarkerClickListener(new MyMarkerListener());
+
+//        for (SiteBean.DataEntity dataEntity : SiteUtil.getAllSite(mMainActivity))
+//            addOverSite(dataEntity);
+    }
+
+    private void addOverSite(SiteBean.DataEntity dataEntity) {
+        LatLng point = new LatLng(Double.parseDouble(dataEntity.getLatitude()), Double.parseDouble(dataEntity.getLongitude()));
+
+    }
+
+    private void addOverSite(SiteMonitorBean siteInfo, int i) {
         SiteBean.DataEntity siteBean = SiteUtil.getSiteBycode(mMainActivity, siteInfo.getSiteCode());
         LatLng point = new LatLng(Double.parseDouble(siteBean.getLatitude()), Double.parseDouble(siteBean.getLongitude()));
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_map_humidity);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
+        MarkerOptions option = null;
+        switch (i) {
+            case Constant.TEM:
+                //构建MarkerOption，用于在地图上添加Marker
+                option = new MarkerOptions().position(point).icon(temDescriptor);
+                current = Constant.TEM;
+                break;
+
+            case Constant.HUM:
+                option = new MarkerOptions().position(point).icon(humDescriptor);
+                current = Constant.HUM;
+                break;
+            case Constant.WIN:
+                option = new MarkerOptions().position(point).icon(winDescriptor);
+                current = Constant.WIN;
+                break;
+            case Constant.RAIN:
+                option = new MarkerOptions().position(point).icon(rainDescriptor);
+                current = Constant.RAIN;
+                break;
+        }
         //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
+        Overlay marker = mBaiduMap.addOverlay(option);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("site", siteInfo);
+        marker.setExtraInfo(bundle);
     }
 
     private void initUi(View view) {
@@ -223,39 +306,17 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initMap(view);
     }
 
-    private void initMap(View view) {
-        mMapView = (MapView) view.findViewById(R.id.map_view_home);
-        mBaiduMap = mMapView.getMap();
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
-        mMapView.showScaleControl(false);
-        mMapView.showZoomControls(false);
-        mMapView.removeViewAt(1);
-
-        mMapStatusUpdate = MapStatusUpdateFactory.zoomTo(15.0f);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
-        // 定位初始化
-        mLocClient = new LocationClient(mMainActivity.getApplication());
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);        // 打开gps
-        option.setCoorType("bd09ll");   // 设置坐标类型
-        option.setScanSpan(3000);
-        mLocClient.setLocOption(option);
-        mLocClient.start();
-
-        // 初始化搜索模块，注册事件监听
-        mSearch = GeoCoder.newInstance();
-        mSearch.setOnGetGeoCodeResultListener(this);
-    }
 
     private void initViewPager() {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
         pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
+        siteView = pagerView.findViewById(R.id.layout_site);
+        weatherView = pagerView.findViewById(R.id.ly_home_weather);
+        changeView(weatherView, siteView);
 //        viewPager.setBackgroundResource(R.drawable.bg_qing);
 //        pagerView.setBackgroundResource(R.drawable.bg_qing);
-        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+//        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         View pagerView2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
@@ -369,6 +430,17 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
+    /**
+     * 首页上面的显示天气和显示站点的切换
+     *
+     * @param showView 要显示的view
+     * @param hideView 要隐藏的view
+     */
+    private void changeView(View showView, View hideView) {
+        showView.setVisibility(VISIBLE);
+        hideView.setVisibility(GONE);
+    }
+
     @Override
     public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 
@@ -391,6 +463,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         //请求网络信息
         if (mCurrentLng != null)
             mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+        mMainActivity.getSiteMonitorData(SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng, 8000));
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
@@ -497,9 +570,15 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 //访问缓存数据
                 return;
             }
-            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
-//            113.676795,22.941322
-//            mCurrentLng = new LatLng(22.941322, 113.676795);
+            int[] locations = new int[2];
+            mMapView.getLocationOnScreen(locations);
+//            Point mBaiduMapStartPosition = new Point(locations[0], locations[1]);
+//            Point mBaiduMapCenterPosition = new Point((locations[0] + mMapView.getWidth()) / 2, locations[1]
+//                    + mMapView.getHeight() / 2);
+//            LatLng cent = mBaiduMap.getProjection().fromScreenLocation(mBaiduMapCenterPosition);
+            //            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            113.796164,23.04701
+            mCurrentLng = new LatLng(23.04701, 113.796164);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
@@ -513,6 +592,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 LatLng ll = new LatLng(mCurrentLng.latitude, mCurrentLng.longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
+
             }
             if (!isSetLoc) {
                 // 反Geo搜索
@@ -521,6 +601,87 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
 
         public void onReceivePoi(BDLocation poiLocation) {
+        }
+    }
+
+
+    /**
+     * 百度地图触摸事件的监听
+     */
+    private class MyOnTouchListener implements BaiduMap.OnMapTouchListener {
+
+        @Override
+        public void onTouch(MotionEvent motionEvent) {
+
+        }
+    }
+
+    private class MyMarkerListener implements BaiduMap.OnMarkerClickListener {
+        private TextView tv_siteInfo_siteName;
+        private TextView tv_siteInfo_siteAddr;
+        private TextView tv_siteInfo_siteDistance;
+
+
+        private TextView tv_siteInfo_type;
+        private TextView tv_siteInfo_value1;
+        private TextView tv_dgree;
+        private TextView tv_siteInfo_value2;
+        private TextView tv_siteInfo_value3;
+        private TextView tv_siteInfo_value4;
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+
+            changeView(siteView, weatherView);
+            SiteMonitorBean siteBean = (SiteMonitorBean) marker.getExtraInfo().get("site");
+            tv_siteInfo_type = (TextView) siteView.findViewById(R.id.tv_siteInfo_type);
+            tv_siteInfo_value1 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value1);
+            tv_dgree = (TextView) siteView.findViewById(R.id.tv_dgree);
+            tv_siteInfo_value2 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value2);
+            tv_siteInfo_value4 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value4);
+            tv_siteInfo_value3 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value3);
+            tv_siteInfo_siteName = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteName);
+            tv_siteInfo_siteAddr = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteAddr);
+            tv_siteInfo_siteDistance = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteDistance);
+
+            String code = siteBean.getSiteCode();
+            SiteBean.DataEntity local = SiteUtil.getSiteBycode(mMainActivity, code);
+            String disStr;
+            int distance = (int) DistanceUtil.getDistance(mCurrentLng,
+                    new LatLng(Double.parseDouble(local.getLatitude()),
+                            Double.parseDouble(local.getLongitude())));
+            if(distance>1000){
+                distance = distance/1000;
+                disStr = distance+"千米";
+            }else {
+                disStr = distance+"";
+            }
+            tv_siteInfo_siteDistance.setText("距离" + disStr);
+            tv_siteInfo_siteName.setText(local.getName());
+            tv_siteInfo_siteAddr.setText(local.getAreaName());
+
+            switch (current) {
+                case Constant.RAIN:
+
+                    break;
+                case Constant.HUM:
+
+                    break;
+                case Constant.WIN:
+
+                    break;
+                case Constant.TEM:
+
+                    tv_siteInfo_type.setText("实时温度");
+                    tv_siteInfo_value1.setText(siteBean.getAirTemp());
+                    tv_dgree.setVisibility(VISIBLE);
+                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
+                    tv_siteInfo_value3.setText("风力风向  "+siteBean.getSpeedDir());
+                    tv_siteInfo_value4.setText("风力风向  "+siteBean.getRelativeWet());
+
+                    break;
+            }
+            return true;
         }
     }
 
@@ -549,9 +710,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.ib_home_play:
                 //判断有没有网络，语音播报需要网络合成
-                if (NetWorkUtil.isNetworkAvailable(getContext()))
-                    broadWeather("你好啊，今天天气不错！");
-                else
+                /**
+                 * 亲！好的天气带来好的心情！东莞天气为您播报，东莞今天的天气是晴间多云，温度12到15度，西北风2到3级。
+                 */
+                if (NetWorkUtil.isNetworkAvailable(getContext())) {
+                    String weatherStr = "亲！好的天气带来好的心情！东莞天气为您播报，" + tvHomeCity.getText().toString() +
+                            "今天的天气是" + baseBean.getDays().get(0).getWeaDesc() + ","
+                            + baseBean.getSite().getMinTemp() + "℃到" + baseBean.getSite().getMaxTemp() + "℃,"
+                            + baseBean.getSite().getSpeedDir();
+                    broadWeather(weatherStr);
+                } else
                     Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rv_top_local:

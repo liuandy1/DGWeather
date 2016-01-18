@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fgwx.dgweather.activity.AddCityActivity">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/px_40"
+        android:background="@drawable/cornor_bg_white_stroke_gray"
+        android:drawableLeft="@drawable/icon_map_search"
+        android:drawablePadding="@dimen/px_20"
+        android:drawableRight="@drawable/icon_open"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/lv_searchResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/px_40"
+        android:layout_marginRight="@dimen/px_40"
+        android:scrollbars="none" />
+
+</LinearLayout>

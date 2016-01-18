@@ -41,7 +41,33 @@ public class ForecastForTenDayBean {
     private String wet;
     private String wind;
     private String windDirection;
+    private String windDirName;
+    private String windSpeedLevel;
+    private String windSpeedName;
 
+    public String getWindDirName() {
+        return windDirName;
+    }
+
+    public void setWindDirName(String windDirName) {
+        this.windDirName = windDirName;
+    }
+
+    public String getWindSpeedLevel() {
+        return windSpeedLevel;
+    }
+
+    public void setWindSpeedLevel(String windSpeedLevel) {
+        this.windSpeedLevel = windSpeedLevel;
+    }
+
+    public String getWindSpeedName() {
+        return windSpeedName;
+    }
+
+    public void setWindSpeedName(String windSpeedName) {
+        this.windSpeedName = windSpeedName;
+    }
 
     public String getAirQua() {
         return airQua;

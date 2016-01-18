@@ -18,9 +18,9 @@ public class LivingIndexAdapter extends BaseAdapter {
 
     private ForecastPeopleLifeBean bean;
 
-    private int[] imgIcon = new int[] { R.drawable.icon_life_air_index, R.drawable.icon_life_comfort_index,
+    private int[] imgIcon = new int[]{R.drawable.icon_life_air_index, R.drawable.icon_life_comfort_index,
             R.drawable.icon_life_umbrella_index, R.drawable.icon_life_exercise_index, R.drawable.icon_life_outing_index,
-            R.drawable.icon_life_moldew_index, R.drawable.icon_life_dry_index, R.drawable.icon_life_trafic_index };
+            R.drawable.icon_life_moldew_index, R.drawable.icon_life_dry_index, R.drawable.icon_life_trafic_index};
 
     private String[] txtIndex;
 
@@ -28,20 +28,25 @@ public class LivingIndexAdapter extends BaseAdapter {
         super();
         this.context = context;
         this.bean = bean;
-        txtIndex = new String[] { context.getResources().getString(R.string.air_index),
+        txtIndex = new String[]{context.getResources().getString(R.string.air_index),
                 context.getResources().getString(R.string.comfort_of_human_body),
                 context.getResources().getString(R.string.umbrella_index),
                 context.getResources().getString(R.string.exercise_index),
                 context.getResources().getString(R.string.outing_index),
                 context.getResources().getString(R.string.mildew_index),
                 context.getResources().getString(R.string.dry_index),
-                context.getResources().getString(R.string.trafic_index) };
-        info = new String[] { bean.getAirQuan() == null ? "" : bean.getAirQuan(),
-                bean.getBodySoft() == null ? "" : bean.getBodySoft(),
-                bean.getUmbella() == null ? "" : bean.getUmbella(),
-                bean.getMornExercise() == null ? "" : bean.getMornExercise(),
-                bean.getOuting() == null ? "" : bean.getOuting(), bean.getMould() == null ? "" : bean.getMould(),
-                bean.getSunDry() == null ? "" : bean.getSunDry(), bean.getTravel() == null ? "" : bean.getTravel() };
+                context.getResources().getString(R.string.trafic_index)};
+        if (bean == null) {
+            info = new String[8];
+        } else {
+            info = new String[]{bean.getAirQuan() == null ? "" : bean.getAirQuan(),
+                    bean.getBodySoft() == null ? "" : bean.getBodySoft(),
+                    bean.getUmbella() == null ? "" : bean.getUmbella(),
+                    bean.getMornExercise() == null ? "" : bean.getMornExercise(),
+                    bean.getOuting() == null ? "" : bean.getOuting(), bean.getMould() == null ? "" : bean.getMould(),
+                    bean.getSunDry() == null ? "" : bean.getSunDry(), bean.getTravel() == null ? "" : bean.getTravel()};
+        }
+
     }
 
     @Override
@@ -84,13 +89,13 @@ public class LivingIndexAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // set item values to the viewHolder
+        viewHolder.iv_icon.setBackgroundResource(imgIcon[position]);
+        if (txtIndex[position].length() == 5) {
+            viewHolder.tv_index.setPadding(10, 10, 0, 10);
+        }
+        viewHolder.tv_index.setText(txtIndex[position]);
         String item = getItem(position);
         if (null != item) {
-            viewHolder.iv_icon.setBackgroundResource(imgIcon[position]);
-            if (txtIndex[position].length() == 5) {
-                viewHolder.tv_index.setPadding(10, 10, 0, 10);
-            }
-            viewHolder.tv_index.setText(txtIndex[position]);
             viewHolder.tv_indexInfo.setText(item);
         }
         return convertView;

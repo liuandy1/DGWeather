@@ -2,6 +2,7 @@ package com.fgwx.dgweather.utils;
 
 import com.android.volley.Response;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.net.VolleySingleton;
 import com.fgwx.dgweather.net.WeatherRequest;
 import com.google.gson.JsonObject;
@@ -14,6 +15,7 @@ import java.util.TreeMap;
 public class WeatherNetUtils {
     private static final String URL_BASE="http://58.252.5.166:10008";
     private static final String URL_HOME_FORECAST=URL_BASE+"/dgweatherweb/webservice/getData";
+    private static final String URL_MONITOR=URL_BASE+"/dgweatherweb/webservice/getSiteDatas";
     private static final String URL_AREA=URL_BASE+"/dgweatherweb/webservice/getAreas";
 
 
@@ -25,6 +27,12 @@ public class WeatherNetUtils {
        WeatherRequest<HomeForecastBaseBean> request=new WeatherRequest<HomeForecastBaseBean>(URL_HOME_FORECAST,HomeForecastBaseBean.class,listener,map,errorListener);
        VolleySingleton.getInstance().addToRequestQueue(request);
    }
+    //站点监测数据
+    public static void getSiteMonitorData(Response.Listener<SiteMonitorBaseBean> listener,Response.ErrorListener errorListener,TreeMap<String,String> map){
+        WeatherRequest<SiteMonitorBaseBean> request=new WeatherRequest<SiteMonitorBaseBean>(URL_MONITOR,SiteMonitorBaseBean.class,listener,map,errorListener);
+        VolleySingleton.getInstance().addToRequestQueue(request);
+    }
+
 
 /*    //获得区域信息
     public static void getAreaData(Response.Listener<AreaBaseBean> listener,Response.ErrorListener errorListener){

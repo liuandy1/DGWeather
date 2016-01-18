@@ -25,6 +25,8 @@
     <color name="common_line_color">#12304c</color>
     <!-- 白色-->
     <color name="white">#FFFFFF</color>
+    <!--红色-->
+    <color name="red">#FF3300</color>
 
     <!-- 线条颜色  深蓝色-->
     <color name="comm_line_color">#375571</color>
@@ -42,4 +44,8 @@
     <color name="button_bg_blue">#094375</color>
     <!-- 半透明 -->
     <color name="transparent_half">#99000000</color>
+
+    <drawable name="common_host_list_background">#b2132b3d</drawable>
+    <drawable name="common_alpha_white">#00000000</drawable>
+
 </resources>

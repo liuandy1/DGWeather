@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.fgwx.dgweather.activity.CityManagerActivity">
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="城市管理界面" />
+    <com.fgwx.dgweather.view.DeleteListView
+        android:id="@+id/dlv_cityManager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btn_add_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="添加城市"/>
 
-</RelativeLayout>
+</LinearLayout>

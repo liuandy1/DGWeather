@@ -65,12 +65,11 @@ public class WeatherDayTrendView extends View {
     }
     public void setDataBean(List<ForecastForTenDayBean> beans){
         mbeans=beans;
-        mPointXs=new float[beans.size()];
-        for(int i=0;i<beans.size();i++){
+        mPointXs=new float[mbeans.size()];
+        for(int i=0;i<mbeans.size();i++){
             mPointXs[i]=multipleX/2+multipleX*i;
-
         }
-        sumWidth=(int)(mPointXs[beans.size()-1]+multipleX/2);
+        sumWidth=(int)(mPointXs[mbeans.size()-1]+multipleX/2);
     }
 
     @Override

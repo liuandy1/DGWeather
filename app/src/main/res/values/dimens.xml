@@ -39,6 +39,9 @@
     <!-- 底部菜单栏字体大小-->
     <dimen name="bottom_menu_text_size">10sp</dimen>
 
+    <!-- 标题字体大小-->
+    <dimen name="common_title_text_size">18sp</dimen>
+
     <!-- 常规字体大小-->
     <dimen name="common_text_size">14sp</dimen>
 

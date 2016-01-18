@@ -5,13 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.bean.CityBean;
-import com.fgwx.dgweather.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,30 +17,17 @@ import java.util.List;
 /**
  * Created by AllenHu on 2016/1/13.
  */
-public class CityAddAdapter extends BaseAdapter {
-    private List list;
+public class CitySearchAdapter extends BaseAdapter {
+    private List<CityBean> list;
     private Context context;
 
-    public CityAddAdapter(Context context, List<CityBean> beans) {
-        LogUtil.e("bbb",beans.size()+"");
-        this.list = new ArrayList();
-        for(CityBean bean:beans){
-            this.list.add(bean.getName());
-        }
-        this.context = context;
-    }
-
-    public CityAddAdapter(Context context, String[] citys) {
-        this.list = new ArrayList();
-        for (String s : citys) {
-            this.list.add(s);
-        }
+    public CitySearchAdapter(Context context, List<CityBean> list) {
+        this.list = list;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        LogUtil.e("aaa",list.size()+"");
         return list.size();
     }
 
@@ -58,12 +43,11 @@ public class CityAddAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.activity_add_city_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_add_city_search_item, null);
         }
-        TextView textView = (TextView) convertView.findViewById(R.id.tv_city);
-        String city = (String) list.get(position);
+        TextView textView = (TextView) convertView.findViewById(R.id.tv_searchResult);
+        String city = list.get(position).getName();
         textView.setText(city);
         return convertView;
     }

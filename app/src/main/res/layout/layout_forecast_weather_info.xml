@@ -2,170 +2,183 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/button_bg_blue"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="8dp">
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout_site"
+        layout="@layout/layout_forecast_site_info"
+        />
 
     <LinearLayout
-        android:id="@+id/ll_info_left"
-        android:layout_width="0dp"
+        android:id="@+id/ly_home_weather"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_info_currentTime"
-                style="@style/CommTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:padding="1dp"
-                android:text="周一  11月16日" />
-
-            <ImageView
-                android:id="@+id/iv_info_airQuality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/tv_info_currentTime"
-                android:src="@drawable/icon_air_good" />
-
-            <TextView
-                android:id="@+id/tv_info_weather"
-                style="@style/CommTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_info_airQuality"
-                android:padding="2dp"
-                android:text="晴"
-                android:textSize="16sp" />
-        </RelativeLayout>
+        android:background="@color/button_bg_blue"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        android:visibility="gone">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/ll_info_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_info_currentTemp"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="19"
-                android:textColor="@color/white"
-                android:textSize="54sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_info_currentTime"
+                    style="@style/CommTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="1dp"
+                    android:text="周一  11月16日" />
+
+                <ImageView
+                    android:id="@+id/iv_info_airQuality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/tv_info_currentTime"
+                    android:src="@drawable/icon_air_good" />
+
+                <TextView
+                    android:id="@+id/tv_info_weather"
+                    style="@style/CommTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_info_airQuality"
+                    android:padding="2dp"
+                    android:text="晴"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/tv_info_currentTemp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_info_temp"
+                    android:id="@+id/tv_info_currentTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="℃"
+                    android:text="19"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="54sp" />
 
-                <TextView
-                    android:id="@+id/tv_info_tempRange"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/tv_info_currentTemp"
                     android:gravity="center_vertical"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_info_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="℃"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_info_tempRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_info_wind"
+                    style="@style/CommTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="东南风3级" />
+
+                <TextView
+                    android:id="@+id/tv_info_humidy"
+                    style="@style/CommTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_info_wind"
+                    android:padding="2dp"
+                    android:text="湿度76%" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_home_fail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数据获取失败"
+                android:textColor="@android:color/holo_red_dark"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_info_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_refresh"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:paddingTop="@dimen/px_10"
+                android:text="15分钟前发布"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/common_text_size" />
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_info_wind"
-                style="@style/CommTextStyle"
+            <ImageButton
+                android:id="@+id/ib_info_warn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="东南风3级" />
+                android:layout_margin="10dp"
+                android:background="@drawable/icon_warn_rainstoem_orange" />
 
-            <TextView
-                android:id="@+id/tv_info_humidy"
-                style="@style/CommTextStyle"
+            <ImageButton
+                android:id="@+id/ib_info_warn2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_info_wind"
-                android:padding="2dp"
-                android:text="湿度76%" />
+                android:layout_below="@id/ib_info_warn1"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/icon_warn_rainstoem_orange" />
+
+            <ImageButton
+                android:id="@+id/ib_info_warn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ib_info_warn2"
+                android:layout_margin="10dp"
+                android:background="@drawable/icon_warn_rainstoem_orange" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_home_fail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="数据获取失败"
-            android:textColor="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_info_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_refresh"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:paddingTop="@dimen/px_10"
-            android:text="15分钟前发布"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/common_text_size" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/ib_info_warn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/icon_warn_rainstoem_orange" />
-
-        <ImageButton
-            android:id="@+id/ib_info_warn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ib_info_warn1"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/icon_warn_rainstoem_orange" />
-
-        <ImageButton
-            android:id="@+id/ib_info_warn3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ib_info_warn2"
-            android:layout_margin="10dp"
-            android:background="@drawable/icon_warn_rainstoem_orange" />
-    </RelativeLayout>
-
 </LinearLayout>
