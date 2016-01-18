@@ -67,7 +67,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             hotList.add(hotListAll.get(j));
         }
 
-        dgListData.addAll(dgList);
+        dgListData.addAll(dgListAll);
         hotListData.addAll(hotList);
 
         dgAdapter = new CityAddAdapter(this, dgListData);
