@@ -24,7 +24,7 @@
 
     <!-- 地图显示设置-->
     <string name="choose_map_show_content">选择地图显示内容</string>
-    <string name="show_real_time_data">显示内实时数据</string>
+    <string name="show_real_time_data">显示实时数据</string>
     <string name="real_time_weather">实况天气</string>
     <string name="real_time_temprature">实时温度</string>
     <string name="relative_humidity">相对湿度</string>
