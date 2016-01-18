@@ -24,7 +24,7 @@
         android:id="@+id/iv_weatherIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/icon_weather_big_rain" />
+       />
 
     <TextView
         android:id="@+id/tv_temp"

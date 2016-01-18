@@ -13,6 +13,7 @@ import android.view.View;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
+import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
 
 import java.util.List;
@@ -109,6 +110,9 @@ public class WeatherHoursTrendView extends View {
             //根据计算的文字高度绘制文字
             canvas.drawText(mbeans.get(i).getTempDesc()+"°C", mPointXs[i]-textWidth1/2, px20 + mbitmap.getHeight() + px40 +fontHeight, mTextPaint);
             //在文字上方绘制天气图片，要加上文字高度
+             Bitmap   bitmap=AppUtil.getWeathericonDrawableById(mbeans.get(i).getWeaIcon());
+            if(bitmap!=null)
+               mbitmap=bitmap;
             canvas.drawBitmap(mbitmap, mPointXs[i] - mbitmap.getWidth() / 2, px20, mPaint);
             //绘制圆点
             canvas.drawCircle(mPointXs[i], originHeight + pointY, radius, mPaint);

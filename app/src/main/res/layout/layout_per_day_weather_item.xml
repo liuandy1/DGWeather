@@ -18,7 +18,6 @@
       android:layout_marginTop="@dimen/px_20"
       android:layout_centerHorizontal="true"
       android:layout_below="@id/tv_per_day_weather_description"
-      android:src="@drawable/icon_weather_big_rain"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" />
 

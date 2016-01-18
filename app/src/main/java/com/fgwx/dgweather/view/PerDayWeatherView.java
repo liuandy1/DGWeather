@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
+import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
 
 /**
@@ -54,7 +55,7 @@ public class PerDayWeatherView extends RelativeLayout{
         mTvMaxTemDescrip.setText(mBean.getCurMaxTemp()+"°C");
         mTvWindDescrip.setText(mBean.getWindDirName()+mBean.getWindSpeedName()+"\n"+mBean.getWindSpeedLevel());
         mTvWeatherDescrip.setText(TimeUtil.perDaystrToDateStr(mBean.getCurDate())+"\n"+mBean.getWeaDesc());
-
+        mIvWeatherIcon.setImageDrawable(AppUtil.getWeathericonDrawableById(mBean.getWeaIcon(),null));
     }
 
 }
