@@ -58,7 +58,7 @@ public class AddCitySearchActivity extends BaseActivity {
                 //添加城市
                 searchResults.get(position).setName(StringUtil.split(searchResults.get(position).getName(), "，"));
                 AddedCityUtil.addCity(AddCitySearchActivity.this, searchResults.get(position));
-                Intent intent = new Intent(AddCitySearchActivity.this,CityManagerActivity.class);
+                Intent intent = new Intent(AddCitySearchActivity.this,MainActivity.class);
                 startActivity(intent);
 //                测试代码
 //                List<CityBean> list = AddedCityUtil.getAllCity(AddCitySearchActivity.this);
