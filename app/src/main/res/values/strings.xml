@@ -43,6 +43,7 @@
     <string name="dongguan">东莞</string>
     <string name="open_all">展开全部</string>
     <string name="take_back">收回</string>
+    <string name="delete">删除</string>
 
     <!--预报页面2-->
     <string name="title_48_hour_weather_forecast">精准天气预报</string>

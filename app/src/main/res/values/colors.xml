@@ -25,6 +25,8 @@
     <color name="common_line_color">#12304c</color>
     <!-- 白色-->
     <color name="white">#FFFFFF</color>
+    <!--红色-->
+    <color name="red">#FF3300</color>
 
     <!-- 线条颜色  深蓝色-->
     <color name="comm_line_color">#375571</color>
