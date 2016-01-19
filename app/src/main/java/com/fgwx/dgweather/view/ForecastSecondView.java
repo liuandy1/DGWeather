@@ -14,7 +14,9 @@ import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
+import com.fgwx.dgweather.bean.ForecastSunBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private TextView mTvPerHourWeather;
     private RelativeLayout mRlPerHourWeather;
     private TextView mTvCityName;
+    private TextView mTvSunRise;
+    private TextView mTvSunSet;
+    private WeatherSunChangeView mWeatherSunChangeView;
     private AdapterScroListView aslv_LivingIndex;//生活指数
     private LivingIndexAdapter livingIndexAdapter ;
      private List<ForecastForTenDayBean> mDaybeans;
@@ -71,11 +76,16 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
             mDaybeans=mDaybeans.subList(0,10);
         mWeathDayTrendView.setDataBean(mDaybeans);
         setPerDayWeatherData();
-        mTvCityName.setText(homeForecastBaseBean.getData().getCityName()+"");
+        mTvCityName.setText(homeForecastBaseBean.getData().getCityName() + "");
         //精确数据
         mWeatherHoursTrendView.setDataBean(homeForecastBaseBean.getData().getExacts());
         livingIndexAdapter = new LivingIndexAdapter(mMainActivity,homeForecastBaseBean.getData().getLife());
         aslv_LivingIndex.setAdapter(livingIndexAdapter);
+        if(homeForecastBaseBean.getData().getSun()!=null){
+        mTvSunRise.setText("日出" + TimeUtil.hourstrToDateStr(homeForecastBaseBean.getData().getSun().getSunriseTime()));
+        mTvSunSet.setText("日落"+TimeUtil.hourstrToDateStr(homeForecastBaseBean.getData().getSun().getSunsetTime()));
+        mWeatherSunChangeView.setSunTimeData(homeForecastBaseBean.getData().getSun());
+        }
     }
     private void setPerDayWeatherData(){
         for(int i=0;i<mDaybeans.size();i++){
@@ -104,6 +114,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_8));
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_9));
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_10));
+        mTvSunRise= (TextView) findViewById(id.tv_life_sunriseTime);
+        mTvSunSet= (TextView) findViewById(id.tv_life_sunsetTime);
+        mWeatherSunChangeView= (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
         //mRootScrollView= (RelativeLayout) view.findViewById(R.id.scroll_forecast_more);
 
      /*   List<ForecastForTenDayBean> beans=new ArrayList<>();

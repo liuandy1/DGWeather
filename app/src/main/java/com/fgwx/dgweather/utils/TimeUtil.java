@@ -33,9 +33,9 @@ public class TimeUtil {
     }
 
 
-    public static String hourstrToDateStr(String dateStr) {
-        Long time = Long.parseLong(dateStr);
-        LogUtil.e("longtime"+time);
+    public static String hourstrToDateStr(long time) {
+       // Long time = Long.parseLong(dateStr);
+        //LogUtil.e("longtime"+time);
         Date date = longToDate(time);
         SimpleDateFormat dateFormat = new SimpleDateFormat("H:m");
         return dateFormat.format(date);

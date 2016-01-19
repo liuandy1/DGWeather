@@ -20,7 +20,7 @@ public class ForecastForHourBean {
                 "wet":相对湿度,
                 "wind":风力风向*/
     private String areaCode;
-    private String curDate;
+    private long curDate;
     private String hourVal;
     private String id;
     private String maxTemp;
@@ -42,11 +42,11 @@ public class ForecastForHourBean {
         this.areaCode = areaCode;
     }
 
-    public String getCurDate() {
+    public long getCurDate() {
         return curDate;
     }
 
-    public void setCurDate(String curDate) {
+    public void setCurDate(long curDate) {
         this.curDate = curDate;
     }
 

@@ -244,6 +244,7 @@
                 android:layout_marginTop="@dimen/px_20" />
 
             <com.fgwx.dgweather.view.WeatherSunChangeView
+                android:id="@+id/sv_weather_sun_change"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px_280"
                 android:layout_marginLeft="@dimen/px_16"
