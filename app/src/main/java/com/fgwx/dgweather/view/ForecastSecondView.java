@@ -13,6 +13,7 @@ import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
+import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.ForecastSunBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
@@ -44,10 +45,13 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private TextView mTvCityName;
     private TextView mTvSunRise;
     private TextView mTvSunSet;
+    private TextView mTvCursor;
+    private int perHourWidth;
     private WeatherSunChangeView mWeatherSunChangeView;
     private AdapterScroListView aslv_LivingIndex;//生活指数
     private LivingIndexAdapter livingIndexAdapter ;
      private List<ForecastForTenDayBean> mDaybeans;
+    private List<ForecastForHourBean> mHourBeans;
     private List<PerDayWeatherView> mPerDayWeatherViews=new ArrayList<>();
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -65,6 +69,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         super.onFinishInflate();
     }
     private void init() {
+        perHourWidth=getResources().getDimensionPixelOffset(R.dimen.px_140);
         View view=LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
@@ -75,10 +80,11 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         if(mDaybeans.size()>10)
             mDaybeans=mDaybeans.subList(0,10);
         mWeathDayTrendView.setDataBean(mDaybeans);
+        mHourBeans=homeForecastBaseBean.getData().getExacts();
         setPerDayWeatherData();
         mTvCityName.setText(homeForecastBaseBean.getData().getCityName() + "");
         //精确数据
-        mWeatherHoursTrendView.setDataBean(homeForecastBaseBean.getData().getExacts());
+        mWeatherHoursTrendView.setDataBean(mHourBeans);
         livingIndexAdapter = new LivingIndexAdapter(mMainActivity,homeForecastBaseBean.getData().getLife());
         aslv_LivingIndex.setAdapter(livingIndexAdapter);
         if(homeForecastBaseBean.getData().getSun()!=null){
@@ -116,20 +122,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_10));
         mTvSunRise= (TextView) findViewById(id.tv_life_sunriseTime);
         mTvSunSet= (TextView) findViewById(id.tv_life_sunsetTime);
-        mWeatherSunChangeView= (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
-        //mRootScrollView= (RelativeLayout) view.findViewById(R.id.scroll_forecast_more);
+        mTvCursor= (TextView) findViewById(id.tv_per_day_text_show);
 
-     /*   List<ForecastForTenDayBean> beans=new ArrayList<>();
-        ForecastForTenDayBean bean;
-        for(int i=0;i<48;i++){
-            bean=new ForecastForTenDayBean();
-            bean.setCurMaxTemp(20 + 1);
-            bean.setCurMinTemp(20 - i * 2);
-            beans.add(bean);
-        }
-        mWeatherHoursTrendView.setDataBean(beans);*/
-        /*mWeathDayTrendView.setDataBean(beans);
-*/
+        mWeatherSunChangeView= (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
     }
 
     @Override
@@ -142,6 +137,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     public void onWeatherScrollChanged(int x, int y, int oldx, int oldy) {
         factor=(float)(mPerHourWeatherLayout.getWidth()-mTvPerHourWeather.getWidth()-padding)/(mRlPerHourWeather.getWidth()-mPerHourWeatherLayout.getWidth());
         int temp = (int)(-x*factor);
+        int cursor=(Math.abs(x)+Math.abs(temp)+padding/2)/perHourWidth;
+        mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc()+" "+mHourBeans.get(cursor).getTempDesc()+"℃");
         mPerHourWeatherLayout.scrollTo(temp, y);
     }
 
