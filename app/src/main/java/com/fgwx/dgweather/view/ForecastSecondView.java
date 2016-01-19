@@ -85,7 +85,10 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mTvCityName.setText(homeForecastBaseBean.getData().getCityName() + "");
         //精确数据
         mWeatherHoursTrendView.setDataBean(mHourBeans);
-        livingIndexAdapter = new LivingIndexAdapter(mMainActivity,homeForecastBaseBean.getData().getLife());
+        if(mHourBeans!=null){
+            mTvCursor.setText(mHourBeans.get(0).getWeaDesc()+" "+mHourBeans.get(0).getTempDesc()+"℃");
+        }
+        livingIndexAdapter = new LivingIndexAdapter(mMainActivity, homeForecastBaseBean.getData().getLife());
         aslv_LivingIndex.setAdapter(livingIndexAdapter);
         if(homeForecastBaseBean.getData().getSun()!=null){
         mTvSunRise.setText("日出" + TimeUtil.hourstrToDateStr(homeForecastBaseBean.getData().getSun().getSunriseTime()));
