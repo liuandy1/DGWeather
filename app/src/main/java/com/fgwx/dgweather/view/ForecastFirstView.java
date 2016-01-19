@@ -64,6 +64,7 @@ import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,10 +148,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
         sites = siteMonitorBaseBean.getData();
         String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, null);
-        if(!TextUtils.isEmpty(set)){
+        if (!TextUtils.isEmpty(set)) {
             MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
             addOverSite(sites, bean.getSiteType());
-        }else {
+        } else {
             addOverSite(sites, Constant.TEM);
         }
     }
@@ -320,6 +321,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //        pagerView.setBackgroundResource(R.drawable.bg_qing);
 //        pagerView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+        pagerView.findViewById(R.id.iv_nav).setOnClickListener(this);
         View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         View pagerView2 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         ArrayList<View> views = new ArrayList<>();
@@ -757,11 +759,36 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 break;
+
+            case R.id.iv_nav:
+                nav();
+                break;
         }
     }
 
     private void refreshOver(int a) {
         mBaiduMap.clear();
         addOverSite(sites, a);
+    }
+
+    /**
+     * 注销地图
+     */
+    public void recycle() {
+        mBaiduMap.setMyLocationEnabled(false);
+        temDescriptor.recycle();
+        humDescriptor.recycle();
+        winDescriptor.recycle();
+        rainDescriptor.recycle();
+    }
+
+    private void nav() {
+
+        try {
+            Intent intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname=百度奎科大厦&lat=40.047669&lon=116.313082&dev=0");
+            mMainActivity.startActivity(intent);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 }
