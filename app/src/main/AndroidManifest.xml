@@ -13,7 +13,6 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -33,7 +32,6 @@
 
     <!-- 分享所需权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- 蓝牙分享所需的权限 -->
@@ -95,12 +93,12 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.TestActivity" />
 
-        <service android:name=".service.WeatherService" />
         <!-- 百度的service -->
         <service
             android:name="com.baidu.location.f"
@@ -108,9 +106,14 @@
             android:process=":remote" />
         <service android:name=".service.WeatherService" />
 
-        <activity android:name=".activity.AddCityActivity">
-          </activity>
-        <activity android:name=".activity.CityManagerActivity"></activity>
+        <activity android:name=".activity.AddCityActivity"></activity>
+        <activity android:name=".activity.AddCitySearchActivity">
+
+        </activity>
+        <activity android:name=".activity.CityManagerActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
