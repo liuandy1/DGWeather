@@ -112,7 +112,6 @@
                         android:id="@+id/tv_per_day_text_show"
                         style="@style/CommonTextStyle"
                         android:background="@drawable/ic_per_hour_pop_background"
-                        android:text="大雨 21 C"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -244,6 +243,7 @@
                 android:layout_marginTop="@dimen/px_20" />
 
             <com.fgwx.dgweather.view.WeatherSunChangeView
+                android:id="@+id/sv_weather_sun_change"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px_280"
                 android:layout_marginLeft="@dimen/px_16"
