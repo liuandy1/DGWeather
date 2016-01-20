@@ -138,7 +138,7 @@
                 android:layout_marginTop="@dimen/px_20"
                 android:background="@color/common_line_color" />
 
-            <HorizontalScrollView
+            <com.fgwx.dgweather.view.WeatherHorizatalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -206,7 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </RelativeLayout>
-            </HorizontalScrollView>
+            </com.fgwx.dgweather.view.WeatherHorizatalScrollView>
         </LinearLayout>
 
         <View style="@style/HorDivider" />

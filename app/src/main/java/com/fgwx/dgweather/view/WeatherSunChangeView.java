@@ -82,6 +82,7 @@ public class WeatherSunChangeView extends View{
 
     }
     public void setSunTimeData(ForecastSunBean sunBean){
+        if(sunBean==null)return;
         mSunBean=sunBean;
         changeSunTime();
         postDelayed(new Runnable() {
@@ -103,7 +104,7 @@ public class WeatherSunChangeView extends View{
         mHeight=getHeight();
         rect=new RectF(marginWidth,marginHeight,mWidth-marginWidth,mHeight*2f+marginHeight);
         mPaint.setPathEffect(effects);
-        canvas.drawArc(rect, 180 - angle, 180 - angle, false, mPaint);
+        canvas.drawArc(rect, 180 + angle, 180 - angle, false, mPaint);
         mAlphaPaint.setStyle(Paint.Style.FILL);
         canvas.drawArc(rect, 180, angle, true, mAlphaPaint);
         mPaint.setPathEffect(null);
