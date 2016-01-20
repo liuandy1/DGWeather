@@ -92,6 +92,7 @@ public class CityManagerActivity extends BaseActivity {
                     String local = getIntent().getStringExtra(Constant.LOCAL);
                     if (!TextUtils.isEmpty(local))
                         intent.putExtra(Constant.LOCAL, local);
+                    activityList.add(CityManagerActivity.this);
                     startActivity(intent);
                     break;
             }

@@ -99,6 +99,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, MainActivity.class));
             }
         });
@@ -107,6 +108,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, MainActivity.class));
             }
         });
@@ -160,9 +162,11 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.et_addCity_search:
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
             case R.id.tv_search:
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
         }

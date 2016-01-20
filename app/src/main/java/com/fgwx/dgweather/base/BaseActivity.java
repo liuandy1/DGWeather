@@ -1,5 +1,6 @@
 package com.fgwx.dgweather.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,16 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.utils.ExitAppUtils;
 import com.fgwx.dgweather.view.ProgressWheel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by senghor on 2015/12/23.
  */
 public class BaseActivity extends AppCompatActivity implements BaseFragment.Callbacks{
 
-
+    public static List<Activity> activityList = new ArrayList<Activity>();
     private static RelativeLayout rlLoading;
 
     @Override
