@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -22,6 +23,7 @@ import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.CityUtil;
+import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.view.AdapterScroGridView;
 import com.fgwx.dgweather.view.AdapterScroListView;
@@ -38,9 +40,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     private Button bt_openAll;
     private boolean isOpen = false, isOpenAll = false;
     private List<CityBean> dgListData, dgList, hotListData, hotList, dgListAll, hotListAll;
-    private ImageButton ib_back;
+    private ImageView ib_back;
     private EditText et_search;
     private TextView tv_search;
+    private TextView tv_local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCityData() {
+
+
         dgList = new ArrayList<CityBean>();
         dgListAll = CityUtil.getLocalCity(AddCityActivity.this);
         dgListData = new ArrayList<CityBean>();
@@ -80,7 +85,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
         asgv_hotCity = (AdapterScroGridView) findViewById(R.id.asgv_hotCity);
         tv_openOrClose = (TextView) findViewById(R.id.tv_openOrClose);
         bt_openAll = (Button) findViewById(R.id.bt_openAll);
-        ib_back = (ImageButton) findViewById(R.id.ib_add_city_back);
+        ib_back = (ImageView) findViewById(R.id.ib_add_city_back);
         et_search = (EditText) findViewById(R.id.et_addCity_search);
         tv_search = (TextView) findViewById(R.id.tv_search);
 
@@ -94,7 +99,8 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
-                startActivity(new Intent(AddCityActivity.this,MainActivity.class));
+                activityList.add(AddCityActivity.this);
+                startActivity(new Intent(AddCityActivity.this, MainActivity.class));
             }
         });
         asgv_hotCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,9 +108,14 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, MainActivity.class));
             }
         });
+
+        String local = (String) getIntent().getExtras().get(Constant.LOCAL);
+        tv_local = (TextView) findViewById(R.id.tv_local);
+        tv_local.setText(local);
     }
 
     @Override
@@ -151,9 +162,11 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.et_addCity_search:
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
             case R.id.tv_search:
+                activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
         }

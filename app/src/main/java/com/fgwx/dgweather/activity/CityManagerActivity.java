@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
+import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.view.DeleteListView;
 
 import java.util.ArrayList;
@@ -44,8 +46,11 @@ public class CityManagerActivity extends BaseActivity {
         dlv_cityManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
+                Intent data = new Intent();
+                data.putExtra("position", position);
+                setResult(RESULT_OK,data);
+                finish();
             }
         });
     }
@@ -83,7 +88,12 @@ public class CityManagerActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.ib_right:
-                    startActivity(new Intent(CityManagerActivity.this, AddCityActivity.class));
+                    Intent intent = new Intent(CityManagerActivity.this, AddCityActivity.class);
+                    String local = getIntent().getStringExtra(Constant.LOCAL);
+                    if (!TextUtils.isEmpty(local))
+                        intent.putExtra(Constant.LOCAL, local);
+                    activityList.add(CityManagerActivity.this);
+                    startActivity(intent);
                     break;
             }
         }

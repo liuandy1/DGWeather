@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/px_20"
+    android:paddingLeft="@dimen/px_16"
     android:paddingRight="@dimen/px_20"
     android:paddingTop="@dimen/px_20">
 
@@ -16,7 +16,7 @@
             android:id="@+id/iv_siteInfo_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginRight="2dp"
             android:background="@drawable/icon_map_station" />
 
         <RelativeLayout
@@ -72,7 +72,7 @@
                 android:layout_below="@id/tv_siteInfo_type"
                 android:text="29"
                 android:textColor="#0F416B"
-                android:textSize="50sp" />
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/tv_dgree"

@@ -104,6 +104,9 @@ public class MapSettingPopupwindow extends PopupWindow {
             }
 //            rb_humidity
             setBean(bean);
+        }else{
+            bean = new MapSettingBean();
+            bean.setSiteType(-1);
         }
 
 
@@ -117,7 +120,6 @@ public class MapSettingPopupwindow extends PopupWindow {
         ll_layout.setOnClickListener(new MyClickListener());
         ll_layout_content.setOnClickListener(new MyClickListener());
 
-        bean = new MapSettingBean();
         // 设置PopupWindow的View
         this.setContentView(layout);
         // 设置PopupWindow弹出窗体的宽
@@ -193,7 +195,8 @@ public class MapSettingPopupwindow extends PopupWindow {
                     bean.setRealPhoto(cb_realPhotos.isChecked());
                     bean.setRealWeather(cb_realTimeWeather.isChecked());
                     bean.setRefudge(cb_refudge.isChecked());
-                    MPreferencesUtil.getInstance().setValue(Constant.MAPSETTING,gson.toJson(bean));
+                    MPreferencesUtil.getInstance().setValue(Constant.MAPSETTING, gson.toJson(bean));
+                    LogUtil.e("mapsettingwindow返回值:"+bean.getSiteType());
                     callBack.callBack(bean.getSiteType());
                     dismiss();
                     break;
