@@ -46,8 +46,11 @@ public class CityManagerActivity extends BaseActivity {
         dlv_cityManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
+                Intent data = new Intent();
+                data.putExtra("position", position);
+                setResult(RESULT_OK,data);
+                finish();
             }
         });
     }

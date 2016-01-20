@@ -56,6 +56,7 @@ import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.bean.SiteMonitorBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
+import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
@@ -85,6 +86,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private MainActivity mMainActivity;
     public static boolean isFull = false;
     public static int current;
+    private int nowPage = 0;
     private RelativeLayout rvHomeInfo;
     private LinearLayout lyHomeSearch;
     private LinearLayout pointLayout;
@@ -124,9 +126,15 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
      */
     private View pagerView;
     private List<SiteMonitorBean> sites;
+    private ArrayList<View> views;
 
     public ForecastFirstView(Context context) {
         this(context, null);
+    }
+
+    public ForecastFirstView(Context context, int nowPage) {
+        this(context, null);
+        this.nowPage = nowPage;
     }
 
     public ForecastFirstView(Context context, AttributeSet attrs) {
@@ -153,11 +161,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
         sites = siteMonitorBaseBean.getData();
         String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, null);
-        if (!TextUtils.isEmpty(set)) {
-            MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
-            addOverSite(sites, bean.getSiteType());
-        } else {
-            addOverSite(sites, Constant.TEM);
+        if (sites != null && sites.size() > 0) {
+            if (!TextUtils.isEmpty(set)) {
+                MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
+                addOverSite(sites, bean.getSiteType());
+            } else {
+                addOverSite(sites, Constant.TEM);
+            }
         }
     }
 
@@ -167,17 +177,17 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
 
-//        MovingPictureView w1_move1 = new MovingPictureView(getContext(), R.drawable.ic_launcher, -300, 10, 40);
-//        viewPager.addView(w1_move1);
-//        new Thread(w1_move1).start();
-
+        siteView = pagerView.findViewById(R.id.layout_site);
+        weatherView = pagerView.findViewById(R.id.ly_home_weather);
+        changeView(weatherView, siteView);
+        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+        pagerView.findViewById(R.id.ib_info_warn1).setOnClickListener(this);
         if (homeForecastBaseBean != null) {
             baseBean = homeForecastBaseBean.getData();
             try {
                 HomeForecastBean data = homeForecastBaseBean.getData();
                 ForecastMonitorSiteBean siteInfo = data.getSite();
                 String strTime = siteInfo.getDataTime();
-                LogUtil.e(strTime);
                 tvCurrentTemp = (TextView) pagerView.findViewById(R.id.tv_info_currentTemp);
                 tvCurrentTemp.setText(siteInfo.getAirTemp());
 
@@ -220,6 +230,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         } else {
             tvFail.setVisibility(VISIBLE);
         }
+        mMainActivity.loading(false);
     }
 
 
@@ -286,6 +297,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                         option = new MarkerOptions().position(point).icon(rainDescriptor);
                         current = Constant.RAIN;
                         break;
+                    default:
+
+                        break;
                 }
                 //在地图上添加Marker，并显示
                 Overlay marker = mBaiduMap.addOverlay(option);
@@ -311,29 +325,25 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         lyHomeSearch = (LinearLayout) view.findViewById(R.id.ly_home_search);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager_home);
         pointLayout = (LinearLayout) view.findViewById(R.id.ll_home_dots);
-        initViewPager();
+        initViewPager(nowPage);
         initMap(view);
     }
 
 
-    private void initViewPager() {
+    public void initViewPager(int i) {
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
-        pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
-        siteView = pagerView.findViewById(R.id.layout_site);
-        weatherView = pagerView.findViewById(R.id.ly_home_weather);
-        changeView(weatherView, siteView);
-        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
+//        pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
 
-        ArrayList<View> views = new ArrayList<>();
-        views.add(pagerView);
+        views = new ArrayList<>();
+//        views.add(pagerView);
         final List<CityBean> addList = AddedCityUtil.getAllCity(mMainActivity);
-        for (int i = 0; i < addList.size(); i++) {
+        for (int j = 0; j < addList.size() + 1; j++) {
             View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
             views.add(pagerView1);
         }
 
-
         viewPager.setAdapter(new MyPagerAdapter(views));
+        pagerView = views.get(i);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -345,7 +355,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 pointLayout.getChildAt(position).setEnabled(true);
                 pointLayout.getChildAt(lastPoint_position).setEnabled(false);
                 lastPoint_position = position;
-                LogUtil.e("这个position:" + position);
             }
 
             @Override
@@ -354,6 +363,15 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             }
         });
         addImage(addList.size() + 1);
+    }
+
+    public void selectPosition(int i) {
+        CityBean add = AddedCityUtil.getAllCity(mMainActivity).get(i-1);
+        viewPager.setCurrentItem(i);
+        pagerView = views.get(i);
+        mMainActivity.getForecastData(add, SiteUtil.getCloseSite(mMainActivity,
+                new LatLng(Double.parseDouble(add.getLat()), Double.parseDouble(add.getLng()))));
+
     }
 
     /**
@@ -421,6 +439,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     }
 
     private void addImage(int size) {
+        pointLayout.removeAllViews();
         for (int i = 0; i < size; i++) {
             //添加指示点
             ImageView point = new ImageView(mMainActivity);
@@ -459,6 +478,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     @Override
     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
         if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            mMainActivity.loading(false);
             Toast.makeText(mMainActivity, "抱歉,定位失败", Toast.LENGTH_LONG).show();
             return;
         }
@@ -545,6 +565,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             if (location == null || mMapView == null) {
                 //定位出错
                 //访问缓存数据
+                mMainActivity.loading(false);
+                Toast.makeText(mMainActivity,"定位失败",Toast.LENGTH_SHORT).show();
                 return;
             }
             int[] locations = new int[2];
@@ -610,6 +632,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         public boolean onMarkerClick(Marker marker) {
 
             changeView(siteView, weatherView);
+            if(isFull) {
+                rvHomeInfo.setVisibility(View.VISIBLE);
+                lyHomeSearch.setVisibility(View.GONE);
+                isFull = false;
+            }
             SiteMonitorBean siteBean = (SiteMonitorBean) marker.getExtraInfo().get("site");
             tv_siteInfo_type = (TextView) siteView.findViewById(R.id.tv_siteInfo_type);
             tv_siteInfo_value1 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value1);
@@ -640,16 +667,18 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             switch (current) {
                 case Constant.RAIN:
 
+                    tv_siteInfo_value1.setVisibility(VISIBLE);
                     tv_siteInfo_type.setText("实时雨量");
-                    tv_siteInfo_value1.setText(siteBean.getHourRain() + "ml");
-                    tv_dgree.setVisibility(GONE);
+                    tv_siteInfo_value1.setText(siteBean.getHourRain() + "");
+                    tv_dgree.setVisibility(VISIBLE);
+                    tv_dgree.setText("ml");
                     tv_siteInfo_value2.setText("实时温度  " + siteBean.getAirTemp() + "℃");
                     tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
                     tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
                     break;
                 case Constant.HUM:
 
-
+                    tv_siteInfo_value1.setVisibility(VISIBLE);
                     tv_siteInfo_type.setText("相对湿度");
                     tv_siteInfo_value1.setText(siteBean.getRelativeWet());
                     tv_dgree.setVisibility(VISIBLE);
@@ -663,14 +692,15 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
 
                     tv_siteInfo_type.setText("风力风向");
-                    tv_siteInfo_value1.setText(siteBean.getSpeedDir());
-                    tv_dgree.setVisibility(GONE);
+                    tv_dgree.setText(siteBean.getSpeedDir());
+                    tv_siteInfo_value1.setVisibility(GONE);
                     tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
                     tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
                     tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
                     break;
                 case Constant.TEM:
 
+                    tv_siteInfo_value1.setVisibility(VISIBLE);
                     tv_siteInfo_type.setText("实时温度");
                     tv_siteInfo_value1.setText(siteBean.getAirTemp());
                     tv_dgree.setVisibility(VISIBLE);
@@ -683,7 +713,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             siteView.findViewById(R.id.iv_nav).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    nav(local.getLatitude(),local.getLongitude(),local.getName());
+                    nav(local.getLatitude(), local.getLongitude(), local.getName());
                 }
             });
             return true;
@@ -730,7 +760,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.rv_top_local:
                 Intent intent = new Intent(mMainActivity, CityManagerActivity.class);
                 intent.putExtra(Constant.LOCAL, tvHomeCity.getText().toString());
-                mMainActivity.startActivity(intent);
+                mMainActivity.startActivityForResult(intent, Constant.CHANGE);
                 break;
 
             case R.id.ib_home_share:
@@ -740,13 +770,17 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 break;
-
+            case R.id.ib_info_warn1:
+                mMainActivity.setTabSelection(1);
+                break;
         }
     }
 
     private void refreshOver(int a) {
-        mBaiduMap.clear();
-        addOverSite(sites, a);
+        if (a != -1) {
+            mBaiduMap.clear();
+            addOverSite(sites, a);
+        }
     }
 
     /**
@@ -760,30 +794,35 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         rainDescriptor.recycle();
     }
 
-    //113.331776,23.15551
-    private void nav(String lat,String lon,String name) {
+    /**
+     * 导航
+     *
+     * @param lat  目标地址纬度
+     * @param lon  目标地址经度
+     * @param name 地址名字
+     */
+    private void nav(String lat, String lon, String name) {
         //移动APP调起Android百度地图方式举例
         Intent intent = null;
-        if (isInstallByread("com.baidu.BaiduMap")) {
+        //调用百度地图导航
+        if (AppUtil.isInstallByread("com.baidu.BaiduMap")) {
             try {
-                intent = Intent.getIntent("intent://map/marker?location="+lat+","+lon+"&title=我的位置&content=" +name+
+                intent = Intent.getIntent("intent://map/marker?location=" + lat + "," + lon + "&title=我的位置&content=" + name +
                         "&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-        } else if (isInstallByread("com.autonavi.minimap")) {
+        } else if (AppUtil.isInstallByread("com.autonavi.minimap")) {   //高德导航
             try {
-                intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname="+name+"&lat="+lat+"&lon="+lon+"&dev=0");
+                intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname=" + name + "&lat=" + lat + "&lon=" + lon + "&dev=0");
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         } else {
             Toast.makeText(mMainActivity, "您未安装百度地图或高德地图", Toast.LENGTH_SHORT).show();
+            return;
         }
         mMainActivity.startActivity(intent); //启动调用
     }
 
-    private boolean isInstallByread(String packageName) {
-        return new File("/data/data/" + packageName).exists();
-    }
 }

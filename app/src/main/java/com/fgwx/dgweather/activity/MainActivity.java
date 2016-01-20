@@ -1,14 +1,17 @@
 package com.fgwx.dgweather.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,6 +34,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -157,7 +162,7 @@ public class MainActivity extends BaseActivity {
      *
      * @param index 每个tab页对应的下标。0表示预报，1表示预警，2表示监测，3表示互动，4表示我的。
      */
-    private void setTabSelection(int index) {
+    public void setTabSelection(int index) {
         // 每次选中之前先清除掉上次的选中状态
         rg_tabs.clearFocus();
         // 开启一个Fragment事务
@@ -247,6 +252,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MonitorFragment());// 监测
         fragments.add(new InteractFragment());// 互动
         fragments.add(new MineFragment());// 我的
+        loading(true);
         // getForecastNetData();
     }
 
@@ -260,7 +266,57 @@ public class MainActivity extends BaseActivity {
             mForecastFragment.getForecastNetData(cityBean, siteBean);
     }
 
-    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities){
+    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
         mForecastFragment.getSiteMonitorData(dataEntities);
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data.getExtras() != null) {
+//            int position = (int) data.getExtras().get("position");
+//            LogUtil.e("MainActivity--->onActivityResult    position:" + position);
+//            mForecastFragment.changePager(position + 1);
+//        }
+//        LogUtil.e("MainActivity--->onActivityResult    " + requestCode);
+////        mForecastFragment.changePager(data.getIntExtra("",0));
+//    }
+
+    /**
+     * 菜单、返回键响应
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click(); //调用双击退出函数
+        }
+        return false;
+    }
+
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
+
 }

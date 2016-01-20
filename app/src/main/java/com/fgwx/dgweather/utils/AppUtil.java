@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 
 import com.fgwx.dgweather.base.WeatherAppContext;
 
+import java.io.File;
+
 /**
  * Created by senghor on 2016/1/18.
  */
@@ -76,5 +78,14 @@ public class AppUtil {
             ret = context.getResources().getIdentifier(name, type, pac);
         }
         return ret;
+    }
+
+    /**
+     * 判断有没有安装某个应用
+     * @param packageName
+     * @return
+     */
+    public static boolean isInstallByread(String packageName) {
+        return new File("/data/data/" + packageName).exists();
     }
 }

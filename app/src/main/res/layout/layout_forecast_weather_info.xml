@@ -7,7 +7,7 @@
     <include
         android:id="@+id/layout_site"
         layout="@layout/layout_forecast_site_info"
-        />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ly_home_weather"
@@ -16,8 +16,7 @@
         android:background="@color/button_bg_blue"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="8dp"
-        android:visibility="gone">
+        android:paddingTop="8dp">
 
         <LinearLayout
             android:id="@+id/ll_info_left"
@@ -162,22 +161,6 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/icon_warn_rainstoem_orange" />
 
-            <ImageButton
-                android:id="@+id/ib_info_warn2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ib_info_warn1"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:background="@drawable/icon_warn_rainstoem_orange" />
-
-            <ImageButton
-                android:id="@+id/ib_info_warn3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ib_info_warn2"
-                android:layout_margin="10dp"
-                android:background="@drawable/icon_warn_rainstoem_orange" />
         </RelativeLayout>
 
     </LinearLayout>

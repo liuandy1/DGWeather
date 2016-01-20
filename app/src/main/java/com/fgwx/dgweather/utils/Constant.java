@@ -16,9 +16,11 @@ public class Constant {
     public static final int TEM = 2;
     public static final int RAIN = 3;
     public static final int HUM = 4;
+    public static final int CHANGE = 0;
 
 
     public static final String MAPSETTING = "mapSetting";
     public static final String LOCAL = "local";
+
 
 }

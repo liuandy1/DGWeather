@@ -79,4 +79,8 @@ public class BaseActivity extends AppCompatActivity implements BaseFragment.Call
         return (ViewGroup) getWindow().getDecorView().findViewById(
                 android.R.id.content);
     }
+
+    public void finish(View view){
+        this.finish();
+    }
 }
