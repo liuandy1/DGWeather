@@ -37,7 +37,7 @@ public class TimeUtil {
        // Long time = Long.parseLong(dateStr);
         //LogUtil.e("longtime"+time);
         Date date = longToDate(time);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("H:m");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         return dateFormat.format(date);
     }
 

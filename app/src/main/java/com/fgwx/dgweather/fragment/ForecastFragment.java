@@ -73,7 +73,7 @@ public class ForecastFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //先访问缓存数据
+        //先访问定位的缓存数据
         setForecastData(getCacheData());
     }
 
