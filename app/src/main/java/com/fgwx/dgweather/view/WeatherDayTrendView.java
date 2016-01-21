@@ -64,6 +64,7 @@ public class WeatherDayTrendView extends View {
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
     public void setDataBean(List<ForecastForTenDayBean> beans){
+        if(beans==null)return;
         mbeans=beans;
         mPointXs=new float[mbeans.size()];
         for(int i=0;i<mbeans.size();i++){
@@ -75,7 +76,6 @@ public class WeatherDayTrendView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mbeans==null)return;
         mHeight= getHeight();
         highOriginHeight =mHeight/2+ px40;
         lowOriginHeight =mHeight/2+ px80;

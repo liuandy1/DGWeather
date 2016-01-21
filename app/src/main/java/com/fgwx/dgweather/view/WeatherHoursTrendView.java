@@ -86,7 +86,6 @@ public class WeatherHoursTrendView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mbeans==null)return;
         mHeight= getHeight();
         originHeight=mHeight/2+px20;
         float originPoinY= (- mbeans.get(0).getTempDesc()) * multipleY;
