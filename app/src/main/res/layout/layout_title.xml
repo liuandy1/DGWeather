@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/px_10"
+        android:onClick="finish"
         android:background="@drawable/icon_back" />
 
     <TextView
@@ -23,11 +24,14 @@
         android:text="@string/add_city"
         android:textSize="@dimen/common_title_text_size" />
 
+
     <ImageButton
         android:id="@+id/ib_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/icon_add_city_local" />
+        android:layout_marginRight="@dimen/px_20"
+        android:background="@drawable/icon_city_add" />
+
 </RelativeLayout>

@@ -20,29 +20,18 @@ import java.util.List;
  * Created by AllenHu on 2016/1/13.
  */
 public class CityAddAdapter extends BaseAdapter {
-    private List list;
+    private List<CityBean> list;
     private Context context;
 
     public CityAddAdapter(Context context, List<CityBean> beans) {
-        LogUtil.e("bbb",beans.size()+"");
-        this.list = new ArrayList();
-        for(CityBean bean:beans){
-            this.list.add(bean.getName());
-        }
-        this.context = context;
-    }
-
-    public CityAddAdapter(Context context, String[] citys) {
-        this.list = new ArrayList();
-        for (String s : citys) {
-            this.list.add(s);
-        }
+        LogUtil.e("bbb", beans.size() + "");
+        this.list = beans;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        LogUtil.e("aaa",list.size()+"");
+        LogUtil.e("aaa", list.size() + "");
         return list.size();
     }
 
@@ -63,7 +52,7 @@ public class CityAddAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.activity_add_city_item, null);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.tv_city);
-        String city = (String) list.get(position);
+        String city = list.get(position).getName();
         textView.setText(city);
         return convertView;
     }

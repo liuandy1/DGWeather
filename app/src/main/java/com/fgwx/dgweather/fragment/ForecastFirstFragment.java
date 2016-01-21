@@ -36,6 +36,7 @@ import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.base.BaseFragment;
+import com.fgwx.dgweather.base.HomeCallBack;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.view.MapSettingPopupwindow;
@@ -195,7 +196,12 @@ public class ForecastFirstFragment extends BaseFragment implements View.OnClickL
             }
             break;
         case R.id.iv_home_more:
-            showPopupwindow();
+            showPopupwindow(new HomeCallBack() {
+                @Override
+                public void callBack(int a) {
+
+                }
+            });
             break;
         case R.id.ib_home_play:
             broadWeather("你好啊，今天天气不错！");
@@ -250,8 +256,8 @@ public class ForecastFirstFragment extends BaseFragment implements View.OnClickL
         });
     }
 
-    public void showPopupwindow() {
-        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(getActivity());
+    public void showPopupwindow(HomeCallBack callBack) {
+        MapSettingPopupwindow popupWindown = new MapSettingPopupwindow(getActivity(),callBack);
         popupWindown.showAtLocation(getActivity().findViewById(R.id.ll), Gravity.CENTER, 0, 0);
     }
 

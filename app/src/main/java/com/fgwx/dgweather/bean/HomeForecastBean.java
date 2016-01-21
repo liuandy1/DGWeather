@@ -9,7 +9,7 @@ public class HomeForecastBean {
      private String cityName;
      private List<ForecastForTenDayBean> days;
      private List<ForecastForHourBean> exacts;
-     private ForecastEarlyWarnBean warn;
+     private ForecastSunBean sun;
      private ForecastPeopleLifeBean life;
      private ForecastMonitorSiteBean site;
 
@@ -37,13 +37,12 @@ public class HomeForecastBean {
           this.days = days;
      }
 
-
-     public ForecastEarlyWarnBean getWarn() {
-          return warn;
+     public ForecastSunBean getSun() {
+          return sun;
      }
 
-     public void setWarn(ForecastEarlyWarnBean warn) {
-          this.warn = warn;
+     public void setSun(ForecastSunBean sun) {
+          this.sun = sun;
      }
 
      public ForecastPeopleLifeBean getLife() {

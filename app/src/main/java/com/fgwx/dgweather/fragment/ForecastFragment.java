@@ -1,6 +1,7 @@
 package com.fgwx.dgweather.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -87,6 +88,10 @@ public class ForecastFragment extends BaseFragment {
         mViewPager.setAdapter(adapter);
     }
 
+    public void changePager(int i){
+        mForecastFirstView.selectPosition(i);
+    }
+
     public void setSecondPage() {
         mViewPager.setCurrentItem(1);
     }
@@ -103,7 +108,7 @@ public class ForecastFragment extends BaseFragment {
         return gson.fromJson(string, HomeForecastBaseBean.class);
     }
 
-    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities){
+    public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
         TreeMap<String, String> map = new TreeMap<>();
         map.put("siteId", SiteUtil.setSiteBeanIdToStringList(dataEntities));
         WeatherNetUtils.getSiteMonitorData(new Response.Listener<SiteMonitorBaseBean>() {
@@ -118,14 +123,15 @@ public class ForecastFragment extends BaseFragment {
             }
         }, map);
     }
+
     public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();
-        if(!TextUtils.isEmpty(cityBean.getId()))
-        map.put("cityId", cityBean.getId());//城市Id，必须
+        if (!TextUtils.isEmpty(cityBean.getId()))
+            map.put("cityId", cityBean.getId());//城市Id，必须
         //map.put("streetId", null);//街道Id
-        if(!TextUtils.isEmpty(siteBean.getId()))
-        map.put("siteId", siteBean.getId());//站点Id
+        if (!TextUtils.isEmpty(siteBean.getId()))
+            map.put("siteId", siteBean.getId());//站点Id
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
@@ -177,9 +183,11 @@ public class ForecastFragment extends BaseFragment {
             return;
         mForecastFirstView.setSiteMonitorData(siteMonitorBaseBean);
     }
+
     private void setFirstPageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastFirstView.setFirstForecastData(homeForecastBaseBean);
     }
+
     private void setSecondePageData(HomeForecastBaseBean homeForecastBaseBean) {
         mForecastSecondView.setSecondForecastData(homeForecastBaseBean);
     }
@@ -197,4 +205,5 @@ public class ForecastFragment extends BaseFragment {
             }
         });
     }*/
+
 }

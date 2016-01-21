@@ -20,11 +20,19 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.base.BaseFragment;
+import com.fgwx.dgweather.base.HomeCallBack;
+import com.fgwx.dgweather.bean.MapSettingBean;
+import com.fgwx.dgweather.utils.Constant;
+import com.fgwx.dgweather.utils.LogUtil;
+import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.google.gson.Gson;
 
 /**
  * Created by M on 2016/1/2.
  */
 public class MapSettingPopupwindow extends PopupWindow {
+    private final Gson gson;
     private View layout;
     private CheckBox cb_showrealTimeData, cb_realTimeWeather, cb_disasterPoint, cb_refudge, cb_realPhotos;
     private RadioGroup rg_showType;
@@ -32,24 +40,75 @@ public class MapSettingPopupwindow extends PopupWindow {
     private Button bt_sure;
     private LinearLayout ll_layout, ll_layout_content;
 
-    public MapSettingPopupwindow(Activity context) {
+    private MapSettingBean bean;
+    private HomeCallBack callBack;
+
+    public MapSettingPopupwindow(Activity context,HomeCallBack callBack) {
         super(context);
+        this.callBack = callBack;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+        gson = new Gson();
+
         layout = inflater.inflate(R.layout.popup_map_setting, null);
+
+
+        //显示实时数据
         cb_showrealTimeData = (CheckBox) layout.findViewById(R.id.cb_show_realtime_data);
+        //实况天气
         cb_realTimeWeather = (CheckBox) layout.findViewById(R.id.cb_switch_weather);
+        //易灾点
         cb_disasterPoint = (CheckBox) layout.findViewById(R.id.cb_switch_disaster);
+        //避难所
         cb_refudge = (CheckBox) layout.findViewById(R.id.cb_switch_refudge);
+        //实景照片
         cb_realPhotos = (CheckBox) layout.findViewById(R.id.cb_switch_photo);
+        //
         rg_showType = (RadioGroup) layout.findViewById(R.id.rg_mapsetting_type);
+        //实时温度
         rb_temprature = (RadioButton) layout.findViewById(R.id.rb_type_temperature);
+        //相对湿度
         rb_humidity = (RadioButton) layout.findViewById(R.id.rb_type_humidity);
+        //实时雨量
         rb_rainfall = (RadioButton) layout.findViewById(R.id.rb_type_rainfall);
+        //风力风向
         rb_wind = (RadioButton) layout.findViewById(R.id.rb_type_wind);
         bt_sure = (Button) layout.findViewById(R.id.bt_mapsetting_sure);
         ll_layout = (LinearLayout) layout.findViewById(R.id.ll_layout_mapsetting);
         ll_layout_content = (LinearLayout) layout.findViewById(R.id.ll_layout_mapsetting_content);
+
+        String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, "");
+        LogUtil.e("set:"+set);
+        if (set.length() != 0) {
+            bean = gson.fromJson(set, MapSettingBean.class);
+            cb_showrealTimeData.setChecked(bean.isRealData());
+            cb_realTimeWeather.setChecked(bean.isRealWeather());
+            cb_realPhotos.setChecked(bean.isRealPhoto());
+            cb_refudge.setChecked(bean.isRefudge());
+            cb_disasterPoint.setChecked(bean.isDisasterPoint());
+            switch (bean.getSiteType()) {
+                case Constant.TEM:
+                    rb_temprature.setChecked(true);
+                    break;
+                case Constant.HUM:
+                    rb_humidity.setChecked(true);
+                    break;
+                case Constant.RAIN:
+                    rb_rainfall.setChecked(true);
+                    break;
+                case Constant.WIN:
+                    rb_wind.setChecked(true);
+                    break;
+            }
+//            rb_humidity
+            setBean(bean);
+        }else{
+            bean = new MapSettingBean();
+            bean.setSiteType(-1);
+        }
+
 
         rg_showType.setOnCheckedChangeListener(new MyRidioDroupCheckedChangeListener());
         cb_showrealTimeData.setOnCheckedChangeListener(new MyCheckBoxCheckedChangeListener());
@@ -86,19 +145,19 @@ public class MapSettingPopupwindow extends PopupWindow {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
                 case R.id.cb_show_realtime_data:
-
+//                    bean.setRealData();
                     break;
                 case R.id.rb_type_temperature:
-
+                    bean.setSiteType(Constant.TEM);
                     break;
                 case R.id.rb_type_humidity:
-
+                    bean.setSiteType(Constant.HUM);
                     break;
                 case R.id.rb_type_rainfall:
-
+                    bean.setSiteType(Constant.RAIN);
                     break;
                 case R.id.rb_type_wind:
-
+                    bean.setSiteType(Constant.WIN);
                     break;
             }
         }
@@ -131,6 +190,14 @@ public class MapSettingPopupwindow extends PopupWindow {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.bt_mapsetting_sure:
+                    bean.setRealData(cb_showrealTimeData.isChecked());
+                    bean.setDisasterPoint(cb_disasterPoint.isChecked());
+                    bean.setRealPhoto(cb_realPhotos.isChecked());
+                    bean.setRealWeather(cb_realTimeWeather.isChecked());
+                    bean.setRefudge(cb_refudge.isChecked());
+                    MPreferencesUtil.getInstance().setValue(Constant.MAPSETTING, gson.toJson(bean));
+                    LogUtil.e("mapsettingwindow返回值:"+bean.getSiteType());
+                    callBack.callBack(bean.getSiteType());
                     dismiss();
                     break;
                 case R.id.ll_layout_mapsetting:
@@ -142,5 +209,13 @@ public class MapSettingPopupwindow extends PopupWindow {
             }
 
         }
+    }
+
+    public MapSettingBean getBean() {
+        return bean;
+    }
+
+    public void setBean(MapSettingBean bean) {
+        this.bean = bean;
     }
 }

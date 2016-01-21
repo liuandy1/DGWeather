@@ -1,28 +1,33 @@
 package com.fgwx.dgweather.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
-import com.fgwx.dgweather.bean.AddedCityBean;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
+import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.view.DeleteListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CityManagerActivity extends BaseActivity {
     private DeleteListView dlv_cityManager;
     private ArrayAdapter<String> mAdapter;
     private List<String> mDatas;
-    private List<CityBean> list;
+    List<CityBean> list;
+    private ImageButton ib_back, ib_add;
+    private TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,32 +39,37 @@ public class CityManagerActivity extends BaseActivity {
             @Override
             public void clickHappend(final int position) {
                 mAdapter.remove(mAdapter.getItem(position));
-                AddedCityUtil.deleteCity(CityManagerActivity.this,list.get(position));//删除数据
+                AddedCityUtil.deleteCity(CityManagerActivity.this, list.get(position));//删除数据
             }
         });
 
         dlv_cityManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CityManagerActivity.this,MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
+                Intent data = new Intent();
+                data.putExtra("position", position);
+                setResult(RESULT_OK,data);
+                finish();
             }
         });
     }
 
-    private void initView(){
+    private void initView() {
         dlv_cityManager = (DeleteListView) findViewById(R.id.dlv_cityManager);
+        ib_back = (ImageButton) findViewById(R.id.ib_back);
+        ib_add = (ImageButton) findViewById(R.id.ib_right);
+
+        ib_back.setOnClickListener(new MyClickListenr());
+        ib_add.setOnClickListener(new MyClickListenr());
     }
 
-    private void setData(){
+    private void setData() {
         mDatas = new ArrayList<>();
         list = AddedCityUtil.getAllCity(CityManagerActivity.this);
-        for(CityBean bean:list){
+        for (CityBean bean : list) {
             mDatas.add(bean.getName());
         }
-        // 不要直接Arrays.asList
-//        mDatas = new ArrayList<String>(Arrays.asList("HelloWorld", "Welcome", "Java", "Android", "Servlet", "Struts",
-//                "Hibernate", "Spring", "HTML5", "Javascript", "Lucene"));
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDatas);
         dlv_cityManager.setAdapter(mAdapter);
     }
@@ -67,5 +77,25 @@ public class CityManagerActivity extends BaseActivity {
     public static void starCityManagerActivity(Context context) {
         Intent intent = new Intent(context, CityManagerActivity.class);
         context.startActivity(intent);
+    }
+
+    private class MyClickListenr implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ib_back:
+                    finish();
+                    break;
+                case R.id.ib_right:
+                    Intent intent = new Intent(CityManagerActivity.this, AddCityActivity.class);
+                    String local = getIntent().getStringExtra(Constant.LOCAL);
+                    if (!TextUtils.isEmpty(local))
+                        intent.putExtra(Constant.LOCAL, local);
+                    activityList.add(CityManagerActivity.this);
+                    startActivity(intent);
+                    break;
+            }
+        }
     }
 }

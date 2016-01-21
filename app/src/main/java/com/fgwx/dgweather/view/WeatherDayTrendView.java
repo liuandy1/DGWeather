@@ -34,13 +34,13 @@ public class WeatherDayTrendView extends View {
     private int px40;
     private Resources resources;
     public WeatherDayTrendView(Context context) {
-        this(context,null);
-    }
+            this(context,null);
+        }
 
-    public WeatherDayTrendView(Context context, AttributeSet attrs,
-                               int defStyle) {
-        super(context, attrs, defStyle);
-        initView(context);
+        public WeatherDayTrendView(Context context, AttributeSet attrs,
+        int defStyle) {
+            super(context, attrs, defStyle);
+            initView(context);
     }
 
     public WeatherDayTrendView(Context context, AttributeSet attrs) {

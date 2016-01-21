@@ -44,6 +44,7 @@ public class WeatherVerticalViewPager extends VerticalViewPager{
             float y = ev.getY();
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
+                    Log.v("weather","down first");
                     mLastY = y;
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -75,6 +76,12 @@ public class WeatherVerticalViewPager extends VerticalViewPager{
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.v("weather","down third");
+                break;
+
+        }
         return super.onTouchEvent(ev);
     }
 
