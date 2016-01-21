@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -166,6 +167,8 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
                 LogUtil.e(error.toString());
+                Toast.makeText(mContext,"服务器异常",Toast.LENGTH_SHORT).show();
+                loading(false);
             }
         }, map);
     }
