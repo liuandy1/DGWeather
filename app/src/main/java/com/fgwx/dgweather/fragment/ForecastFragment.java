@@ -125,7 +125,7 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-    public void getForecastNetData(final CityBean cityBean, SiteBean.DataEntity siteBean) {
+    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))
@@ -153,7 +153,11 @@ public class ForecastFragment extends BaseFragment {
                 switch (code) {
                     case 200:
                         //时间
-                        response.getData().setCityName(cityBean.getName());
+                        if("东莞市".equals(cityBean.getName())){
+                            response.getData().setCityName(siteBean.getAreaName());
+                        }else {
+                            response.getData().setCityName(cityBean.getName());
+                        }
                         setCacheData(response);
                         setForecastData(response);
                         break;
