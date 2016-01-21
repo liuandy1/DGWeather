@@ -24,14 +24,21 @@
         android:text="@string/add_city"
         android:textSize="@dimen/common_title_text_size" />
 
-
-    <ImageButton
-        android:id="@+id/ib_right"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/px_20"
-        android:background="@drawable/icon_city_add" />
+        android:padding="@dimen/px_30"
+        >
+
+        <ImageButton
+            android:id="@+id/ib_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_city_add" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

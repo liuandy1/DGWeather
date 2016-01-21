@@ -62,6 +62,8 @@ public class CityManagerActivity extends BaseActivity {
 
         ib_back.setOnClickListener(new MyClickListenr());
         ib_add.setOnClickListener(new MyClickListenr());
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("城市管理");
     }
 
     private void setData() {
