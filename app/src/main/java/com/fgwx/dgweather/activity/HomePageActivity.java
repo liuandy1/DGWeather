@@ -85,6 +85,9 @@ public class HomePageActivity extends BaseActivity implements View.OnClickListen
 
 
 
+
+
+
     public void initUI(int i) {
         LinearLayout mLlForecastTab;//预报
         LinearLayout mLlEarlyWarnTab;//预警
