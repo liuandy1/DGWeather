@@ -191,7 +191,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvTempRange = (TextView) pagerView.findViewById(R.id.tv_info_tempRange);
                 tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
 
-                tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
                 tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime)) + " 发布");
 
                 tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
@@ -341,6 +340,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         viewPager.setAdapter(new MyPagerAdapter(views));
         pagerView = views.get(i);
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
+        tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
+        tvFreshTime.setOnClickListener(this);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -764,7 +765,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 });
                 break;
             case R.id.ib_home_play:
-                //判断有没有网络，语音播报需要网络合成
                 /**
                  * 亲！好的天气带来好的心情！东莞天气为您播报，东莞今天的天气是晴间多云，温度12到15度，西北风2到3级。
                  */
