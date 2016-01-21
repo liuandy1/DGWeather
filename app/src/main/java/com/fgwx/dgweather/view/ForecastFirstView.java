@@ -3,12 +3,10 @@ package com.fgwx.dgweather.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -69,7 +67,6 @@ import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +124,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private View pagerView;
     private List<SiteMonitorBean> sites;
     private ArrayList<View> views;
+    private String city = "东莞市";
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -366,7 +364,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     }
 
     public void selectPosition(int i) {
-        CityBean add = AddedCityUtil.getAllCity(mMainActivity).get(i-1);
+        CityBean add = AddedCityUtil.getAllCity(mMainActivity).get(i - 1);
         viewPager.setCurrentItem(i);
         pagerView = views.get(i);
         mMainActivity.getForecastData(add, SiteUtil.getCloseSite(mMainActivity,
@@ -487,13 +485,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         isSetLoc = true;
         LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
         MPreferencesUtil.getInstance().setValue(Constant.NOWLOCAL, reverseGeoCodeResult.getAddress());
-        String city = addressDetail.city;
+        city = addressDetail.city;
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
         if (mCurrentLng != null)
             mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-        mMainActivity.getSiteMonitorData(SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng, 8000));
+        List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng, 8000);
+        if (closeSite != null && closeSite.size() > 0) {
+            mMainActivity.getSiteMonitorData(closeSite);
+        }
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
 
@@ -566,7 +567,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 //定位出错
                 //访问缓存数据
                 mMainActivity.loading(false);
-                Toast.makeText(mMainActivity,"定位失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mMainActivity, "定位失败", Toast.LENGTH_SHORT).show();
                 return;
             }
             int[] locations = new int[2];
@@ -575,9 +576,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //            Point mBaiduMapCenterPosition = new Point((locations[0] + mMapView.getWidth()) / 2, locations[1]
 //                    + mMapView.getHeight() / 2);
 //            LatLng cent = mBaiduMap.getProjection().fromScreenLocation(mBaiduMapCenterPosition);
-            //            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.796164,23.04701
-            mCurrentLng = new LatLng(23.04701, 113.796164);
+//            mCurrentLng = new LatLng(23.04701, 113.796164);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
@@ -632,7 +633,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         public boolean onMarkerClick(Marker marker) {
 
             changeView(siteView, weatherView);
-            if(isFull) {
+            if (isFull) {
                 rvHomeInfo.setVisibility(View.VISIBLE);
                 lyHomeSearch.setVisibility(View.GONE);
                 isFull = false;
@@ -769,6 +770,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
+                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+                mMainActivity.loading(true);
                 break;
             case R.id.ib_info_warn1:
                 mMainActivity.setTabSelection(1);
