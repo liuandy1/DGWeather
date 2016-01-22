@@ -28,6 +28,9 @@
     <!--红色-->
     <color name="red">#FF3300</color>
 
+    <!-- 绿色-->
+    <color name="call_text_color">#539730</color>
+
     <!-- 线条颜色  深蓝色-->
     <color name="comm_line_color">#375571</color>
 
