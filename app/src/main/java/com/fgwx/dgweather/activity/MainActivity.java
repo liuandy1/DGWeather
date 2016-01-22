@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.bean.CityBean;
@@ -271,6 +272,10 @@ public class MainActivity extends BaseActivity {
         mForecastFragment.getSiteMonitorData(dataEntities);
     }
 
+    public void getDangerAndShelterData(String cityId, LatLng lng1, LatLng lng2, int page, int pageSie) {
+
+    }
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -318,6 +323,7 @@ public class MainActivity extends BaseActivity {
                 activity.finish();
             }
             finish();
+            mForecastFragment.recycle();
             System.exit(0);
         }
     }

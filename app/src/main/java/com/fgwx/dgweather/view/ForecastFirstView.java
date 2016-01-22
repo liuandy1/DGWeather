@@ -3,6 +3,7 @@ package com.fgwx.dgweather.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -734,7 +735,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             siteView.findViewById(R.id.iv_nav).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    nav(local.getLatitude(), local.getLongitude(), local.getName());
+                    AppUtil.nav(mMainActivity, local.getLatitude(), local.getLongitude(), local.getName());
                 }
             });
             return true;
@@ -814,37 +815,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         humDescriptor.recycle();
         winDescriptor.recycle();
         rainDescriptor.recycle();
-    }
-
-    /**
-     * 导航
-     *
-     * @param lat  目标地址纬度
-     * @param lon  目标地址经度
-     * @param name 地址名字
-     */
-    private void nav(String lat, String lon, String name) {
-        //移动APP调起Android百度地图方式举例
-        Intent intent = null;
-        //调用百度地图导航
-        if (AppUtil.isInstallByread("com.baidu.BaiduMap")) {
-            try {
-                intent = Intent.getIntent("intent://map/marker?location=" + lat + "," + lon + "&title=我的位置&content=" + name +
-                        "&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        } else if (AppUtil.isInstallByread("com.autonavi.minimap")) {   //高德导航
-            try {
-                intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname=" + name + "&lat=" + lat + "&lon=" + lon + "&dev=0");
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(mMainActivity, "您未安装百度地图或高德地图", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mMainActivity.startActivity(intent); //启动调用
     }
 
 }
