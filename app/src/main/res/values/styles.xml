@@ -101,5 +101,21 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="LoginAndRegisterTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/map_setting_text_dark_gray</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:ems">4</item>
+    </style>
+
+    <style name="LoginAndRegisterEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/map_setting_text_dark_gray</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/px_40</item>
+    </style>
+
 
 </resources>

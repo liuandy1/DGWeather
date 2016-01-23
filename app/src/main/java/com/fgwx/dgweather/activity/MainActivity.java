@@ -30,6 +30,7 @@ import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.fgwx.dgweather.utils.ScreenShoot;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -333,6 +334,7 @@ public class MainActivity extends BaseActivity {
             }
             finish();
             mForecastFragment.recycle();
+            ScreenShoot.deleteScreenShootImage();
             System.exit(0);
         }
     }

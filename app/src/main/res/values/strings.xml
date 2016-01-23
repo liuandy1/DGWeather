@@ -55,5 +55,13 @@
     <string name="go_there">到这里去</string>
     <string name="add_city">添加城市</string>
 
-
+    <!--注册-->
+    <string name="user_name">用户名</string>
+    <string name="nick_name">昵称</string>
+    <string name="phone">手机</string>
+    <string name="password">密码</string>
+    <string name="password_confirm">确认密码</string>
+    <string name="i__agree_with_the_policy">我已阅读并同意用户协定</string>
+    <string name="register">注册</string>
+    <string name="login">登陆</string>
 </resources>

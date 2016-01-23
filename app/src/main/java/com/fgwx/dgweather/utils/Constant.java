@@ -1,5 +1,7 @@
 package com.fgwx.dgweather.utils;
 
+import android.os.Environment;
+
 /**
  * 作者：燕青 on 2016/1/4 18:59
  * 邮箱：359222347@qq.com
@@ -23,4 +25,6 @@ public class Constant {
     public static final String LOCAL = "local";
     public static final String DANGER = "danger";
     public static final String SHALTER = "shelter";
+
+    public static final String IMAGE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DGWeather/image/";
 }

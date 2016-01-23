@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -64,6 +65,7 @@ import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
+import com.fgwx.dgweather.utils.ScreenShoot;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
@@ -72,10 +74,12 @@ import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.util.ShareSDKUtil;
 
 /**
  * Class description goes here.
@@ -617,48 +621,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         mMapView.onPause();
     }
 
-
-    /**
-     * 带参数的分享
-     * area   地区
-     * weaDesc   天气描述
-     * tempRange   温度范围
-     * windDirec   风向
-     * windSpeed   风速
-     */
-    private void showShare(String area, String weaDesc, String tempRange, String windDirec, String windSpeed) {
-        ShareSDK.initSDK(mMainActivity);
-        cn.sharesdk.onekeyshare.OnekeyShare oks = new cn.sharesdk.onekeyshare.OnekeyShare();
-        // 关闭sso授权
-        oks.disableSSOWhenAuthorize();
-
-        // 分享时Notification的图标和文字 2.5.9以后的版本不调用此方法
-        // oks.setNotification(R.drawable.ic_launcher,
-        // getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(mMainActivity.getString(R.string.share));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://mob.com");
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText("亲！好的天气带来好的心情！东莞天气提醒您，" + area + "今天的天气是" + weaDesc + "，" + tempRange + "，" + windDirec + "，"
-                + windSpeed + "。\n");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//        oks.setImagePath("/sdcard/test.jpg");// 确保SDcard下面存在此张图片
-
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("这是评论");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(mMainActivity.getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
-
-        // 启动分享GUI
-        oks.show(mMainActivity);
-    }
-
     private class MyLocationListenner implements BDLocationListener {
 
         @Override
@@ -913,7 +875,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
 
             case R.id.ib_home_share:
-                showShare("东莞", "多云转晴", "21~30度", "东南风", "3~4级");
+                String filePath = Constant.IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
+                File file = new File(filePath);
+                ScreenShoot.shoot(mMainActivity, file);
+                ShareSDKUtil.showShare(mMainActivity, filePath, "东莞", "多云转晴", "21~30度", "东南风", "3~4级");
                 break;
 
             case R.id.tv_info_refresh:
