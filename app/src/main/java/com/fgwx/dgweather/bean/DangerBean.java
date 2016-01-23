@@ -1,5 +1,6 @@
 package com.fgwx.dgweather.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,48 +8,48 @@ import java.util.List;
  *
  * 易灾点
  */
-public class DangerBean {
+public class DangerBean implements Serializable{
     private String address;
-    private Object areaCode;
-    private Object areaName;
+    private String areaCode;
+    private String areaName;
     private int aveWaterDepth;
     private String belongUnit;
     private String _class;
-    private Object conDutyPhone;
-    private Object conMobilePhone;
-    private Object contactNumber;
-    private Object contacter;
+    private String conDutyPhone;
+    private String conMobilePhone;
+    private String contactNumber;
+    private String contacter;
     private long createTime;
-    private Object creator;
+    private String creator;
     private int curMaxRainfall;
-    private Object danPerson;
+    private String danPerson;
     private String dataSource;
     private String delFlag;
-    private Object desCharacter;
-    private Object desInfo;
-    private Object desLinkSet;
-    private Object desType;
+    private String desCharacter;
+    private String desInfo;
+    private String desLinkSet;
+    private String desType;
     private String description;
-    private Object detWay;
+    private String detWay;
     private String dutyPhone;
-    private Object etd1;
-    private Object etd2;
-    private Object etd3;
-    private Object governAction;
+    private String etd1;
+    private String etd2;
+    private String etd3;
+    private String governAction;
     private String id;
     private double latitude;
-    private Object level;
+    private String level;
     private double longitude;
     private int maxWaterDepth;
-    private Object modifier;
+    private String modifier;
     private long modifyTime;
     private String name;
     private String pic;
     private String range;
-    private Object remarks;
+    private String remarks;
     private String sort;
-    private Object takeAction;
-    private Object traffic;
+    private String takeAction;
+    private String traffic;
     private String type;
     private int version;
     private int waterDischarge;
@@ -83,11 +84,11 @@ public class DangerBean {
         this.address = address;
     }
 
-    public void setAreaCode(Object areaCode) {
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 
-    public void setAreaName(Object areaName) {
+    public void setAreaName(String areaName) {
         this.areaName = areaName;
     }
 
@@ -103,19 +104,19 @@ public class DangerBean {
         this._class = _class;
     }
 
-    public void setConDutyPhone(Object conDutyPhone) {
+    public void setConDutyPhone(String conDutyPhone) {
         this.conDutyPhone = conDutyPhone;
     }
 
-    public void setConMobilePhone(Object conMobilePhone) {
+    public void setConMobilePhone(String conMobilePhone) {
         this.conMobilePhone = conMobilePhone;
     }
 
-    public void setContactNumber(Object contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
-    public void setContacter(Object contacter) {
+    public void setContacter(String contacter) {
         this.contacter = contacter;
     }
 
@@ -123,7 +124,7 @@ public class DangerBean {
         this.createTime = createTime;
     }
 
-    public void setCreator(Object creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
 
@@ -131,7 +132,7 @@ public class DangerBean {
         this.curMaxRainfall = curMaxRainfall;
     }
 
-    public void setDanPerson(Object danPerson) {
+    public void setDanPerson(String danPerson) {
         this.danPerson = danPerson;
     }
 
@@ -143,19 +144,19 @@ public class DangerBean {
         this.delFlag = delFlag;
     }
 
-    public void setDesCharacter(Object desCharacter) {
+    public void setDesCharacter(String desCharacter) {
         this.desCharacter = desCharacter;
     }
 
-    public void setDesInfo(Object desInfo) {
+    public void setDesInfo(String desInfo) {
         this.desInfo = desInfo;
     }
 
-    public void setDesLinkSet(Object desLinkSet) {
+    public void setDesLinkSet(String desLinkSet) {
         this.desLinkSet = desLinkSet;
     }
 
-    public void setDesType(Object desType) {
+    public void setDesType(String desType) {
         this.desType = desType;
     }
 
@@ -163,7 +164,7 @@ public class DangerBean {
         this.description = description;
     }
 
-    public void setDetWay(Object detWay) {
+    public void setDetWay(String detWay) {
         this.detWay = detWay;
     }
 
@@ -171,19 +172,19 @@ public class DangerBean {
         this.dutyPhone = dutyPhone;
     }
 
-    public void setEtd1(Object etd1) {
+    public void setEtd1(String etd1) {
         this.etd1 = etd1;
     }
 
-    public void setEtd2(Object etd2) {
+    public void setEtd2(String etd2) {
         this.etd2 = etd2;
     }
 
-    public void setEtd3(Object etd3) {
+    public void setEtd3(String etd3) {
         this.etd3 = etd3;
     }
 
-    public void setGovernAction(Object governAction) {
+    public void setGovernAction(String governAction) {
         this.governAction = governAction;
     }
 
@@ -195,7 +196,7 @@ public class DangerBean {
         this.latitude = latitude;
     }
 
-    public void setLevel(Object level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
@@ -207,7 +208,7 @@ public class DangerBean {
         this.maxWaterDepth = maxWaterDepth;
     }
 
-    public void setModifier(Object modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
@@ -227,7 +228,7 @@ public class DangerBean {
         this.range = range;
     }
 
-    public void setRemarks(Object remarks) {
+    public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
 
@@ -235,11 +236,11 @@ public class DangerBean {
         this.sort = sort;
     }
 
-    public void setTakeAction(Object takeAction) {
+    public void setTakeAction(String takeAction) {
         this.takeAction = takeAction;
     }
 
-    public void setTraffic(Object traffic) {
+    public void setTraffic(String traffic) {
         this.traffic = traffic;
     }
 
@@ -263,11 +264,11 @@ public class DangerBean {
         return address;
     }
 
-    public Object getAreaCode() {
+    public String getAreaCode() {
         return areaCode;
     }
 
-    public Object getAreaName() {
+    public String getAreaName() {
         return areaName;
     }
 
@@ -283,19 +284,19 @@ public class DangerBean {
         return _class;
     }
 
-    public Object getConDutyPhone() {
+    public String getConDutyPhone() {
         return conDutyPhone;
     }
 
-    public Object getConMobilePhone() {
+    public String getConMobilePhone() {
         return conMobilePhone;
     }
 
-    public Object getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
-    public Object getContacter() {
+    public String getContacter() {
         return contacter;
     }
 
@@ -303,7 +304,7 @@ public class DangerBean {
         return createTime;
     }
 
-    public Object getCreator() {
+    public String getCreator() {
         return creator;
     }
 
@@ -311,7 +312,7 @@ public class DangerBean {
         return curMaxRainfall;
     }
 
-    public Object getDanPerson() {
+    public String getDanPerson() {
         return danPerson;
     }
 
@@ -323,19 +324,19 @@ public class DangerBean {
         return delFlag;
     }
 
-    public Object getDesCharacter() {
+    public String getDesCharacter() {
         return desCharacter;
     }
 
-    public Object getDesInfo() {
+    public String getDesInfo() {
         return desInfo;
     }
 
-    public Object getDesLinkSet() {
+    public String getDesLinkSet() {
         return desLinkSet;
     }
 
-    public Object getDesType() {
+    public String getDesType() {
         return desType;
     }
 
@@ -343,7 +344,7 @@ public class DangerBean {
         return description;
     }
 
-    public Object getDetWay() {
+    public String getDetWay() {
         return detWay;
     }
 
@@ -351,19 +352,19 @@ public class DangerBean {
         return dutyPhone;
     }
 
-    public Object getEtd1() {
+    public String getEtd1() {
         return etd1;
     }
 
-    public Object getEtd2() {
+    public String getEtd2() {
         return etd2;
     }
 
-    public Object getEtd3() {
+    public String getEtd3() {
         return etd3;
     }
 
-    public Object getGovernAction() {
+    public String getGovernAction() {
         return governAction;
     }
 
@@ -375,7 +376,7 @@ public class DangerBean {
         return latitude;
     }
 
-    public Object getLevel() {
+    public String getLevel() {
         return level;
     }
 
@@ -387,7 +388,7 @@ public class DangerBean {
         return maxWaterDepth;
     }
 
-    public Object getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
@@ -407,7 +408,7 @@ public class DangerBean {
         return range;
     }
 
-    public Object getRemarks() {
+    public String getRemarks() {
         return remarks;
     }
 
@@ -415,11 +416,11 @@ public class DangerBean {
         return sort;
     }
 
-    public Object getTakeAction() {
+    public String getTakeAction() {
         return takeAction;
     }
 
-    public Object getTraffic() {
+    public String getTraffic() {
         return traffic;
     }
 
@@ -442,25 +443,25 @@ public class DangerBean {
     public static class FilesEntity {
         private String _class;
         private long createTime;
-        private Object creator;
+        private String creator;
         private String delFlag;
-        private Object etd1;
-        private Object etd2;
-        private Object etd3;
+        private String etd1;
+        private String etd2;
+        private String etd3;
         private String extName;
         private String filename;
         private String id;
         private String main;
-        private Object modifier;
+        private String modifier;
         private long modifyTime;
-        private Object phyPath;
+        private String phyPath;
         private String realFilename;
-        private Object relPath;
-        private Object remarks;
-        private Object size;
+        private String relPath;
+        private String remarks;
+        private String size;
         private String sort;
         private String type;
-        private Object uploadTime;
+        private String uploadTime;
         private int version;
 
         public void set_class(String _class) {
@@ -471,7 +472,7 @@ public class DangerBean {
             this.createTime = createTime;
         }
 
-        public void setCreator(Object creator) {
+        public void setCreator(String creator) {
             this.creator = creator;
         }
 
@@ -479,15 +480,15 @@ public class DangerBean {
             this.delFlag = delFlag;
         }
 
-        public void setEtd1(Object etd1) {
+        public void setEtd1(String etd1) {
             this.etd1 = etd1;
         }
 
-        public void setEtd2(Object etd2) {
+        public void setEtd2(String etd2) {
             this.etd2 = etd2;
         }
 
-        public void setEtd3(Object etd3) {
+        public void setEtd3(String etd3) {
             this.etd3 = etd3;
         }
 
@@ -507,7 +508,7 @@ public class DangerBean {
             this.main = main;
         }
 
-        public void setModifier(Object modifier) {
+        public void setModifier(String modifier) {
             this.modifier = modifier;
         }
 
@@ -515,7 +516,7 @@ public class DangerBean {
             this.modifyTime = modifyTime;
         }
 
-        public void setPhyPath(Object phyPath) {
+        public void setPhyPath(String phyPath) {
             this.phyPath = phyPath;
         }
 
@@ -523,15 +524,15 @@ public class DangerBean {
             this.realFilename = realFilename;
         }
 
-        public void setRelPath(Object relPath) {
+        public void setRelPath(String relPath) {
             this.relPath = relPath;
         }
 
-        public void setRemarks(Object remarks) {
+        public void setRemarks(String remarks) {
             this.remarks = remarks;
         }
 
-        public void setSize(Object size) {
+        public void setSize(String size) {
             this.size = size;
         }
 
@@ -543,7 +544,7 @@ public class DangerBean {
             this.type = type;
         }
 
-        public void setUploadTime(Object uploadTime) {
+        public void setUploadTime(String uploadTime) {
             this.uploadTime = uploadTime;
         }
 
@@ -559,7 +560,7 @@ public class DangerBean {
             return createTime;
         }
 
-        public Object getCreator() {
+        public String getCreator() {
             return creator;
         }
 
@@ -567,15 +568,15 @@ public class DangerBean {
             return delFlag;
         }
 
-        public Object getEtd1() {
+        public String getEtd1() {
             return etd1;
         }
 
-        public Object getEtd2() {
+        public String getEtd2() {
             return etd2;
         }
 
-        public Object getEtd3() {
+        public String getEtd3() {
             return etd3;
         }
 
@@ -595,7 +596,7 @@ public class DangerBean {
             return main;
         }
 
-        public Object getModifier() {
+        public String getModifier() {
             return modifier;
         }
 
@@ -603,7 +604,7 @@ public class DangerBean {
             return modifyTime;
         }
 
-        public Object getPhyPath() {
+        public String getPhyPath() {
             return phyPath;
         }
 
@@ -611,15 +612,15 @@ public class DangerBean {
             return realFilename;
         }
 
-        public Object getRelPath() {
+        public String getRelPath() {
             return relPath;
         }
 
-        public Object getRemarks() {
+        public String getRemarks() {
             return remarks;
         }
 
-        public Object getSize() {
+        public String getSize() {
             return size;
         }
 
@@ -631,7 +632,7 @@ public class DangerBean {
             return type;
         }
 
-        public Object getUploadTime() {
+        public String getUploadTime() {
             return uploadTime;
         }
 

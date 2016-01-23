@@ -8,5 +8,5 @@ package com.fgwx.dgweather.base;
  */
 public interface HomeCallBack {
 
-    void callBack(int a);
+    void callBack(int a,boolean isDanger,boolean isShelter);
 }

@@ -177,6 +177,59 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
+    /**
+     * 获取易灾点和避难所的信息
+     *
+     * @param cityId
+     * @param lng1    左上角的点
+     * @param page    可以不传的话，就传0
+     * @param pageSie 可以不传的话，就传0
+     */
+    public void getDanAndSheData(String cityId, LatLng lng1, int page, int pageSie) {
+        TreeMap<String, String> map = new TreeMap<>();
+        map.put("queryDanger", "1");
+        map.put("queryShelter", "1");
+//        map.put("cityId", cityId);
+        if (lng1 != null) {
+//            map.put("ltLng", lng1.longitude - 0.3 + "");
+//            map.put("ltLat", lng1.latitude + 0.5 + "");
+//
+//            map.put("rbLng", lng1.longitude + 0.2 + "");
+//            map.put("rbLat", lng1.latitude - 0.2 + "");
+        }
+        if (page > 0) {
+            map.put("page", page + "");
+        }
+        if (pageSie > 0) {
+            map.put("pageSize", pageSie + "");
+        }
+        WeatherNetUtils.getDangerAndShelter(new Response.Listener<DangerAndShelterBean>() {
+            @Override
+            public void onResponse(DangerAndShelterBean response) {
+                if (null == response) {
+                    ToastUtil.show(getActivity(), "服务器异常,请稍后重试");
+                    return;
+                }
+                if (response.getCode() != 200) {
+                    ToastUtil.show(getActivity(), "服务器异常,请稍后重试");
+                    return;
+                }
+                if(null!=response.getDangers()&&response.getDangers().size()>0){
+                    LogUtil.e("易灾点:"+response.getDangers().size());
+                    mForecastFirstView.setDangerData(response.getDangers());
+                }
+                if(null!=response.getShelters()&&response.getShelters().size()>0){
+                    mForecastFirstView.setShelterData(response.getShelters());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }, map);
+    }
+
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
 
         TreeMap<String, String> map = new TreeMap<>();
@@ -253,6 +306,10 @@ public class ForecastFragment extends BaseFragment {
 
     public void recycle() {
         mForecastFirstView.recycle();
+    }
+
+    public void changeView() {
+        mForecastFirstView.toHome();
     }
    /* private void getAreaData(){
         WeatherNetUtils.getAreaData(new Response.Listener<AreaBaseBean>() {

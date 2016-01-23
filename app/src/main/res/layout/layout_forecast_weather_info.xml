@@ -9,11 +9,16 @@
         layout="@layout/layout_forecast_site_info"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/layout_station"
+        layout="@layout/layout_forecast_station_info"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/ly_home_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/button_bg_blue"
+        android:background="@drawable/bg_qing"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="8dp">

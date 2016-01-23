@@ -122,4 +122,9 @@ public class AppUtil {
         }
         context.startActivity(intent); //启动调用
     }
+
+
+    public static void nav(Context context,double lat, double lon, String name) {
+        nav(context,lat+"",lon+"",name);
+    }
 }

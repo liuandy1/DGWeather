@@ -87,11 +87,13 @@
 
         <activity
             android:name=".activity.HomePageActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -106,10 +108,16 @@
             android:process=":remote" />
         <service android:name=".service.WeatherService" />
 
-        <activity android:name=".activity.AddCityActivity">
-          </activity>
-        <activity android:name=".activity.CityManagerActivity"/>
-        <activity android:name=".activity.AddCitySearchActivity"/>
+        <activity
+            android:name=".activity.AddCityActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.CityManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddCitySearchActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -198,7 +198,7 @@ public class ForecastFirstFragment extends BaseFragment implements View.OnClickL
         case R.id.iv_home_more:
             showPopupwindow(new HomeCallBack() {
                 @Override
-                public void callBack(int a) {
+                public void callBack(int a,boolean danger,boolean shelter) {
 
                 }
             });

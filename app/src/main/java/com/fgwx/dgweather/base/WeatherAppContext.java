@@ -37,6 +37,7 @@ public class WeatherAppContext extends Application {
     private static WeatherAppContext sInstance;
     private MPreferencesUtil preferencesUtil;
     public String LocalStr;
+    public static boolean isWeather = true;
 
     @Override
     public void onCreate() {

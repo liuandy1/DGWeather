@@ -1,5 +1,6 @@
 package com.fgwx.dgweather.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * 避难所
  */
-public class ShelterBean {
+public class ShelterBean implements Serializable{
 
     private String address;
     private Object areaCode;

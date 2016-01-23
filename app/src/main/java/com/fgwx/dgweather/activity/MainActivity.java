@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
+import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
@@ -276,6 +277,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public void getDangerAndShelterData(String cityId, LatLng lng1, int page, int pageSie) {
+        mForecastFragment.getDanAndSheData(cityId, lng1, page, pageSie);
+    }
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -307,6 +312,10 @@ public class MainActivity extends BaseActivity {
 
     private void exitBy2Click() {
         Timer tExit = null;
+        if (!WeatherAppContext.isWeather) {
+            mForecastFragment.changeView();
+            return;
+        }
         if (isExit == false) {
             isExit = true; // 准备退出
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();

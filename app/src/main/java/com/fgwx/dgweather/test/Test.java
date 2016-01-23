@@ -170,4 +170,10 @@ public class Test extends AndroidTestCase {
     public int add(int a, int b) {
         return a + b;
     }
+
+    public void testFloat() {
+        for (int i = 0; i < 50; i++) {
+            LogUtil.e(Math.floor(Math.random() * 11)+"");
+        }
+    }
 }
