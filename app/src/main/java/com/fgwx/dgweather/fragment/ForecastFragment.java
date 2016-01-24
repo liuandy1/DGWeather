@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.ForecastSortAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.base.BaseFragment;
@@ -51,7 +52,7 @@ import java.util.logging.LogRecord;
 public class ForecastFragment extends BaseFragment {
 
     private List<View> mViews;
-    private BaseActivity mContext;
+    private MainActivity mContext;
     private WeatherVerticalViewPager mViewPager;
     private ForecastSortAdapter adapter;
     private ForecastFirstView mForecastFirstView;
@@ -71,14 +72,14 @@ public class ForecastFragment extends BaseFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mContext = (BaseActivity) activity;
+        mContext = (MainActivity) activity;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //先访问定位的缓存数据
-        setForecastData(getCacheData(0));
+        setForecastData(getCacheData(mContext.currentCityId));
     }
 
     private void initUI(View view) {
@@ -101,11 +102,11 @@ public class ForecastFragment extends BaseFragment {
         mViewPager.setCurrentItem(1);
     }
 
-    private void setCacheData(HomeForecastBaseBean data,int foucsCityId) {
+    private void setCacheData(HomeForecastBaseBean data,String foucsCityId) {
             MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA+foucsCityId, gson.toJson(data));
     }
 
-    private HomeForecastBaseBean getCacheData(int foucsCityId) {
+    private HomeForecastBaseBean getCacheData(String foucsCityId) {
         String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA+foucsCityId, "");
         if (TextUtils.isEmpty(string)) {
             return null;
@@ -232,7 +233,7 @@ public class ForecastFragment extends BaseFragment {
     }
 
 //    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
-    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final int foucsCityId) {
+    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final String foucsCityId) {
 
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))

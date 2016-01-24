@@ -61,6 +61,7 @@
                 android:layout_centerInParent="true"
                 />
             <com.fgwx.dgweather.view.WhitePointView
+                android:id="@+id/white_point_view"
                 android:layout_marginBottom="@dimen/px_16"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"

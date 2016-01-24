@@ -13,10 +13,12 @@ import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
+import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.ForecastSunBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
+import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private TextView mTvSunRise;
     private TextView mTvSunSet;
     private TextView mTvCursor;
+    private WhitePointView mWhitePointView;
     private int perHourWidth;
     private WeatherSunChangeView mWeatherSunChangeView;
     private AdapterScroListView aslv_LivingIndex;//生活指数
@@ -54,6 +57,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private List<ForecastForHourBean> mHourBeans;
     private String currentCityName="";
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
+
+    private List<CityBean> cityBeans;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -76,6 +81,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
 
     private void init() {
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
+        cityBeans=AddedCityUtil.getAllCity(getContext());
         View view = LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
@@ -135,8 +141,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mTvSunRise = (TextView) findViewById(id.tv_life_sunriseTime);
         mTvSunSet = (TextView) findViewById(id.tv_life_sunsetTime);
         mTvCursor = (TextView) findViewById(id.tv_per_day_text_show);
-
+        mWhitePointView= (WhitePointView) findViewById(id.white_point_view);
         mWeatherSunChangeView = (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
+        mWhitePointView.setPointNum(cityBeans.size()+1);
     }
 
     @Override

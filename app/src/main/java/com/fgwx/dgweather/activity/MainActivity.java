@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity {
      * 用于对Fragment进行管理
      */
 
+    public String currentCityId="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,10 @@ public class MainActivity extends BaseActivity {
         isFragmentSave(savedInstanceState);
         init();
         setTabSelection(0);
+        currentCityId=getIntent().getStringExtra(Constant.CITYID);
+        if(TextUtils.isEmpty(currentCityId)){
+            currentCityId="0";
+        }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
 
     }
@@ -274,9 +279,9 @@ public class MainActivity extends BaseActivity {
             mForecastFragment.setSecondPage();
     }
 
-    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean,int foucsCityId) {
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean,foucsCityId);
+            mForecastFragment.getForecastNetData(cityBean, siteBean,currentCityId);
     }
 
     public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {

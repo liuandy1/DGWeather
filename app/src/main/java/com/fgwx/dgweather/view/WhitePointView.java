@@ -15,8 +15,8 @@ public class WhitePointView extends View {
 
     private int white=0xaaFFFFFF;
     private int gray=0xff000000;
-    private int currentNum=2;
-    private int mPointNum=5;
+    private int currentNum=0;
+    private int mPointNum=0;
     private Paint mPaint;
     private float[] mPointXs;
     private int multipleX;
@@ -52,6 +52,7 @@ public class WhitePointView extends View {
             mPointXs[i]=multipleX/2+(multipleX*1.5f*i);
         }
         sumWidth=(int)(mPointXs[pointNum-1]+multipleX/2);
+        postInvalidate();
     }
     @Override
     protected void onDraw(Canvas canvas) {
