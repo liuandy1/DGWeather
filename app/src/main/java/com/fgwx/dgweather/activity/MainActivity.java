@@ -28,6 +28,7 @@ import com.fgwx.dgweather.fragment.ForecastFragment;
 import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
+import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.ExitAppUtils;
@@ -100,6 +101,12 @@ public class MainActivity extends BaseActivity {
         }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mForecastFragment.initViewPager(AddedCityUtil.getAllCity(this).size());
     }
 
     public void isFragmentSave(Bundle savedInstanceState) {

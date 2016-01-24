@@ -663,9 +663,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //            Point mBaiduMapCenterPosition = new Point((locations[0] + mMapView.getWidth()) / 2, locations[1]
 //                    + mMapView.getHeight() / 2);
 //            LatLng cent = mBaiduMap.getProjection().fromScreenLocation(mBaiduMapCenterPosition);
-//            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.796164,23.04701
-            mCurrentLng[0] = new LatLng(23.04701, 113.796164);
+//            mCurrentLng[0] = new LatLng(23.04701, 113.796164);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng[0].latitude).longitude(mCurrentLng[0].longitude).build();

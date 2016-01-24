@@ -316,6 +316,10 @@ public class ForecastFragment extends BaseFragment {
     public void changeView() {
         mForecastFirstView.toHome();
     }
+
+    public void initViewPager(int i){
+        mForecastFirstView.initViewPager(i);
+    }
    /* private void getAreaData(){
         WeatherNetUtils.getAreaData(new Response.Listener<AreaBaseBean>() {
             @Override
