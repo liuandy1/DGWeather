@@ -339,6 +339,7 @@ public class MainActivity extends BaseActivity {
 
         } else {
             ExitAppUtils.getInstance().exit();
+
 //            for (Activity activity : activityList) {
 //                activity.finish();
 //            }
