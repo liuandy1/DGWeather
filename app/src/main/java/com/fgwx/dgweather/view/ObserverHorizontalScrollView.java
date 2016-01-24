@@ -28,12 +28,15 @@ public class ObserverHorizontalScrollView extends HorizontalScrollView{
 	    public ObserverHorizontalScrollView(Context context, AttributeSet attrs) {  
 	        this(context, attrs,0);  
 	    }
-
+	private OnBottomAndTopListener onBottomAndTopListener;
 	private int width;
 	private int scrollViewMeasuredWidth;
 	private float beginX;
 	private int flag=0;
 
+	public void setOnBottomAndTopListener(OnBottomAndTopListener onBottomAndTopListener){
+		this.onBottomAndTopListener=onBottomAndTopListener;
+	}
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -62,10 +65,16 @@ public class ObserverHorizontalScrollView extends HorizontalScrollView{
 				break;
 			case MotionEvent.ACTION_UP:
 				int scx=getScrollX();
-				if(scx==0&&flag==1)
-					Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
-				if((scx+width)==scrollViewMeasuredWidth&&flag==2)
-					Toast.makeText(WeatherAppContext.getAppContext(),"到达底部",Toast.LENGTH_SHORT).show();
+				if(scx==0&&flag==1){
+					if(onBottomAndTopListener!=null){
+						onBottomAndTopListener.onTop();
+					}
+				}
+				if((scx+width)==scrollViewMeasuredWidth&&flag==2){
+					if(onBottomAndTopListener!=null){
+						onBottomAndTopListener.onBottom();
+					}
+				}
 				flag=0;
 				break;
 			default:
@@ -87,5 +96,10 @@ public class ObserverHorizontalScrollView extends HorizontalScrollView{
 
 	public interface HorizontalScrollViewListener{
 		public void onWeatherScrollChanged(int x, int y, int oldx, int oldy);
+	}
+	public interface OnBottomAndTopListener{
+		public void onBottom();
+		public void onTop();
+
 	}
 }

@@ -23,11 +23,15 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
     public WeatherHorizatalScrollView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+    private OnBottomAndTopListener onBottomAndTopListener;
     private int width;
     private int scrollViewMeasuredWidth;
     private float beginX;
     private int flag=0;
 
+    private void setOnBottomAndTopListener(OnBottomAndTopListener onBottomAndTopListener){
+        this.onBottomAndTopListener=onBottomAndTopListener;
+    }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -59,9 +63,18 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
             case MotionEvent.ACTION_UP:
                 int scx=getScrollX();
                 if(scx==0&&flag==1)
-                        Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
-                if((scx+width)==scrollViewMeasuredWidth&&flag==2)
-                    Toast.makeText(WeatherAppContext.getAppContext(),"到达底部",Toast.LENGTH_SHORT).show();
+                {
+                    if(onBottomAndTopListener!=null){
+                        onBottomAndTopListener.onWeatherTop();
+                    }
+                }
+                if((scx+width)==scrollViewMeasuredWidth&&flag==2){
+                    if(onBottomAndTopListener!=null){
+                        onBottomAndTopListener.onWeatherBottom();
+                    }
+
+
+                }
                 flag=0;
                 break;
             default:
@@ -78,5 +91,10 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
                 break;
         }
         return super.onInterceptTouchEvent(ev);
+    }
+    public interface OnBottomAndTopListener{
+        public void onWeatherBottom();
+        public void onWeatherTop();
+
     }
 }

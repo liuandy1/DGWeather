@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
+import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
@@ -32,7 +34,8 @@ import static com.fgwx.dgweather.R.layout;
  *
  * @author liu shanguang (account@sohu-inc.com)
  */
-public class ForecastSecondView extends RelativeLayout implements View.OnClickListener, ObserverHorizontalScrollView.HorizontalScrollViewListener {
+public class ForecastSecondView extends RelativeLayout implements View.OnClickListener, ObserverHorizontalScrollView.HorizontalScrollViewListener ,ObserverHorizontalScrollView.OnBottomAndTopListener
+,WeatherHorizatalScrollView.OnBottomAndTopListener{
 
     private MainActivity mMainActivity;
     private WeatherHoursTrendView mWeatherHoursTrendView;
@@ -59,6 +62,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     private List<CityBean> cityBeans;
+    private int cursor=0;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -82,6 +86,16 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private void init() {
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
         cityBeans=AddedCityUtil.getAllCity(getContext());
+        if(mMainActivity.currentCityId.equals("0")){
+            cursor=0;
+        }else {
+          for(int i=0;i<cityBeans.size();i++){
+              if(mMainActivity.currentCityId.equals(cityBeans.get(i).getId())){
+                  cursor=i+1;
+                  break;
+              }
+          }
+        }
         View view = LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
@@ -128,6 +142,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mTvCityName = (TextView) view.findViewById(R.id.tv_city_name);
         mTvCityName.setOnClickListener(this);
         mHorizontalScrollView.setHorizontalScrollViewListener(this);
+        mHorizontalScrollView.setOnBottomAndTopListener(this);
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_1));
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_2));
         mPerDayWeatherViews.add((PerDayWeatherView) findViewById(id.wv_per_day_3));
@@ -169,5 +184,25 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
                 break;
 
         }
+    }
+
+    @Override
+    public void onBottom() {
+
+    }
+
+    @Override
+    public void onTop() {
+
+    }
+
+    @Override
+    public void onWeatherBottom() {
+        Toast.makeText(WeatherAppContext.getAppContext(), "到达底部", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWeatherTop() {
+        Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
     }
 }
