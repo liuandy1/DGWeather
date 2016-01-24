@@ -7,14 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.fgwx.dgweather.R;
@@ -26,12 +20,9 @@ import com.fgwx.dgweather.utils.CityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.view.AdapterScroGridView;
-import com.fgwx.dgweather.view.AdapterScroListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AddCityActivity extends BaseActivity implements View.OnClickListener {
     private AdapterScroGridView asgv_dongguanCity, asgv_hotCity;
@@ -99,8 +90,9 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
-                activityList.add(AddCityActivity.this);
-                startActivity(new Intent(AddCityActivity.this, MainActivity.class));
+                //activityList.add(AddCityActivity.this);
+                //startActivity(new Intent(AddCityActivity.this, MainActivity.class));
+                MainActivity.starMainActivity(AddCityActivity.this, AddedCityUtil.getCityByName(AddCityActivity.this, hotListData.get(position).getName()).getId());
             }
         });
         asgv_hotCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,8 +100,9 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
-                activityList.add(AddCityActivity.this);
-                startActivity(new Intent(AddCityActivity.this, MainActivity.class));
+               // activityList.add(AddCityActivity.this);
+              /*  startActivity(new Intent(AddCityActivity.this, MainActivity.class));*/
+               // MainActivity.starMainActivity(AddCityActivity.this,AddedCityUtil.getCityByName(AddCityActivity.this,hotListData.get(position).getName()).getId());
             }
         });
 
@@ -162,18 +155,20 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.et_addCity_search:
-                activityList.add(AddCityActivity.this);
+                //activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
             case R.id.tv_search:
-                activityList.add(AddCityActivity.this);
+                //activityList.add(AddCityActivity.this);
                 startActivity(new Intent(AddCityActivity.this, AddCitySearchActivity.class));
                 break;
         }
     }
 
-    public static void starAddCityActivity(Context context) {
+    public static void starAddCityActivity(Context context,String cityName) {
+
         Intent intent = new Intent(context, AddCityActivity.class);
+        intent.putExtra(Constant.LOCAL,cityName);
         context.startActivity(intent);
     }
 

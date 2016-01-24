@@ -500,7 +500,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         //请求网络信息
         if (mCurrentLng != null) {
             if (NetWorkUtil.isNetworkAvailable(mMainActivity)) {
-                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng),0);
             } else {
                 tvFail.setVisibility(VISIBLE);
             }
@@ -789,7 +789,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
-                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
+                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng),0);
                 mMainActivity.loading(true);
                 break;
             case R.id.ib_info_warn1:

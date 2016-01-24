@@ -52,6 +52,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private LivingIndexAdapter livingIndexAdapter;
     private List<ForecastForTenDayBean> mDaybeans;
     private List<ForecastForHourBean> mHourBeans;
+    private String currentCityName="";
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     public ForecastSecondView(Context context) {
@@ -87,7 +88,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mWeathDayTrendView.setDataBean(mDaybeans);
         mHourBeans = homeForecastBaseBean.getData().getExacts();
         setPerDayWeatherData();
-        mTvCityName.setText(homeForecastBaseBean.getData().getCityName() + "");
+        currentCityName=homeForecastBaseBean.getData().getCityName() + "";
+        mTvCityName.setText(currentCityName);
         //精确数据
         mWeatherHoursTrendView.setDataBean(mHourBeans);
         if (mHourBeans != null) {
@@ -156,7 +158,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case id.tv_city_name:
-                AddCityActivity.starAddCityActivity(mMainActivity);
+                AddCityActivity.starAddCityActivity(mMainActivity,currentCityName);
                 break;
 
         }

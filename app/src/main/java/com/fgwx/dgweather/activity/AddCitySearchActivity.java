@@ -59,7 +59,7 @@ public class AddCitySearchActivity extends BaseActivity {
                 searchResults.get(position).setName(StringUtil.split(searchResults.get(position).getName(), "，"));
                 AddedCityUtil.addCity(AddCitySearchActivity.this, searchResults.get(position));
                 Intent intent = new Intent(AddCitySearchActivity.this,MainActivity.class);
-                activityList.add(AddCitySearchActivity.this);
+              //  activityList.add(AddCitySearchActivity.this);
                 startActivity(intent);
                 finish();
             }

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class BaseActivity extends AppCompatActivity implements BaseFragment.Callbacks{
 
-    public static List<Activity> activityList = new ArrayList<Activity>();
+    //public static List<Activity> activityList = new ArrayList<Activity>();
     private static RelativeLayout rlLoading;
 
     @Override

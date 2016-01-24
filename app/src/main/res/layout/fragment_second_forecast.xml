@@ -60,6 +60,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 />
+            <com.fgwx.dgweather.view.WhitePointView
+                android:layout_marginBottom="@dimen/px_16"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/px_12" />
         </RelativeLayout>
 
         <LinearLayout

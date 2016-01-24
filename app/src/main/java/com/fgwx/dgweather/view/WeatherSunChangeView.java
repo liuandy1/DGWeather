@@ -97,6 +97,7 @@ public class WeatherSunChangeView extends View{
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
+        if(mSunBean==null)return;
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(5.0f);
         textWidth= mPaint.measureText("14:00");

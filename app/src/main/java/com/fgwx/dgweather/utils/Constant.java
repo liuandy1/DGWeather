@@ -21,6 +21,6 @@ public class Constant {
 
     public static final String MAPSETTING = "mapSetting";
     public static final String LOCAL = "local";
-
+    public static final String CITYID="cityId";
 
 }

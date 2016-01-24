@@ -74,7 +74,7 @@ public class ForecastFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //先访问定位的缓存数据
-        setForecastData(getCacheData());
+        setForecastData(getCacheData(0));
     }
 
     private void initUI(View view) {
@@ -97,12 +97,12 @@ public class ForecastFragment extends BaseFragment {
         mViewPager.setCurrentItem(1);
     }
 
-    private void setCacheData(HomeForecastBaseBean data) {
-        MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA, gson.toJson(data));
+    private void setCacheData(HomeForecastBaseBean data,int foucsCityId) {
+            MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA+foucsCityId, gson.toJson(data));
     }
 
-    private HomeForecastBaseBean getCacheData() {
-        String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA, "");
+    private HomeForecastBaseBean getCacheData(int foucsCityId) {
+        String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA+foucsCityId, "");
         if (TextUtils.isEmpty(string)) {
             return null;
         }
@@ -125,7 +125,7 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
+    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final int foucsCityId) {
 
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))
@@ -158,7 +158,7 @@ public class ForecastFragment extends BaseFragment {
                         }else {
                             response.getData().setCityName(cityBean.getName());
                         }
-                        setCacheData(response);
+                        setCacheData(response,foucsCityId);
                         setForecastData(response);
                         break;
                     default:

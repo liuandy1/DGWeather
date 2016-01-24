@@ -26,6 +26,9 @@ import com.fgwx.dgweather.fragment.ForecastFragment;
 import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
+import com.fgwx.dgweather.utils.AppUtil;
+import com.fgwx.dgweather.utils.Constant;
+import com.fgwx.dgweather.utils.ExitAppUtils;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
@@ -102,6 +105,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public static  void starMainActivity(BaseActivity context,String cityId){
+        Intent intent=new Intent(context,MainActivity.class);
+        intent.putExtra(Constant.CITYID, cityId);
+        context.startActivity(intent);
+        context.finish();
+    }
     private class onRadioGroupListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
@@ -262,9 +271,9 @@ public class MainActivity extends BaseActivity {
             mForecastFragment.setSecondPage();
     }
 
-    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean,int foucsCityId) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean);
+            mForecastFragment.getForecastNetData(cityBean, siteBean,foucsCityId);
     }
 
     public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
@@ -314,11 +323,7 @@ public class MainActivity extends BaseActivity {
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
         } else {
-            for (Activity activity : activityList) {
-                activity.finish();
-            }
-            finish();
-            System.exit(0);
+            ExitAppUtils.getInstance().exit();
         }
     }
 
