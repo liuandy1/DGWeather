@@ -98,6 +98,22 @@ public class CityDao {
         }
         return list;
     }
+    /**
+     * 根据城市id获取城市
+     *
+     * @param cityId
+     * @return
+     */
+    public List<CityBean> getCityById(String cityId) {
+        List<CityBean> list = null;
+        try {
+            list = userDaoOpe.queryBuilder().where().eq("_id", cityId).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     /**
      * 根据关键字来找城市

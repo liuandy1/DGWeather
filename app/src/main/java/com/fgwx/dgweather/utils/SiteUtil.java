@@ -5,6 +5,7 @@ import android.content.Context;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.mapapi.utils.SpatialRelationUtil;
+import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.db.SiteDao;
 
@@ -81,29 +82,58 @@ public class SiteUtil {
 
     /**
      * 获取radium为半径的圆里面的点
+     *
      * @param context
      * @param radius
      * @return
      */
-    public static List<SiteBean.DataEntity> getSiteInCircle(Context context,LatLng pCenter,int radius){
+    public static List<SiteBean.DataEntity> getSiteInCircle(Context context, LatLng pCenter, int radius) {
         List<SiteBean.DataEntity> list = getAllSite(context);
         ArrayList list1 = new ArrayList();
-        for(SiteBean.DataEntity dataEntity:list){
-            LatLng latLng = new LatLng(Double.parseDouble(dataEntity.getLatitude()),Double.parseDouble(dataEntity.getLongitude()));
-            if (SpatialRelationUtil.isCircleContainsPoint(pCenter, radius, latLng)){
+        for (SiteBean.DataEntity dataEntity : list) {
+            LatLng latLng = new LatLng(Double.parseDouble(dataEntity.getLatitude()), Double.parseDouble(dataEntity.getLongitude()));
+            if (SpatialRelationUtil.isCircleContainsPoint(pCenter, radius, latLng)) {
                 list1.add(dataEntity);
             }
         }
         return list1;
     }
 
-    public static String  setSiteBeanIdToStringList(List<SiteBean.DataEntity> dataEntities ){
-        String str="";
-        if(dataEntities==null)return str;
-        for(int i=0;i<dataEntities.size()-1;i++){
-            str=str+dataEntities.get(i).getId()+",";
+    public static String setSiteBeanIdToStringList(List<SiteBean.DataEntity> dataEntities) {
+        String str = "";
+        if (dataEntities == null) return str;
+        for (int i = 0; i < dataEntities.size() - 1; i++) {
+            str = str + dataEntities.get(i).getId() + ",";
         }
-        str=str+dataEntities.get(dataEntities.size()-1);
+        str = str + dataEntities.get(dataEntities.size() - 1);
         return str;
+    }
+
+    /**
+     * 根据城市的名字获取站点数据
+     * @param context
+     * @param name
+     * @return
+     */
+    public static SiteBean.DataEntity getSiteByCityName(Context context, String name) {
+        CityBean cityBean = CityUtil.getCityByName(context, name);
+        if (cityBean != null) {
+            return getCloseSite(context, new LatLng(Double.parseDouble(cityBean.getLat()), Double.parseDouble(cityBean.getLng())));
+        }
+        return null;
+    }
+
+    /**
+     * 根据城市id拿到城市名字
+     * @param context
+     * @param cityId
+     * @return
+     */
+    public static SiteBean.DataEntity getSiteByCityId(Context context,String cityId){
+        CityBean city = CityUtil.getCityById(context, cityId);
+        if(city!=null){
+            return SiteUtil.getCloseSite(context,new LatLng(Double.parseDouble(city.getLat()), Double.parseDouble(city.getLng())));
+        }
+        return null;
     }
 }

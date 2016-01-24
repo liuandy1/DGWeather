@@ -39,6 +39,21 @@ public class CityUtil {
     }
 
     /**
+     * 获取城市
+     *
+     * @param context
+     * @param id
+     * @return
+     */
+    public static CityBean getCityById(Context context, String id) {
+        List<CityBean> citys = new CityDao(context).getCityById(id);
+        if (citys != null && citys.size() > 0) {
+            return citys.get(0);
+        }
+        return null;
+    }
+
+    /**
      * 这个方法还有点问题。先不用
      *
      * 根据经纬度获取城市名
@@ -76,4 +91,5 @@ public class CityUtil {
     public static List<CityBean> getLocalCity(Context context){
         return new CityDao(context).getLocalCity();
     }
+
 }
