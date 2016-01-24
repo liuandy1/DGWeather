@@ -339,9 +339,9 @@ public class MainActivity extends BaseActivity {
 
         } else {
             ExitAppUtils.getInstance().exit();
-            for (Activity activity : activityList) {
-                activity.finish();
-            }
+//            for (Activity activity : activityList) {
+//                activity.finish();
+//            }
             finish();
             mForecastFragment.recycle();
             ScreenShoot.deleteScreenShootImage();

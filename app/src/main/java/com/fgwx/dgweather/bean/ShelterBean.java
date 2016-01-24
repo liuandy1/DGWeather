@@ -11,8 +11,8 @@ import java.util.List;
 public class ShelterBean implements Serializable{
 
     private String address;
-    private Object areaCode;
-    private Object areaName;
+    private String areaCode;
+    private String areaName;
     private String belongUnit;
     private String _class;
     private String conDutyPhone;
@@ -25,13 +25,13 @@ public class ShelterBean implements Serializable{
     private String delFlag;
     private String description;
     private String dutyPhone;
-    private Object etd1;
-    private Object etd2;
-    private Object etd3;
+    private String etd1;
+    private String etd2;
+    private String etd3;
     private String id;
     private double latitude;
     private double longitude;
-    private Object modifier;
+    private String modifier;
     private long modifyTime;
     private String name;
     private String pic;
@@ -70,11 +70,11 @@ public class ShelterBean implements Serializable{
         this.address = address;
     }
 
-    public void setAreaCode(Object areaCode) {
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 
-    public void setAreaName(Object areaName) {
+    public void setAreaName(String areaName) {
         this.areaName = areaName;
     }
 
@@ -126,15 +126,15 @@ public class ShelterBean implements Serializable{
         this.dutyPhone = dutyPhone;
     }
 
-    public void setEtd1(Object etd1) {
+    public void setEtd1(String etd1) {
         this.etd1 = etd1;
     }
 
-    public void setEtd2(Object etd2) {
+    public void setEtd2(String etd2) {
         this.etd2 = etd2;
     }
 
-    public void setEtd3(Object etd3) {
+    public void setEtd3(String etd3) {
         this.etd3 = etd3;
     }
 
@@ -150,7 +150,7 @@ public class ShelterBean implements Serializable{
         this.longitude = longitude;
     }
 
-    public void setModifier(Object modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
@@ -190,11 +190,11 @@ public class ShelterBean implements Serializable{
         return address;
     }
 
-    public Object getAreaCode() {
+    public String getAreaCode() {
         return areaCode;
     }
 
-    public Object getAreaName() {
+    public String getAreaName() {
         return areaName;
     }
 
@@ -246,15 +246,15 @@ public class ShelterBean implements Serializable{
         return dutyPhone;
     }
 
-    public Object getEtd1() {
+    public String getEtd1() {
         return etd1;
     }
 
-    public Object getEtd2() {
+    public String getEtd2() {
         return etd2;
     }
 
-    public Object getEtd3() {
+    public String getEtd3() {
         return etd3;
     }
 
@@ -270,7 +270,7 @@ public class ShelterBean implements Serializable{
         return longitude;
     }
 
-    public Object getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
@@ -309,25 +309,25 @@ public class ShelterBean implements Serializable{
     public static class FilesEntity {
         private String _class;
         private long createTime;
-        private Object creator;
+        private String creator;
         private String delFlag;
-        private Object etd1;
-        private Object etd2;
-        private Object etd3;
+        private String etd1;
+        private String etd2;
+        private String etd3;
         private String extName;
         private String filename;
         private String id;
         private String main;
-        private Object modifier;
+        private String modifier;
         private long modifyTime;
         private String phyPath;
         private String realFilename;
         private String relPath;
-        private Object remarks;
-        private Object size;
+        private String remarks;
+        private String size;
         private String sort;
-        private Object type;
-        private Object uploadTime;
+        private String type;
+        private String uploadTime;
         private int version;
 
         public void set_class(String _class) {
@@ -338,7 +338,7 @@ public class ShelterBean implements Serializable{
             this.createTime = createTime;
         }
 
-        public void setCreator(Object creator) {
+        public void setCreator(String creator) {
             this.creator = creator;
         }
 
@@ -346,15 +346,15 @@ public class ShelterBean implements Serializable{
             this.delFlag = delFlag;
         }
 
-        public void setEtd1(Object etd1) {
+        public void setEtd1(String etd1) {
             this.etd1 = etd1;
         }
 
-        public void setEtd2(Object etd2) {
+        public void setEtd2(String etd2) {
             this.etd2 = etd2;
         }
 
-        public void setEtd3(Object etd3) {
+        public void setEtd3(String etd3) {
             this.etd3 = etd3;
         }
 
@@ -374,7 +374,7 @@ public class ShelterBean implements Serializable{
             this.main = main;
         }
 
-        public void setModifier(Object modifier) {
+        public void setModifier(String modifier) {
             this.modifier = modifier;
         }
 
@@ -394,11 +394,11 @@ public class ShelterBean implements Serializable{
             this.relPath = relPath;
         }
 
-        public void setRemarks(Object remarks) {
+        public void setRemarks(String remarks) {
             this.remarks = remarks;
         }
 
-        public void setSize(Object size) {
+        public void setSize(String size) {
             this.size = size;
         }
 
@@ -406,11 +406,11 @@ public class ShelterBean implements Serializable{
             this.sort = sort;
         }
 
-        public void setType(Object type) {
+        public void setType(String type) {
             this.type = type;
         }
 
-        public void setUploadTime(Object uploadTime) {
+        public void setUploadTime(String uploadTime) {
             this.uploadTime = uploadTime;
         }
 
@@ -426,7 +426,7 @@ public class ShelterBean implements Serializable{
             return createTime;
         }
 
-        public Object getCreator() {
+        public String getCreator() {
             return creator;
         }
 
@@ -434,15 +434,15 @@ public class ShelterBean implements Serializable{
             return delFlag;
         }
 
-        public Object getEtd1() {
+        public String getEtd1() {
             return etd1;
         }
 
-        public Object getEtd2() {
+        public String getEtd2() {
             return etd2;
         }
 
-        public Object getEtd3() {
+        public String getEtd3() {
             return etd3;
         }
 
@@ -462,7 +462,7 @@ public class ShelterBean implements Serializable{
             return main;
         }
 
-        public Object getModifier() {
+        public String getModifier() {
             return modifier;
         }
 
@@ -482,11 +482,11 @@ public class ShelterBean implements Serializable{
             return relPath;
         }
 
-        public Object getRemarks() {
+        public String getRemarks() {
             return remarks;
         }
 
-        public Object getSize() {
+        public String getSize() {
             return size;
         }
 
@@ -494,11 +494,11 @@ public class ShelterBean implements Serializable{
             return sort;
         }
 
-        public Object getType() {
+        public String getType() {
             return type;
         }
 
-        public Object getUploadTime() {
+        public String getUploadTime() {
             return uploadTime;
         }
 
