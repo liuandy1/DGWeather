@@ -339,13 +339,13 @@ public class MainActivity extends BaseActivity {
 
         } else {
             ExitAppUtils.getInstance().exit();
-            for (Activity activity : activityList) {
+           /* for (Activity activity : activityList) {
                 activity.finish();
             }
             finish();
             mForecastFragment.recycle();
             ScreenShoot.deleteScreenShootImage();
-            System.exit(0);
+            System.exit(0);*/
         }
     }
 

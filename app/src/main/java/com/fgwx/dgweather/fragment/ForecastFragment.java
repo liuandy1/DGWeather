@@ -230,7 +230,6 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final int foucsCityId) {
 
         TreeMap<String, String> map = new TreeMap<>();
