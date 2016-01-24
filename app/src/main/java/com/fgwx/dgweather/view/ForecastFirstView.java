@@ -57,7 +57,6 @@ import com.fgwx.dgweather.bean.ShelterBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.bean.SiteMonitorBean;
-import com.fgwx.dgweather.test.Test;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.CityUtil;
@@ -591,6 +590,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         if (mCurrentLng != null) {
             if (NetWorkUtil.isNetworkAvailable(mMainActivity)) {
                 mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng),0);
+                mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng, 0, 0);
             } else {
                 tvFail.setVisibility(VISIBLE);
             }
@@ -815,8 +815,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvValue1.setText(dangerBean.getType());
 
                 TextView tvValue2 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value2);
+                tvValue2.setVisibility(GONE);
                 tvValue2.setText("影响范围:" + dangerBean.getRange());
                 TextView tvValue3 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value3);
+                TextView tvType = (TextView) stationView.findViewById(R.id.tv_siteInfo_type);
+                tvType.setText("可能灾害形式:");
                 tvValue3.setText("所属部门:"+dangerBean.getBelongUnit());
                 TextView tvValue4 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value4);
                 tvValue4.setText(dangerBean.getDutyPhone());
@@ -824,7 +827,40 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             } else if (marker.getExtraInfo().get("site") instanceof ShelterBean) {
                 changeView(stationView, weatherView, siteView);
                 WeatherAppContext.isWeather = false;
-                ShelterBean dangerBean = (ShelterBean) marker.getExtraInfo().get("site");
+                final ShelterBean shelterBean = (ShelterBean) marker.getExtraInfo().get("site");
+                ImageView ivShelter = (ImageView) stationView.findViewById(R.id.iv_siteInfo_icon);
+                ivShelter.setImageResource(R.drawable.icon_map_refuge);
+                TextView tvStationName = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteName);
+                tvStationName.setText(shelterBean.getName());
+                TextView tvAddr = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteAddr);
+                tvAddr.setText(shelterBean.getAreaName());
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng, new LatLng(shelterBean.getLatitude(), shelterBean.getLongitude()));
+                final String disStr;
+                if (distance > 1000) {
+                    distance = distance / 1000;
+                    disStr = distance + "千米";
+                } else {
+                    disStr = distance + "";
+                }
+                TextView tvDis = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteDistance);
+                tvDis.setText(disStr);
+                findViewById(R.id.tv_nav).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppUtil.nav(mMainActivity, shelterBean.getLatitude(), shelterBean.getLongitude(), shelterBean.getName());
+                    }
+                });
+                TextView tvValue1 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value1);
+                tvValue1.setText(shelterBean.getType());
+
+                TextView tvValue2 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value2);
+                tvValue2.setVisibility(GONE);
+                TextView tvType = (TextView) stationView.findViewById(R.id.tv_siteInfo_type);
+                tvType.setText("类型:");
+                TextView tvValue3 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value3);
+                tvValue3.setText("所属部门:"+shelterBean.getBelongUnit());
+                TextView tvValue4 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value4);
+                tvValue4.setText(shelterBean.getDutyPhone());
                 LogUtil.e("避难所");
             }
             return true;

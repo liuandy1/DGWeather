@@ -92,7 +92,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
                 AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
                 //activityList.add(AddCityActivity.this);
                 //startActivity(new Intent(AddCityActivity.this, MainActivity.class));
-                MainActivity.starMainActivity(AddCityActivity.this, AddedCityUtil.getCityByName(AddCityActivity.this, hotListData.get(position).getName()).getId());
+                MainActivity.starMainActivity(AddCityActivity.this, dgListData.get(position).getId());
             }
         });
         asgv_hotCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,9 +100,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
-               // activityList.add(AddCityActivity.this);
+                MainActivity.starMainActivity(AddCityActivity.this, hotListData.get(position).getId());
+                // activityList.add(AddCityActivity.this);
               /*  startActivity(new Intent(AddCityActivity.this, MainActivity.class));*/
-               // MainActivity.starMainActivity(AddCityActivity.this,AddedCityUtil.getCityByName(AddCityActivity.this,hotListData.get(position).getName()).getId());
+                // MainActivity.starMainActivity(AddCityActivity.this,AddedCityUtil.getCityByName(AddCityActivity.this,hotListData.get(position).getName()).getId());
             }
         });
 
@@ -165,10 +166,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    public static void starAddCityActivity(Context context,String cityName) {
+    public static void starAddCityActivity(Context context, String cityName) {
 
         Intent intent = new Intent(context, AddCityActivity.class);
-        intent.putExtra(Constant.LOCAL,cityName);
+        intent.putExtra(Constant.LOCAL, cityName);
         context.startActivity(intent);
     }
 

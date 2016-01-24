@@ -219,6 +219,7 @@ public class ForecastFragment extends BaseFragment {
                     mForecastFirstView.setDangerData(response.getDangers());
                 }
                 if(null!=response.getShelters()&&response.getShelters().size()>0){
+                    LogUtil.e("避难所:" + response.getShelters().size());
                     mForecastFirstView.setShelterData(response.getShelters());
                 }
             }
@@ -230,6 +231,7 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
+//    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final int foucsCityId) {
 
         TreeMap<String, String> map = new TreeMap<>();

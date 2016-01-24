@@ -58,10 +58,11 @@ public class AddCitySearchActivity extends BaseActivity {
                 //添加城市
                 searchResults.get(position).setName(StringUtil.split(searchResults.get(position).getName(), "，"));
                 AddedCityUtil.addCity(AddCitySearchActivity.this, searchResults.get(position));
-                Intent intent = new Intent(AddCitySearchActivity.this,MainActivity.class);
+                MainActivity.starMainActivity(AddCitySearchActivity.this,searchResults.get(position).getId());
+//                Intent intent = new Intent(AddCitySearchActivity.this,MainActivity.class);
               //  activityList.add(AddCitySearchActivity.this);
-                startActivity(intent);
-                finish();
+//                startActivity(intent);
+//                finish();
             }
         });
     }
