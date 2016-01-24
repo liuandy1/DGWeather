@@ -48,7 +48,7 @@ public class AddedCityUtil {
         new AddedCityDao(context).add(toAddedCityBean(bean));
     }
 
-    public static void deleteCity(Context context,CityBean bean){
+    public static void deleteCity(Context context, CityBean bean) {
         new AddedCityDao(context).deleteCity(toAddedCityBean(bean));
     }
 
@@ -67,6 +67,7 @@ public class AddedCityUtil {
         return toCityBeanList(new AddedCityDao(context).getAllCity());
     }
 
+
     public static List<CityBean> toCityBeanList(List<AddedCityBean> beans) {
         List<CityBean> list = new ArrayList<>();
         for (AddedCityBean bean : beans) {
@@ -77,7 +78,6 @@ public class AddedCityUtil {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         return list;
     }

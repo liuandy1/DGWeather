@@ -55,11 +55,11 @@ public class Test extends AndroidTestCase {
         }
     }
 
-    public void testCircle(){
+    public void testCircle() {
 
         LatLng mCurrentLng = new LatLng(23.04701, 113.796164);
         List<SiteBean.DataEntity> list = SiteUtil.getSiteInCircle(getContext(), mCurrentLng, 8000);
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             for (SiteBean.DataEntity siteBean : list) {
                 LogUtil.e(siteBean.getName() + "  查询成功");
             }
@@ -156,7 +156,24 @@ public class Test extends AndroidTestCase {
 
 
     public void testTime() {
-        String dateStr = "1453286246000";
-        LogUtil.e(TimeUtil.strToDateStr(dateStr));
+        String dateStr = "今天|12:32";
+        String[] ss = dateStr.split("\\|");
+        LogUtil.e(dateStr.split("\\|").length + "");
+        LogUtil.e(ss[0] + "");
+        LogUtil.e(ss[1] + "");
+    }
+
+    public void tesInt() {
+//        add(null,null);
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public void testFloat() {
+        for (int i = 0; i < 50; i++) {
+            LogUtil.e(Math.floor(Math.random() * 11)+"");
+        }
     }
 }

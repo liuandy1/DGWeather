@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
+import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
@@ -31,6 +33,7 @@ import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.ExitAppUtils;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
+import com.fgwx.dgweather.utils.ScreenShoot;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -280,6 +283,14 @@ public class MainActivity extends BaseActivity {
         mForecastFragment.getSiteMonitorData(dataEntities);
     }
 
+    public void getDangerAndShelterData(String cityId, LatLng lng1, LatLng lng2, int page, int pageSie) {
+
+    }
+
+    public void getDangerAndShelterData(String cityId, LatLng lng1, int page, int pageSie) {
+        mForecastFragment.getDanAndSheData(cityId, lng1, page, pageSie);
+    }
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -311,6 +322,10 @@ public class MainActivity extends BaseActivity {
 
     private void exitBy2Click() {
         Timer tExit = null;
+        if (!WeatherAppContext.isWeather) {
+            mForecastFragment.changeView();
+            return;
+        }
         if (isExit == false) {
             isExit = true; // 准备退出
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -324,6 +339,13 @@ public class MainActivity extends BaseActivity {
 
         } else {
             ExitAppUtils.getInstance().exit();
+            for (Activity activity : activityList) {
+                activity.finish();
+            }
+            finish();
+            mForecastFragment.recycle();
+            ScreenShoot.deleteScreenShootImage();
+            System.exit(0);
         }
     }
 

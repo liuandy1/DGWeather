@@ -57,14 +57,20 @@ public class MapSettingPopupwindow extends PopupWindow {
 
         //显示实时数据
         cb_showrealTimeData = (CheckBox) layout.findViewById(R.id.cb_show_realtime_data);
+        cb_showrealTimeData.setChecked(false);
         //实况天气
         cb_realTimeWeather = (CheckBox) layout.findViewById(R.id.cb_switch_weather);
+        cb_realTimeWeather.setChecked(false);
+
         //易灾点
         cb_disasterPoint = (CheckBox) layout.findViewById(R.id.cb_switch_disaster);
+        cb_disasterPoint.setChecked(false);
         //避难所
         cb_refudge = (CheckBox) layout.findViewById(R.id.cb_switch_refudge);
+        cb_refudge.setChecked(false);
         //实景照片
         cb_realPhotos = (CheckBox) layout.findViewById(R.id.cb_switch_photo);
+        cb_realPhotos.setChecked(false);
         //
         rg_showType = (RadioGroup) layout.findViewById(R.id.rg_mapsetting_type);
         //实时温度
@@ -106,7 +112,9 @@ public class MapSettingPopupwindow extends PopupWindow {
             setBean(bean);
         }else{
             bean = new MapSettingBean();
-            bean.setSiteType(-1);
+            bean.setSiteType(Constant.TEM);
+            bean.setDisasterPoint(false);
+            bean.setRefudge(false);
         }
 
 
@@ -172,9 +180,10 @@ public class MapSettingPopupwindow extends PopupWindow {
 
                     break;
                 case R.id.cb_switch_disaster:
-
+                    bean.setDisasterPoint(isChecked);
                     break;
                 case R.id.cb_switch_refudge:
+                    bean.setDisasterPoint(isChecked);
 
                     break;
                 case R.id.cb_switch_photo:
@@ -197,7 +206,7 @@ public class MapSettingPopupwindow extends PopupWindow {
                     bean.setRefudge(cb_refudge.isChecked());
                     MPreferencesUtil.getInstance().setValue(Constant.MAPSETTING, gson.toJson(bean));
                     LogUtil.e("mapsettingwindow返回值:"+bean.getSiteType());
-                    callBack.callBack(bean.getSiteType());
+                    callBack.callBack(bean.getSiteType(),bean.isDisasterPoint(),bean.isRefudge());
                     dismiss();
                     break;
                 case R.id.ll_layout_mapsetting:

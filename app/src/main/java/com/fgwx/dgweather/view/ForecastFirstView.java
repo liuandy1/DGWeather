@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -44,15 +45,19 @@ import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.MyPagerAdapter;
 import com.fgwx.dgweather.base.HomeCallBack;
+import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.DangerBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.ForecastMonitorSiteBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.HomeForecastBean;
 import com.fgwx.dgweather.bean.MapSettingBean;
+import com.fgwx.dgweather.bean.ShelterBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
 import com.fgwx.dgweather.bean.SiteMonitorBean;
+import com.fgwx.dgweather.test.Test;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.CityUtil;
@@ -60,18 +65,21 @@ import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
+import com.fgwx.dgweather.utils.ScreenShoot;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
+import com.fgwx.dgweather.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
-import java.net.URISyntaxException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.util.ShareSDKUtil;
 
 /**
  * Class description goes here.
@@ -102,6 +110,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private TextView tvFail;
     private View siteView;
     private View weatherView;
+    private View stationView;
 
     private static LatLng mCurrentLng;
     private MapView mMapView;
@@ -123,8 +132,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
      */
     private View pagerView;
     private List<SiteMonitorBean> sites;
+    private List<DangerBean> dangers;
+    private List<ShelterBean> shelters;
     private ArrayList<View> views;
     private String city = "东莞市";
+    private BitmapDescriptor dangerDescriptor;
+    private BitmapDescriptor shelterDescriptor;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -155,6 +168,34 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         initUi(view);
     }
 
+    public void setDangerData(List<DangerBean> dangers) {
+        this.dangers = dangers;
+        String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, null);
+        if (dangers != null && dangers.size() > 0) {
+            if (!TextUtils.isEmpty(set)) {
+                MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
+                if (bean.isDisasterPoint()) {
+                    addOverDanger(dangers);
+                }
+            }
+        }
+    }
+
+    public void setShelterData(List<ShelterBean> shelterData) {
+        this.shelters = shelterData;
+
+        String set = MPreferencesUtil.getInstance().getValue(Constant.MAPSETTING, null);
+        if (shelters != null && shelters.size() > 0) {
+            if (!TextUtils.isEmpty(set)) {
+                MapSettingBean bean = new Gson().fromJson(set, MapSettingBean.class);
+                if (bean.isRefudge()) {
+                    addOverShelter(shelters);
+                }
+            }
+        }
+    }
+
+
     public void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
 
         sites = siteMonitorBaseBean.getData();
@@ -167,6 +208,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 addOverSite(sites, Constant.TEM);
             }
         }
+
+        mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng, 0, 0);
     }
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
@@ -176,7 +219,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
         siteView = pagerView.findViewById(R.id.layout_site);
         weatherView = pagerView.findViewById(R.id.ly_home_weather);
-        changeView(weatherView, siteView);
+        stationView = pagerView.findViewById(R.id.layout_station);
+        changeView(weatherView, siteView, stationView);
+        WeatherAppContext.isWeather = true;
         pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         pagerView.findViewById(R.id.ib_info_warn1).setOnClickListener(this);
         if (homeForecastBaseBean != null) {
@@ -191,7 +236,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvTempRange = (TextView) pagerView.findViewById(R.id.tv_info_tempRange);
                 tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
 
-                tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
                 tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime)) + " 发布");
 
                 tvHumidy = (TextView) pagerView.findViewById(R.id.tv_info_humidy);
@@ -260,6 +304,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         temDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_temprature);
         winDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_wind);
         rainDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_rainfall);
+        dangerDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_disaster);
+        shelterDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_map_refuge);
         // 初始化搜索模块，注册事件监听
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(this);
@@ -307,6 +353,48 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
+    /**
+     * 添加易灾点
+     *
+     * @param list
+     */
+    private void addOverDanger(List<DangerBean> list) {
+        if (null != list && list.size() > 0) {
+            for (DangerBean bean : list) {
+                LatLng point = new LatLng(bean.getLatitude(), bean.getLongitude());
+                MarkerOptions option = new MarkerOptions().position(point).icon(dangerDescriptor);
+                Overlay marker = mBaiduMap.addOverlay(option);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("site", bean);
+                marker.setExtraInfo(bundle);
+            }
+        } else {
+            ToastUtil.show(mMainActivity, "附近没有易灾点");
+        }
+    }
+
+
+    /**
+     * 添加避难所
+     *
+     * @param list
+     */
+    private void addOverShelter(List<ShelterBean> list) {
+        if (null != list && list.size() > 0) {
+            for (ShelterBean bean : list) {
+                LatLng point = new LatLng(bean.getLatitude(), bean.getLongitude());
+                MarkerOptions option = new MarkerOptions().position(point).icon(shelterDescriptor);
+                Overlay marker = mBaiduMap.addOverlay(option);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("site", bean);
+                marker.setExtraInfo(bundle);
+            }
+        } else {
+            ToastUtil.show(mMainActivity, "附近没有避难所");
+        }
+    }
+
+
     private void initUi(View view) {
         rvLocal = (RelativeLayout) view.findViewById(R.id.rv_top_local);
         rvLocal.setOnClickListener(this);
@@ -331,7 +419,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
 //        pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
         views = new ArrayList<>();
-//        views.add(pagerView);
         final List<CityBean> addList = AddedCityUtil.getAllCity(mMainActivity);
         for (int j = 0; j < addList.size() + 1; j++) {
             View pagerView1 = inflater.inflate(R.layout.layout_forecast_weather_info, null);
@@ -341,6 +428,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         viewPager.setAdapter(new MyPagerAdapter(views));
         pagerView = views.get(i);
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
+        tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
+        tvFreshTime.setOnClickListener(this);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -469,12 +558,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     /**
      * 首页上面的显示天气和显示站点的切换
      *
-     * @param showView 要显示的view
-     * @param hideView 要隐藏的view
+     * @param showView  要显示的view
+     * @param hideView1 要隐藏的view
      */
-    private void changeView(View showView, View hideView) {
+    private void changeView(View showView, View hideView1, View hideView2) {
         showView.setVisibility(VISIBLE);
-        hideView.setVisibility(GONE);
+        hideView1.setVisibility(GONE);
+        hideView2.setVisibility(GONE);
     }
 
     @Override
@@ -529,48 +619,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
     public void onPause() {
         mMapView.onPause();
-    }
-
-
-    /**
-     * 带参数的分享
-     * area   地区
-     * weaDesc   天气描述
-     * tempRange   温度范围
-     * windDirec   风向
-     * windSpeed   风速
-     */
-    private void showShare(String area, String weaDesc, String tempRange, String windDirec, String windSpeed) {
-        ShareSDK.initSDK(mMainActivity);
-        cn.sharesdk.onekeyshare.OnekeyShare oks = new cn.sharesdk.onekeyshare.OnekeyShare();
-        // 关闭sso授权
-        oks.disableSSOWhenAuthorize();
-
-        // 分享时Notification的图标和文字 2.5.9以后的版本不调用此方法
-        // oks.setNotification(R.drawable.ic_launcher,
-        // getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(mMainActivity.getString(R.string.share));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://mob.com");
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText("亲！好的天气带来好的心情！东莞天气提醒您，" + area + "今天的天气是" + weaDesc + "，" + tempRange + "，" + windDirec + "，"
-                + windSpeed + "。\n");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//        oks.setImagePath("/sdcard/test.jpg");// 确保SDcard下面存在此张图片
-
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("这是评论");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(mMainActivity.getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
-
-        // 启动分享GUI
-        oks.show(mMainActivity);
     }
 
     private class MyLocationListenner implements BDLocationListener {
@@ -651,91 +699,134 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         @Override
         public boolean onMarkerClick(Marker marker) {
 
-            changeView(siteView, weatherView);
+            changeView(siteView, weatherView, stationView);
+            WeatherAppContext.isWeather = false;
             if (isFull) {
                 rvHomeInfo.setVisibility(View.VISIBLE);
                 lyHomeSearch.setVisibility(View.GONE);
                 isFull = false;
             }
-            SiteMonitorBean siteBean = (SiteMonitorBean) marker.getExtraInfo().get("site");
-            tv_siteInfo_type = (TextView) siteView.findViewById(R.id.tv_siteInfo_type);
-            tv_siteInfo_value1 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value1);
-            tv_dgree = (TextView) siteView.findViewById(R.id.tv_dgree);
-            tv_siteInfo_value2 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value2);
-            tv_siteInfo_value4 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value4);
-            tv_siteInfo_value3 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value3);
-            tv_siteInfo_siteName = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteName);
-            tv_siteInfo_siteAddr = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteAddr);
-            tv_siteInfo_siteDistance = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteDistance);
+            if (marker.getExtraInfo().get("site") instanceof SiteMonitorBean) {
+                SiteMonitorBean siteBean = (SiteMonitorBean) marker.getExtraInfo().get("site");
+                tv_siteInfo_type = (TextView) siteView.findViewById(R.id.tv_siteInfo_type);
+                tv_siteInfo_value1 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value1);
+                tv_dgree = (TextView) siteView.findViewById(R.id.tv_dgree);
+                tv_siteInfo_value2 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value2);
+                tv_siteInfo_value4 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value4);
+                tv_siteInfo_value3 = (TextView) siteView.findViewById(R.id.tv_siteInfo_value3);
+                tv_siteInfo_siteName = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteName);
+                tv_siteInfo_siteAddr = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteAddr);
+                tv_siteInfo_siteDistance = (TextView) siteView.findViewById(R.id.tv_siteInfo_siteDistance);
 
-            String code = siteBean.getSiteCode();
-            final SiteBean.DataEntity local = SiteUtil.getSiteBycode(mMainActivity, code);
-            String disStr;
-            int distance = (int) DistanceUtil.getDistance(mCurrentLng,
-                    new LatLng(Double.parseDouble(local.getLatitude()),
-                            Double.parseDouble(local.getLongitude())));
-            if (distance > 1000) {
-                distance = distance / 1000;
-                disStr = distance + "千米";
-            } else {
-                disStr = distance + "";
-            }
-            tv_siteInfo_siteDistance.setText("距离" + disStr);
-            tv_siteInfo_siteName.setText(local.getName());
-            tv_siteInfo_siteAddr.setText(local.getAreaName());
-
-            switch (current) {
-                case Constant.RAIN:
-
-                    tv_siteInfo_value1.setVisibility(VISIBLE);
-                    tv_siteInfo_type.setText("实时雨量");
-                    tv_siteInfo_value1.setText(siteBean.getHourRain() + "");
-                    tv_dgree.setVisibility(VISIBLE);
-                    tv_dgree.setText("ml");
-                    tv_siteInfo_value2.setText("实时温度  " + siteBean.getAirTemp() + "℃");
-                    tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
-                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
-                    break;
-                case Constant.HUM:
-
-                    tv_siteInfo_value1.setVisibility(VISIBLE);
-                    tv_siteInfo_type.setText("相对湿度");
-                    tv_siteInfo_value1.setText(siteBean.getRelativeWet());
-                    tv_dgree.setVisibility(VISIBLE);
-                    tv_dgree.setText("%");
-                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
-                    tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
-                    tv_siteInfo_value4.setText("风力风向  " + siteBean.getSpeedDir());
-
-                    break;
-                case Constant.WIN:
-
-
-                    tv_siteInfo_type.setText("风力风向");
-                    tv_dgree.setText(siteBean.getSpeedDir());
-                    tv_siteInfo_value1.setVisibility(GONE);
-                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
-                    tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
-                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
-                    break;
-                case Constant.TEM:
-
-                    tv_siteInfo_value1.setVisibility(VISIBLE);
-                    tv_siteInfo_type.setText("实时温度");
-                    tv_siteInfo_value1.setText(siteBean.getAirTemp());
-                    tv_dgree.setVisibility(VISIBLE);
-                    tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
-                    tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
-                    tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
-
-                    break;
-            }
-            siteView.findViewById(R.id.iv_nav).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nav(local.getLatitude(), local.getLongitude(), local.getName());
+                String code = siteBean.getSiteCode();
+                final SiteBean.DataEntity local = SiteUtil.getSiteBycode(mMainActivity, code);
+                String disStr;
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng,
+                        new LatLng(Double.parseDouble(local.getLatitude()),
+                                Double.parseDouble(local.getLongitude())));
+                if (distance > 1000) {
+                    distance = distance / 1000;
+                    disStr = distance + "千米";
+                } else {
+                    disStr = distance + "";
                 }
-            });
+                tv_siteInfo_siteDistance.setText("距离" + disStr);
+                tv_siteInfo_siteName.setText(local.getName());
+                tv_siteInfo_siteAddr.setText(local.getAreaName());
+
+                switch (current) {
+                    case Constant.RAIN:
+
+                        tv_siteInfo_value1.setVisibility(VISIBLE);
+                        tv_siteInfo_type.setText("实时雨量");
+                        tv_siteInfo_value1.setText(siteBean.getHourRain() + "");
+                        tv_dgree.setVisibility(VISIBLE);
+                        tv_dgree.setText("ml");
+                        tv_siteInfo_value2.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                        tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
+                        tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
+                        break;
+                    case Constant.HUM:
+
+                        tv_siteInfo_value1.setVisibility(VISIBLE);
+                        tv_siteInfo_type.setText("相对湿度");
+                        tv_siteInfo_value1.setText(siteBean.getRelativeWet());
+                        tv_dgree.setVisibility(VISIBLE);
+                        tv_dgree.setText("%");
+                        tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
+                        tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                        tv_siteInfo_value4.setText("风力风向  " + siteBean.getSpeedDir());
+
+                        break;
+                    case Constant.WIN:
+
+
+                        tv_siteInfo_type.setText("风力风向");
+                        tv_dgree.setText(siteBean.getSpeedDir());
+                        tv_siteInfo_value1.setVisibility(GONE);
+                        tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
+                        tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
+                        tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
+                        break;
+                    case Constant.TEM:
+
+                        tv_siteInfo_value1.setVisibility(VISIBLE);
+                        tv_siteInfo_type.setText("实时温度");
+                        tv_siteInfo_value1.setText(siteBean.getAirTemp());
+                        tv_dgree.setVisibility(VISIBLE);
+                        tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
+                        tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
+                        tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
+
+                        break;
+                }
+                siteView.findViewById(R.id.iv_nav).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppUtil.nav(mMainActivity, local.getLatitude(), local.getLongitude(), local.getName());
+                    }
+                });
+            } else if (marker.getExtraInfo().get("site") instanceof DangerBean) {
+                changeView(stationView, weatherView, siteView);
+                WeatherAppContext.isWeather = false;
+                //避难所
+                final DangerBean dangerBean = (DangerBean) marker.getExtraInfo().get("site");
+                TextView tvStationName = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteName);
+                tvStationName.setText(dangerBean.getName());
+                TextView tvAddr = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteAddr);
+                tvAddr.setText(dangerBean.getAreaName());
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng, new LatLng(dangerBean.getLatitude(), dangerBean.getLongitude()));
+                final String disStr;
+                if (distance > 1000) {
+                    distance = distance / 1000;
+                    disStr = distance + "千米";
+                } else {
+                    disStr = distance + "";
+                }
+                TextView tvDis = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteDistance);
+                tvDis.setText(disStr);
+                findViewById(R.id.tv_nav).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppUtil.nav(mMainActivity, dangerBean.getLatitude(), dangerBean.getLongitude(), dangerBean.getAreaName());
+                    }
+                });
+                TextView tvValue1 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value1);
+                tvValue1.setText(dangerBean.getType());
+
+                TextView tvValue2 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value2);
+                tvValue2.setText("影响范围:" + dangerBean.getRange());
+                TextView tvValue3 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value3);
+                tvValue3.setText("所属部门:"+dangerBean.getBelongUnit());
+                TextView tvValue4 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value4);
+                tvValue4.setText(dangerBean.getDutyPhone());
+                LogUtil.e("易灾点");
+            } else if (marker.getExtraInfo().get("site") instanceof ShelterBean) {
+                changeView(stationView, weatherView, siteView);
+                WeatherAppContext.isWeather = false;
+                ShelterBean dangerBean = (ShelterBean) marker.getExtraInfo().get("site");
+                LogUtil.e("避难所");
+            }
             return true;
         }
     }
@@ -758,13 +849,13 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.iv_home_more:
                 showPopupwindow(new HomeCallBack() {
                     @Override
-                    public void callBack(int a) {
-                        refreshOver(a);
+                    public void callBack(int a, boolean danger, boolean shelter) {
+                        LogUtil.e("避难所:" + shelter + "    易灾点:" + danger);
+                        refreshOver(a, danger, shelter);
                     }
                 });
                 break;
             case R.id.ib_home_play:
-                //判断有没有网络，语音播报需要网络合成
                 /**
                  * 亲！好的天气带来好的心情！东莞天气为您播报，东莞今天的天气是晴间多云，温度12到15度，西北风2到3级。
                  */
@@ -784,7 +875,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
 
             case R.id.ib_home_share:
-                showShare("东莞", "多云转晴", "21~30度", "东南风", "3~4级");
+                String filePath = Constant.IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
+                File file = new File(filePath);
+                ScreenShoot.shoot(mMainActivity, file);
+                ShareSDKUtil.showShare(mMainActivity, filePath, "东莞", "多云转晴", "21~30度", "东南风", "3~4级");
                 break;
 
             case R.id.tv_info_refresh:
@@ -798,10 +892,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    private void refreshOver(int a) {
+    private void refreshOver(int a, boolean danger, boolean shelter) {
         if (a != -1) {
             mBaiduMap.clear();
             addOverSite(sites, a);
+            if (danger) {
+                addOverDanger(dangers);
+            }
+            if (shelter) {
+                addOverShelter(shelters);
+            }
         }
     }
 
@@ -816,35 +916,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         rainDescriptor.recycle();
     }
 
-    /**
-     * 导航
-     *
-     * @param lat  目标地址纬度
-     * @param lon  目标地址经度
-     * @param name 地址名字
-     */
-    private void nav(String lat, String lon, String name) {
-        //移动APP调起Android百度地图方式举例
-        Intent intent = null;
-        //调用百度地图导航
-        if (AppUtil.isInstallByread("com.baidu.BaiduMap")) {
-            try {
-                intent = Intent.getIntent("intent://map/marker?location=" + lat + "," + lon + "&title=我的位置&content=" + name +
-                        "&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        } else if (AppUtil.isInstallByread("com.autonavi.minimap")) {   //高德导航
-            try {
-                intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname=" + name + "&lat=" + lat + "&lon=" + lon + "&dev=0");
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(mMainActivity, "您未安装百度地图或高德地图", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mMainActivity.startActivity(intent); //启动调用
+    public void toHome() {
+        changeView(weatherView, siteView, stationView);
+        WeatherAppContext.isWeather = true;
     }
 
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/px_440"
+    android:padding="@dimen/px_30"
+    android:background="@drawable/bg_add_city_top">
+
+    <TextView
+        android:id="@+id/tv_photo_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:text="阴" />
+
+    <TextView
+        android:id="@+id/tv_photo_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_toLeftOf="@id/tv_photo_weather"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/px_40"
+        android:textColor="@color/white"
+        android:text="东风三级" />
+
+    <TextView
+        android:id="@+id/tv_photo_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:layout_above="@id/tv_photo_weather"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/px_20"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="26℃" />
+
+    <TextView
+        android:id="@+id/tv_photo_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@id/tv_photo_temp"
+        android:layout_above="@id/tv_photo_weather"
+        android:layout_marginBottom="@dimen/px_20"
+        android:textColor="@color/white"
+        android:text="广电银通平云路163号" />
+
+</RelativeLayout>

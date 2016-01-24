@@ -1,13 +1,16 @@
 package com.fgwx.dgweather.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import com.fgwx.dgweather.base.WeatherAppContext;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 /**
  * Created by senghor on 2016/1/18.
@@ -87,5 +90,41 @@ public class AppUtil {
      */
     public static boolean isInstallByread(String packageName) {
         return new File("/data/data/" + packageName).exists();
+    }
+
+    /**
+     * 导航
+     * @param context
+     * @param lat
+     * @param lon
+     * @param name
+     */
+    public static void nav(Context context,String lat, String lon, String name) {
+        //移动APP调起Android百度地图方式举例
+        Intent intent = null;
+        //调用百度地图导航
+        if (AppUtil.isInstallByread("com.baidu.BaiduMap")) {
+            try {
+                intent = Intent.getIntent("intent://map/marker?location=" + lat + "," + lon + "&title=我的位置&content=" + name +
+                        "&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else if (AppUtil.isInstallByread("com.autonavi.minimap")) {   //高德导航
+            try {
+                intent = Intent.getIntent("androidamap://viewMap?sourceApplication=厦门通&poiname=" + name + "&lat=" + lat + "&lon=" + lon + "&dev=0");
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(context, "您未安装百度地图或高德地图", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        context.startActivity(intent); //启动调用
+    }
+
+
+    public static void nav(Context context,double lat, double lon, String name) {
+        nav(context,lat+"",lon+"",name);
     }
 }
