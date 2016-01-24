@@ -284,6 +284,11 @@ public class MainActivity extends BaseActivity {
             mForecastFragment.getForecastNetData(cityBean, siteBean,currentCityId);
     }
 
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean,String cityId) {
+        if (mForecastFragment != null)
+            mForecastFragment.getForecastNetData(cityBean, siteBean,cityId);
+    }
+
     public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
         mForecastFragment.getSiteMonitorData(dataEntities);
     }
@@ -302,7 +307,7 @@ public class MainActivity extends BaseActivity {
 //        if (data.getExtras() != null) {
 //            int position = (int) data.getExtras().get("position");
 //            LogUtil.e("MainActivity--->onActivityResult    position:" + position);
-//            mForecastFragment.changePager(position + 1);
+////            mForecastFragment.changePager(position + 1);
 //        }
 //        LogUtil.e("MainActivity--->onActivityResult    " + requestCode);
 ////        mForecastFragment.changePager(data.getIntExtra("",0));

@@ -102,12 +102,12 @@ public class ForecastFragment extends BaseFragment {
         mViewPager.setCurrentItem(1);
     }
 
-    private void setCacheData(HomeForecastBaseBean data,String foucsCityId) {
-            MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA+foucsCityId, gson.toJson(data));
+    private void setCacheData(HomeForecastBaseBean data, String foucsCityId) {
+        MPreferencesUtil.getInstance().setValue(MPreferencesUtil.FORECASTDATA + foucsCityId, gson.toJson(data));
     }
 
     private HomeForecastBaseBean getCacheData(String foucsCityId) {
-        String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA+foucsCityId, "");
+        String string = MPreferencesUtil.getInstance().getValue(MPreferencesUtil.FORECASTDATA + foucsCityId, "");
         if (TextUtils.isEmpty(string)) {
             return null;
         }
@@ -215,11 +215,11 @@ public class ForecastFragment extends BaseFragment {
                     ToastUtil.show(getActivity(), "服务器异常,请稍后重试");
                     return;
                 }
-                if(null!=response.getDangers()&&response.getDangers().size()>0){
-                    LogUtil.e("易灾点:"+response.getDangers().size());
+                if (null != response.getDangers() && response.getDangers().size() > 0) {
+                    LogUtil.e("易灾点:" + response.getDangers().size());
                     mForecastFirstView.setDangerData(response.getDangers());
                 }
-                if(null!=response.getShelters()&&response.getShelters().size()>0){
+                if (null != response.getShelters() && response.getShelters().size() > 0) {
                     LogUtil.e("避难所:" + response.getShelters().size());
                     mForecastFirstView.setShelterData(response.getShelters());
                 }
@@ -232,9 +232,9 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-//    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
+    //    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final String foucsCityId) {
-
+        loading(true);
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))
             map.put("cityId", cityBean.getId());//城市Id，必须
@@ -254,6 +254,7 @@ public class ForecastFragment extends BaseFragment {
             @Override
             public void onResponse(HomeForecastBaseBean response) {
                 LogUtil.e("访问成功了");
+                loading(false);
                 if (response == null) {
                     return;
                 }
@@ -266,7 +267,7 @@ public class ForecastFragment extends BaseFragment {
                         } else {
                             response.getData().setCityName(cityBean.getName());
                         }
-                        setCacheData(response,foucsCityId);
+                        setCacheData(response, foucsCityId);
                         setForecastData(response);
                         break;
                     default:
@@ -278,6 +279,7 @@ public class ForecastFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
+                loading(false);
                 LogUtil.e(error.toString());
                 Toast.makeText(mContext, "服务器异常", Toast.LENGTH_SHORT).show();
                 loading(false);

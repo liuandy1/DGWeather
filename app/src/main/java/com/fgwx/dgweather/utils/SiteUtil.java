@@ -44,6 +44,8 @@ public class SiteUtil {
     }
 
     /**
+     * 根据经纬度获取站点
+     *
      * @param context
      * @param lat
      * @param lon
@@ -136,4 +138,5 @@ public class SiteUtil {
         }
         return null;
     }
+
 }
