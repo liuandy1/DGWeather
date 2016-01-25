@@ -11,14 +11,12 @@ import android.widget.Toast;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.AddCityActivity;
-import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
 import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
-import com.fgwx.dgweather.bean.ForecastSunBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
@@ -62,7 +60,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     private List<CityBean> cityBeans;
-    private int cursor=0;
+    private int cursor=-1;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -87,11 +85,11 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
         cityBeans=AddedCityUtil.getAllCity(getContext());
         if(mMainActivity.currentCityId.equals("0")){
-            cursor=0;
+            cursor=-1;
         }else {
           for(int i=0;i<cityBeans.size();i++){
               if(mMainActivity.currentCityId.equals(cityBeans.get(i).getId())){
-                  cursor=i+1;
+                  cursor=i;
                   break;
               }
           }
@@ -172,7 +170,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         factor = (float) (mPerHourWeatherLayout.getWidth() - mTvPerHourWeather.getWidth() - padding) / (mRlPerHourWeather.getWidth() - mPerHourWeatherLayout.getWidth());
         int temp = (int) (-x * factor);
         int cursor = (Math.abs(x) + Math.abs(temp) + padding / 2) / perHourWidth;
+        if(mHourBeans!=null&&mHourBeans.get(cursor)!=null){
         mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc() + " " + mHourBeans.get(cursor).getTempDesc() + "℃");
+        }
         mPerHourWeatherLayout.scrollTo(temp, y);
     }
 

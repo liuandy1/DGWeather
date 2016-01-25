@@ -18,7 +18,7 @@
         android:id="@+id/ly_home_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_qing"
+        android:background="@drawable/bg_weather_1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="8dp">

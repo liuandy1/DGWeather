@@ -10,7 +10,6 @@
     android:layout_marginTop="@dimen/px_30"
     android:lineSpacingExtra="@dimen/px_10"
     android:gravity="center"
-    android:text="11/16\n周一\n晴"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
   <ImageView
@@ -29,7 +28,6 @@
         android:gravity="center"
         android:lineSpacingExtra="@dimen/px_10"
         android:layout_centerHorizontal="true"
-        android:text="17°C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
  <TextView
@@ -42,7 +40,6 @@
      android:lineSpacingExtra="@dimen/px_10"
      android:layout_alignParentBottom="true"
      android:layout_centerHorizontal="true"
-     android:text="东南风\n三级"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />
     <View
@@ -57,7 +54,6 @@
         android:gravity="center"
         android:lineSpacingExtra="@dimen/px_10"
         android:layout_centerHorizontal="true"
-        android:text="17°C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

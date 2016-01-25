@@ -94,6 +94,7 @@
                         android:layout_marginTop="@dimen/px_20"
                         android:text="内涝的灾害风险"
                         android:textColor="#F8AD49"
+                        android:minEms="6"
                         android:textSize="18sp" />
                 </LinearLayout>
 

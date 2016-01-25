@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -94,7 +94,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private RelativeLayout rvHomeInfo;
     private LinearLayout lyHomeSearch;
     private LinearLayout pointLayout;
-    private int lastPoint_position;
+    private int lastPoint_position = 0;
     private ViewPager viewPager;
     private TextView tvHomeCity;
     private TextView tvShowTime;
@@ -111,7 +111,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private View weatherView;
     private View stationView;
 
-    private static LatLng mCurrentLng;
+    private static LatLng[] mCurrentLng = new LatLng[10];
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private LocationClient mLocClient;
@@ -135,8 +135,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private List<ShelterBean> shelters;
     private ArrayList<View> views;
     private String city = "东莞市";
+    private String cityId = "0";
     private BitmapDescriptor dangerDescriptor;
     private BitmapDescriptor shelterDescriptor;
+    private String nowCity;
+    private WeatherAppContext application;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -207,21 +210,34 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 addOverSite(sites, Constant.TEM);
             }
         }
-
-        mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng, 0, 0);
+        mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
     }
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
 
+        pagerView = views.get(nowPage);
+        if (nowPage > 0) {
+            CityBean added = AddedCityUtil.getAllCity(mMainActivity).get(nowPage - 1);
+            cityId = added.getId();
+            city = added.getName();
+            mCurrentLng[nowPage] = new LatLng(Double.parseDouble(added.getLat()), Double.parseDouble(added.getLng()));
+        } else {
+            city = nowCity;
+            cityId = "0";
+            application = (WeatherAppContext) mMainActivity.getApplication();
+            application.setHomeForecastBaseBean(homeForecastBaseBean);
+        }
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
+
+        tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
+        tvFreshTime.setOnClickListener(this);
 
         siteView = pagerView.findViewById(R.id.layout_site);
         weatherView = pagerView.findViewById(R.id.ly_home_weather);
         stationView = pagerView.findViewById(R.id.layout_station);
         changeView(weatherView, siteView, stationView);
         WeatherAppContext.isWeather = true;
-        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         pagerView.findViewById(R.id.ib_info_warn1).setOnClickListener(this);
         if (homeForecastBaseBean != null) {
             baseBean = homeForecastBaseBean.getData();
@@ -247,6 +263,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
                 ForecastForTenDayBean firstDay = data.getDays().get(0);
                 tvWeatherDes.setText(firstDay.getWeaDesc());
+                LogUtil.e("天气图标:"+firstDay.getWeaIcon());
+                pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(AppUtil.getWeatherBgById(firstDay.getWeaIcon()));
+//                pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_weather_1));
 
                 tvWind = (TextView) pagerView.findViewById(R.id.tv_info_wind);
                 tvWind.setText(siteInfo.getSpeedDir());
@@ -270,7 +289,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         } else {
             tvFail.setVisibility(VISIBLE);
         }
-        mMainActivity.loading(false);
     }
 
 
@@ -424,8 +442,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             views.add(pagerView1);
         }
 
-        viewPager.setAdapter(new MyPagerAdapter(views));
         pagerView = views.get(i);
+        viewPager.setAdapter(new MyPagerAdapter(views));
         tvFail = (TextView) pagerView.findViewById(R.id.tv_home_fail);
         tvFreshTime = (TextView) pagerView.findViewById(R.id.tv_info_refresh);
         tvFreshTime.setOnClickListener(this);
@@ -441,11 +459,30 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 pointLayout.getChildAt(lastPoint_position).setEnabled(false);
                 lastPoint_position = position;
                 if (position == 0) {
-                    tvHomeCity.setText(city);
+                    tvHomeCity.setText(nowCity);
+                    mBaiduMap.clear();
+                    List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng[0], 8000);
+                    if (closeSite != null && closeSite.size() > 0) {
+                        mBaiduMap.clear();
+                        mMainActivity.getSiteMonitorData(closeSite);
+                    }
+                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng[0]);
+                    mBaiduMap.setMapStatus(mMapStatusUpdate);
                 } else {
                     CityBean bean = AddedCityUtil.getAllCity(mMainActivity).get(position - 1);
                     tvHomeCity.setText(bean.getName());
+                    mCurrentLng[1] = new LatLng(Double.parseDouble(bean.getLat()), Double.parseDouble(bean.getLng()));
+                    mMainActivity.getForecastData(bean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[1]), bean.getId());
+
+                    List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng[1], 8000);
+                    if (closeSite != null && closeSite.size() > 0) {
+                        mBaiduMap.clear();
+                        mMainActivity.getSiteMonitorData(closeSite);
+                    }
+                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng[1]);
+                    mBaiduMap.setMapStatus(mMapStatusUpdate);
                 }
+                nowPage = position;
 //                mMainActivity.getForecastData(bean, SiteUtil.getCloseSite(mMainActivity,
 //                        new LatLng(Double.parseDouble(bean.getLat()),Double.parseDouble(bean.getLng()))));
             }
@@ -461,12 +498,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     public void selectPosition(int i) {
         LogUtil.e("selection:i:" + i);
         LogUtil.e(AddedCityUtil.getAllCity(mMainActivity).size() + "");
-//        CityBean add = AddedCityUtil.getAllCity(mMainActivity).get(i - 1);
-//        viewPager.setCurrentItem(i);
-//        pagerView = views.get(i);
-//        mMainActivity.getForecastData(add, SiteUtil.getCloseSite(mMainActivity,
-//                new LatLng(Double.parseDouble(add.getLat()), Double.parseDouble(add.getLng()))));
-
     }
 
     /**
@@ -574,7 +605,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     @Override
     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
         if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-            mMainActivity.loading(false);
             Toast.makeText(mMainActivity, "抱歉,定位失败", Toast.LENGTH_LONG).show();
             return;
         }
@@ -584,24 +614,29 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
         MPreferencesUtil.getInstance().setValue(Constant.NOWLOCAL, reverseGeoCodeResult.getAddress());
         city = addressDetail.city;
+        nowCity = city;
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
         if (mCurrentLng != null) {
             if (NetWorkUtil.isNetworkAvailable(mMainActivity)) {
-                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-                mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng, 0, 0);
+                CityBean cityBean = CityUtil.getCityByName(mMainActivity, city);
+                application = (WeatherAppContext) mMainActivity.getApplication();
+                application.setCurrentCityId(cityBean.getId());
+                mMainActivity.getForecastData(cityBean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
+                mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
             } else {
                 tvFail.setVisibility(VISIBLE);
             }
         }
-        List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng, 8000);
+        List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng[0], 8000);
         if (closeSite != null && closeSite.size() > 0) {
             mMainActivity.getSiteMonitorData(closeSite);
         }
         LogUtil.e(city + "  " + district + "  " + street);
         if ("东莞市".equals(city)) {
-            tvHomeCity.setText(SiteUtil.getCloseSite(mMainActivity, mCurrentLng).getAreaName());
+            nowCity = SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]).getAreaName();
+            tvHomeCity.setText(nowCity);
         }
     }
 
@@ -628,7 +663,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             if (location == null || mMapView == null) {
                 //定位出错
                 //访问缓存数据
-                mMainActivity.loading(false);
                 Toast.makeText(mMainActivity, "定位失败", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -638,20 +672,20 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 //            Point mBaiduMapCenterPosition = new Point((locations[0] + mMapView.getWidth()) / 2, locations[1]
 //                    + mMapView.getHeight() / 2);
 //            LatLng cent = mBaiduMap.getProjection().fromScreenLocation(mBaiduMapCenterPosition);
-//            mCurrentLng = new LatLng(location.getLatitude(), location.getLongitude());
+            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.796164,23.04701
-            mCurrentLng = new LatLng(23.04701, 113.796164);
+//            mCurrentLng[0] = new LatLng(23.04701, 113.796164);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
-                    .direction(100).latitude(mCurrentLng.latitude).longitude(mCurrentLng.longitude).build();
+                    .direction(100).latitude(mCurrentLng[0].latitude).longitude(mCurrentLng[0].longitude).build();
             mBaiduMap.setMyLocationData(locData);
 
             if (mMapStatusUpdate == null)
-                mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
+                mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng[0]);
 
             if (isFirstLoc) {
                 isFirstLoc = false;
-                LatLng ll = new LatLng(mCurrentLng.latitude, mCurrentLng.longitude);
+                LatLng ll = new LatLng(mCurrentLng[0].latitude, mCurrentLng[0].longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
 
@@ -663,7 +697,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             }
             if (!isSetLoc) {
                 // 反Geo搜索
-                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng));
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(mCurrentLng[0]));
             }
         }
 
@@ -721,9 +755,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 String code = siteBean.getSiteCode();
                 final SiteBean.DataEntity local = SiteUtil.getSiteBycode(mMainActivity, code);
                 String disStr;
-                int distance = (int) DistanceUtil.getDistance(mCurrentLng,
-                        new LatLng(Double.parseDouble(local.getLatitude()),
-                                Double.parseDouble(local.getLongitude())));
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng[0],
+                        new LatLng(Double.parseDouble(local.getLatitude()), Double.parseDouble(local.getLongitude())));
                 if (distance > 1000) {
                     distance = distance / 1000;
                     disStr = distance + "千米";
@@ -795,7 +828,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvStationName.setText(dangerBean.getName());
                 TextView tvAddr = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteAddr);
                 tvAddr.setText(dangerBean.getAreaName());
-                int distance = (int) DistanceUtil.getDistance(mCurrentLng, new LatLng(dangerBean.getLatitude(), dangerBean.getLongitude()));
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng[0], new LatLng(dangerBean.getLatitude(), dangerBean.getLongitude()));
                 final String disStr;
                 if (distance > 1000) {
                     distance = distance / 1000;
@@ -820,7 +853,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 TextView tvValue3 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value3);
                 TextView tvType = (TextView) stationView.findViewById(R.id.tv_siteInfo_type);
                 tvType.setText("可能灾害形式:");
-                tvValue3.setText("所属部门:"+dangerBean.getBelongUnit());
+                tvValue3.setText("所属部门:" + dangerBean.getBelongUnit());
                 TextView tvValue4 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value4);
                 tvValue4.setText(dangerBean.getDutyPhone());
                 LogUtil.e("易灾点");
@@ -834,7 +867,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvStationName.setText(shelterBean.getName());
                 TextView tvAddr = (TextView) stationView.findViewById(R.id.tv_siteInfo_siteAddr);
                 tvAddr.setText(shelterBean.getAreaName());
-                int distance = (int) DistanceUtil.getDistance(mCurrentLng, new LatLng(shelterBean.getLatitude(), shelterBean.getLongitude()));
+                int distance = (int) DistanceUtil.getDistance(mCurrentLng[0], new LatLng(shelterBean.getLatitude(), shelterBean.getLongitude()));
                 final String disStr;
                 if (distance > 1000) {
                     distance = distance / 1000;
@@ -858,7 +891,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 TextView tvType = (TextView) stationView.findViewById(R.id.tv_siteInfo_type);
                 tvType.setText("类型:");
                 TextView tvValue3 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value3);
-                tvValue3.setText("所属部门:"+shelterBean.getBelongUnit());
+                tvValue3.setText("所属部门:" + shelterBean.getBelongUnit());
                 TextView tvValue4 = (TextView) stationView.findViewById(R.id.tv_siteInfo_value4);
                 tvValue4.setText(shelterBean.getDutyPhone());
                 LogUtil.e("避难所");
@@ -878,7 +911,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.iv_home_location:
                 if (mCurrentLng != null) {
-                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng);
+                    mMapStatusUpdate = MapStatusUpdateFactory.newLatLng(mCurrentLng[0]);
                     mBaiduMap.setMapStatus(mMapStatusUpdate);
                 }
                 break;
@@ -896,11 +929,16 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                  * 亲！好的天气带来好的心情！东莞天气为您播报，东莞今天的天气是晴间多云，温度12到15度，西北风2到3级。
                  */
                 if (NetWorkUtil.isNetworkAvailable(getContext())) {
-                    String weatherStr = "亲！好的天气带来好的心情！东莞天气为您播报，" + tvHomeCity.getText().toString() +
-                            "今天的天气是" + baseBean.getDays().get(0).getWeaDesc() + ","
-                            + baseBean.getSite().getMinTemp() + "℃到" + baseBean.getSite().getMaxTemp() + "℃,"
-                            + baseBean.getSite().getSpeedDir();
-                    broadWeather(weatherStr);
+                    try {
+                        String weatherStr = "亲！好的天气带来好的心情！东莞天气为您播报，" + tvHomeCity.getText().toString() +
+                                "今天的天气是" + baseBean.getDays().get(0).getWeaDesc() + ","
+                                + baseBean.getSite().getMinTemp() + "℃到" + baseBean.getSite().getMaxTemp() + "℃,"
+                                + baseBean.getSite().getSpeedDir();
+                        broadWeather(weatherStr);
+                    } catch (Exception e) {
+                        ToastUtil.show(mMainActivity, "数据获取失败");
+                    }
+
                 } else
                     Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
                 break;
@@ -919,8 +957,14 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
-                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng));
-                mMainActivity.loading(true);
+                if (nowPage == 0) {
+                    mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
+                            SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
+                } else {
+                    CityBean nowCityBean = AddedCityUtil.getAllCity(mMainActivity).get(nowPage - 1);
+                    LatLng lng = new LatLng(Double.parseDouble(nowCityBean.getLat()), Double.parseDouble(nowCityBean.getLng()));
+                    mMainActivity.getForecastData(nowCityBean, SiteUtil.getCloseSite(mMainActivity, lng), cityId);
+                }
                 break;
             case R.id.ib_info_warn1:
                 mMainActivity.setTabSelection(1);

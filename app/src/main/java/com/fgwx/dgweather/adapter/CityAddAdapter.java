@@ -52,7 +52,7 @@ public class CityAddAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.activity_add_city_item, null);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.tv_city);
-        String city = list.get(position).getName();
+        String city = list.get(position).getComment();
         textView.setText(city);
         return convertView;
     }
