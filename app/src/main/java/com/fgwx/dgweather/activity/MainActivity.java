@@ -35,6 +35,7 @@ import com.fgwx.dgweather.utils.ExitAppUtils;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.ScreenShoot;
+import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -73,6 +74,14 @@ public class MainActivity extends BaseActivity {
 
     private Gson gson;
 
+    public int nowPager = 0;
+    //定位的城市
+    public CityBean homeCity;
+    //当前的城市
+    public CityBean nowCity;
+    //当前的站点
+    public SiteBean.DataEntity nowSite;
+
     public static final String FORECAST_TAG = "Forecast";
 
     public static final String EARLYWARN_TAG = "EarlyWarn";
@@ -87,7 +96,8 @@ public class MainActivity extends BaseActivity {
      * 用于对Fragment进行管理
      */
 
-    public String currentCityId="0";
+    public String currentCityId = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +105,9 @@ public class MainActivity extends BaseActivity {
         isFragmentSave(savedInstanceState);
         init();
         setTabSelection(0);
-        currentCityId=getIntent().getStringExtra(Constant.CITYID);
-        if(TextUtils.isEmpty(currentCityId)){
-            currentCityId="0";
+        currentCityId = getIntent().getStringExtra(Constant.CITYID);
+        if (TextUtils.isEmpty(currentCityId)) {
+            currentCityId = "0";
         }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
 
@@ -120,12 +130,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static  void starMainActivity(BaseActivity context,String cityId){
-        Intent intent=new Intent(context,MainActivity.class);
+    public static void starMainActivity(BaseActivity context, String cityId) {
+        Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(Constant.CITYID, cityId);
         context.startActivity(intent);
         context.finish();
     }
+
     private class onRadioGroupListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
@@ -281,6 +292,7 @@ public class MainActivity extends BaseActivity {
         // getForecastNetData();
     }
 
+
     public void goSecondPage() {
         if (mForecastFragment != null)
             mForecastFragment.setSecondPage();
@@ -288,12 +300,12 @@ public class MainActivity extends BaseActivity {
 
     public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean,currentCityId);
+            mForecastFragment.getForecastNetData(cityBean, siteBean, currentCityId);
     }
 
-    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean,String cityId) {
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean, String cityId) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean,cityId);
+            mForecastFragment.getForecastNetData(cityBean, siteBean, cityId);
     }
 
     public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
@@ -306,6 +318,36 @@ public class MainActivity extends BaseActivity {
 
     public void getDangerAndShelterData(String cityId, LatLng lng1, int page, int pageSie) {
         mForecastFragment.getDanAndSheData(cityId, lng1, page, pageSie);
+    }
+
+    /**
+     * 城市的点向左移动的
+     */
+    public void leftMove() {
+        if(nowPager==1){
+            nowPager--;
+            LatLng lng = new LatLng(Double.parseDouble(homeCity.getLat()), Double.parseDouble(homeCity.getLng()));
+            nowSite = SiteUtil.getCloseSite(this, lng);
+            getForecastData(homeCity, nowSite, "0");
+        }else {
+            nowPager--;
+            move();
+        }
+    }
+
+    /**
+     * 城市的点向右移动的
+     */
+    public void rightMove() {
+        nowPager++;
+        move();
+    }
+
+    private void move() {
+        nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
+        LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
+        nowSite = SiteUtil.getCloseSite(this, lng);
+        getForecastData(nowCity, nowSite, nowCity.getId());
     }
 
 //    @Override
