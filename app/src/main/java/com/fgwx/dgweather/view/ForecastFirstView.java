@@ -139,6 +139,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private BitmapDescriptor dangerDescriptor;
     private BitmapDescriptor shelterDescriptor;
     private String nowCity;
+    private WeatherAppContext application;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -223,6 +224,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         } else {
             city = nowCity;
             cityId = "0";
+            application = (WeatherAppContext) mMainActivity.getApplication();
+            application.setHomeForecastBaseBean(homeForecastBaseBean);
         }
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
@@ -618,7 +621,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         if (mCurrentLng != null) {
             if (NetWorkUtil.isNetworkAvailable(mMainActivity)) {
                 CityBean cityBean = CityUtil.getCityByName(mMainActivity, city);
-                WeatherAppContext application = (WeatherAppContext) mMainActivity.getApplication();
+                application = (WeatherAppContext) mMainActivity.getApplication();
                 application.setCurrentCityId(cityBean.getId());
                 mMainActivity.getForecastData(cityBean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
                 mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
