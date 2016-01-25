@@ -38,6 +38,7 @@ public class WeatherAppContext extends Application {
     private MPreferencesUtil preferencesUtil;
     public String LocalStr;
     public static boolean isWeather = true;
+    public String currentCityId;
 
     @Override
     public void onCreate() {
@@ -127,5 +128,13 @@ public class WeatherAppContext extends Application {
 
     public void setLocalStr(String localStr) {
         LocalStr = localStr;
+    }
+
+    public String getCurrentCityId() {
+        return currentCityId;
+    }
+
+    public void setCurrentCityId(String currentCityId) {
+        this.currentCityId = currentCityId;
     }
 }

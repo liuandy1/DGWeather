@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.Toast;
 
 import com.fgwx.dgweather.base.WeatherAppContext;
@@ -49,6 +50,25 @@ public class AppUtil {
             int resId = getResId("@drawable/" + "icon_weather_" + id, context);
             if (resId > 0) {
                 return ((BitmapDrawable)context.getResources().getDrawable(resId)).getBitmap();
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+ /**
+     * 通过图片资源名获取图片
+     */
+    public static BitmapDrawable getWeatherBgById(String id) {
+        Context context=null;
+        try {
+            //Log.i(TAG, "id : " + id);
+            if (context == null) {
+                context = WeatherAppContext.getAppContext();
+            }
+            int resId = getResId("@drawable/" + "bg_weather_" + id, context);
+            if (resId > 0) {
+                return ((BitmapDrawable)context.getResources().getDrawable(resId));
             }
             return null;
         } catch (Exception e) {
@@ -125,6 +145,10 @@ public class AppUtil {
 
 
     public static void nav(Context context,double lat, double lon, String name) {
-        nav(context,lat+"",lon+"",name);
+        nav(context, lat + "", lon + "", name);
+    }
+
+    public static void setBg(View view,String weatherDes){
+
     }
 }

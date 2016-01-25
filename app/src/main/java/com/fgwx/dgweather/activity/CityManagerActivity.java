@@ -46,7 +46,6 @@ public class CityManagerActivity extends BaseActivity {
         dlv_cityManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
                 Intent data = new Intent();
                 data.putExtra("position", position);
                 setResult(RESULT_OK,data);
@@ -59,6 +58,7 @@ public class CityManagerActivity extends BaseActivity {
         dlv_cityManager = (DeleteListView) findViewById(R.id.dlv_cityManager);
         ib_back = (ImageButton) findViewById(R.id.ib_back);
         ib_add = (ImageButton) findViewById(R.id.ib_right);
+        findViewById(R.id.ly_right).setOnClickListener(new MyClickListenr());
 
         ib_back.setOnClickListener(new MyClickListenr());
         ib_add.setOnClickListener(new MyClickListenr());
@@ -89,12 +89,11 @@ public class CityManagerActivity extends BaseActivity {
                 case R.id.ib_back:
                     finish();
                     break;
-                case R.id.ib_right:
+                case R.id.ly_right:
                     Intent intent = new Intent(CityManagerActivity.this, AddCityActivity.class);
                     String local = getIntent().getStringExtra(Constant.LOCAL);
                     if (!TextUtils.isEmpty(local))
                         intent.putExtra(Constant.LOCAL, local);
-                    //activityList.add(CityManagerActivity.this);
                     startActivity(intent);
                     break;
             }
