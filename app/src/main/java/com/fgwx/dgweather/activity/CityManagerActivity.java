@@ -55,6 +55,9 @@ public class CityManagerActivity extends BaseActivity {
         });
     }
 
+
+
+
     private void initView() {
         dlv_cityManager = (DeleteListView) findViewById(R.id.dlv_cityManager);
         ib_back = (ImageButton) findViewById(R.id.ib_back);
