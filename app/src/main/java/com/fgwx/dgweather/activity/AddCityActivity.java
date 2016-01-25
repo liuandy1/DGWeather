@@ -48,7 +48,7 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
         dgList = new ArrayList<CityBean>();
         dgListAll = new ArrayList<CityBean>();
         dgListAll.add(CityUtil.getCityByName(AddCityActivity.this, "东莞市"));
-//        dgListAll.get(0).setComment("全市");
+        dgListAll.get(0).setComment("东莞市");
         dgListAll.addAll(CityUtil.getLocalCity(AddCityActivity.this));
         dgListData = new ArrayList<CityBean>();
         hotList = new ArrayList<CityBean>();

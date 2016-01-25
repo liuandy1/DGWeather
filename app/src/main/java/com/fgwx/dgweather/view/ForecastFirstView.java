@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -138,6 +139,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private BitmapDescriptor dangerDescriptor;
     private BitmapDescriptor shelterDescriptor;
     private String nowCity;
+    private WeatherAppContext application;
 
     public ForecastFirstView(Context context) {
         this(context, null);
@@ -222,6 +224,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         } else {
             city = nowCity;
             cityId = "0";
+            application = (WeatherAppContext) mMainActivity.getApplication();
+            application.setHomeForecastBaseBean(homeForecastBaseBean);
         }
         tvShowTime = (TextView) pagerView.findViewById(R.id.tv_info_currentTime);
         tvShowTime.setText(TimeUtil.formatDate1(TimeUtil.longToDate(System.currentTimeMillis())));
@@ -234,7 +238,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         stationView = pagerView.findViewById(R.id.layout_station);
         changeView(weatherView, siteView, stationView);
         WeatherAppContext.isWeather = true;
-        pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_qing));
         pagerView.findViewById(R.id.ib_info_warn1).setOnClickListener(this);
         if (homeForecastBaseBean != null) {
             baseBean = homeForecastBaseBean.getData();
@@ -260,6 +263,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
                 ForecastForTenDayBean firstDay = data.getDays().get(0);
                 tvWeatherDes.setText(firstDay.getWeaDesc());
+                LogUtil.e("天气图标:"+firstDay.getWeaIcon());
+                pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(AppUtil.getWeatherBgById(firstDay.getWeaIcon()));
+//                pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_weather_1));
 
                 tvWind = (TextView) pagerView.findViewById(R.id.tv_info_wind);
                 tvWind.setText(siteInfo.getSpeedDir());
@@ -614,7 +620,10 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         //请求网络信息
         if (mCurrentLng != null) {
             if (NetWorkUtil.isNetworkAvailable(mMainActivity)) {
-                mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, city), SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
+                CityBean cityBean = CityUtil.getCityByName(mMainActivity, city);
+                application = (WeatherAppContext) mMainActivity.getApplication();
+                application.setCurrentCityId(cityBean.getId());
+                mMainActivity.getForecastData(cityBean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
                 mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
             } else {
                 tvFail.setVisibility(VISIBLE);

@@ -11,8 +11,8 @@
         android:right="@dimen/px_20"
         android:top="@dimen/px_10" />
     <corners
-        android:bottomLeftRadius="@dimen/px_10"
-        android:bottomRightRadius="@dimen/px_10"
-        android:topLeftRadius="@dimen/px_10"
-        android:topRightRadius="@dimen/px_10" />
+        android:bottomLeftRadius="@dimen/px_6"
+        android:bottomRightRadius="@dimen/px_6"
+        android:topLeftRadius="@dimen/px_6"
+        android:topRightRadius="@dimen/px_6" />
 </shape>

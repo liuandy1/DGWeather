@@ -6,6 +6,7 @@ import android.content.Context;
 import com.baidu.mapapi.SDKInitializer;
 import com.fgwx.dgweather.bean.BaseCityBean;
 import com.fgwx.dgweather.bean.CityBean;
+import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.db.CityDao;
 import com.fgwx.dgweather.db.SiteDao;
@@ -38,6 +39,8 @@ public class WeatherAppContext extends Application {
     private MPreferencesUtil preferencesUtil;
     public String LocalStr;
     public static boolean isWeather = true;
+    public String currentCityId;
+    public HomeForecastBaseBean homeForecastBaseBean;
 
     @Override
     public void onCreate() {
@@ -127,5 +130,21 @@ public class WeatherAppContext extends Application {
 
     public void setLocalStr(String localStr) {
         LocalStr = localStr;
+    }
+
+    public String getCurrentCityId() {
+        return currentCityId;
+    }
+
+    public void setCurrentCityId(String currentCityId) {
+        this.currentCityId = currentCityId;
+    }
+
+    public HomeForecastBaseBean getHomeForecastBaseBean() {
+        return homeForecastBaseBean;
+    }
+
+    public void setHomeForecastBaseBean(HomeForecastBaseBean homeForecastBaseBean) {
+        this.homeForecastBaseBean = homeForecastBaseBean;
     }
 }
