@@ -37,8 +37,8 @@ public class WhitePointView extends View {
 
 
     private void init(){
-        radius=getResources().getDimensionPixelOffset(R.dimen.px_6);
-        multipleX=getResources().getDimensionPixelOffset(R.dimen.px_12);
+        radius=getResources().getDimensionPixelOffset(R.dimen.px_4);
+        multipleX=getResources().getDimensionPixelOffset(R.dimen.px_10);
         mPaint = new Paint();
         mPaint.setColor(white);
         setPointNum(5);

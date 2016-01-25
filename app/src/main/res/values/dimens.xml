@@ -4,6 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="px_2">1dp</dimen>
     <dimen name="px_4">2dp</dimen>
+    <dimen name="px_5">2.5dp</dimen>
+    <dimen name="px_8">4dp</dimen>
     <dimen name="px_6">3dp</dimen>
     <dimen name="px_9">4.5dp</dimen>
     <dimen name="px_10">5dp</dimen>

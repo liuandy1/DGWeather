@@ -11,14 +11,12 @@ import android.widget.Toast;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.activity.AddCityActivity;
-import com.fgwx.dgweather.activity.CityManagerActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.LivingIndexAdapter;
 import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
 import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
-import com.fgwx.dgweather.bean.ForecastSunBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
@@ -172,7 +170,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         factor = (float) (mPerHourWeatherLayout.getWidth() - mTvPerHourWeather.getWidth() - padding) / (mRlPerHourWeather.getWidth() - mPerHourWeatherLayout.getWidth());
         int temp = (int) (-x * factor);
         int cursor = (Math.abs(x) + Math.abs(temp) + padding / 2) / perHourWidth;
+        if(mHourBeans!=null&&mHourBeans.get(cursor)!=null){
         mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc() + " " + mHourBeans.get(cursor).getTempDesc() + "℃");
+        }
         mPerHourWeatherLayout.scrollTo(temp, y);
     }
 
