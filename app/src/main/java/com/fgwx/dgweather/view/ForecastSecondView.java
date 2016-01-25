@@ -60,7 +60,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     private List<CityBean> cityBeans;
-    private int cursor=0;
+    private int cursor=-1;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -85,11 +85,11 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
         cityBeans=AddedCityUtil.getAllCity(getContext());
         if(mMainActivity.currentCityId.equals("0")){
-            cursor=0;
+            cursor=-1;
         }else {
           for(int i=0;i<cityBeans.size();i++){
               if(mMainActivity.currentCityId.equals(cityBeans.get(i).getId())){
-                  cursor=i+1;
+                  cursor=i;
                   break;
               }
           }
