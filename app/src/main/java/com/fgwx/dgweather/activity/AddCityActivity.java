@@ -45,12 +45,10 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCityData() {
-
-
         dgList = new ArrayList<CityBean>();
         dgListAll = new ArrayList<CityBean>();
         dgListAll.add(CityUtil.getCityByName(AddCityActivity.this, "东莞市"));
-        dgListAll.get(0).setComment("全市");
+//        dgListAll.get(0).setComment("全市");
         dgListAll.addAll(CityUtil.getLocalCity(AddCityActivity.this));
         dgListData = new ArrayList<CityBean>();
         hotList = new ArrayList<CityBean>();
@@ -93,8 +91,6 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, dgListData.get(position));
-                //activityList.add(AddCityActivity.this);
-                //startActivity(new Intent(AddCityActivity.this, MainActivity.class));
                 MainActivity.starMainActivity(AddCityActivity.this, dgListData.get(position).getId());
             }
         });
@@ -104,9 +100,6 @@ public class AddCityActivity extends BaseActivity implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddedCityUtil.addCity(AddCityActivity.this, hotListData.get(position));
                 MainActivity.starMainActivity(AddCityActivity.this, hotListData.get(position).getId());
-                // activityList.add(AddCityActivity.this);
-              /*  startActivity(new Intent(AddCityActivity.this, MainActivity.class));*/
-                // MainActivity.starMainActivity(AddCityActivity.this,AddedCityUtil.getCityByName(AddCityActivity.this,hotListData.get(position).getName()).getId());
             }
         });
 
