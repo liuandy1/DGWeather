@@ -467,6 +467,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
                 if(position==0){
                     mBaiduMap.clear();
+                    tvHomeCity.setText(nowCity);
                     List<SiteBean.DataEntity> closeSite = SiteUtil.getSiteInCircle(mMainActivity, mCurrentLng[0], 8000);
                     if (closeSite != null && closeSite.size() > 0) {
                         mBaiduMap.clear();
@@ -601,7 +602,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-            params.rightMargin = 20;
+            params.rightMargin = 10;
+            params.leftMargin = 10;
             point.setLayoutParams(params);
 
             point.setBackgroundResource(R.drawable.point_bg);
@@ -611,6 +613,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 point.setEnabled(false);
             }
             pointLayout.addView(point);
+            lastPoint_position = 0;
         }
     }
 
@@ -638,12 +641,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             return;
         }
         ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
-        tvHomeCity.setText(addressDetail.district);
         isSetLoc = true;
         LogUtil.e("位置是:" + reverseGeoCodeResult.getAddress());
         MPreferencesUtil.getInstance().setValue(Constant.NOWLOCAL, reverseGeoCodeResult.getAddress());
         city = addressDetail.city;
         nowCity = city;
+        tvHomeCity.setText(nowCity);
         String district = addressDetail.district;
         String street = addressDetail.street;
         //请求网络信息
@@ -982,7 +985,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 String filePath = Constant.IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
                 File file = new File(filePath);
                 ScreenShoot.shoot(mMainActivity, file);
-                ShareSDKUtil.showShare(mMainActivity, filePath, "东莞", "多云转晴", "21~30度", "东南风", "3~4级");
+                ShareSDKUtil.showShare(mMainActivity, filePath, tvHomeCity.getText().toString(), tvWeatherDes.getText().toString(), tvTempRange.getText().toString(), tvWind.getText().toString());
                 break;
 
             case R.id.tv_info_refresh:

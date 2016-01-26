@@ -232,12 +232,12 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-    //    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final String foucsCityId) {
         loading(true);
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))
             map.put("cityId", cityBean.getId());//城市Id，必须
+//            map.put("cityId", "441900");//城市Id，必须
         LogUtil.e("请求首页数据,城市id:"+cityBean.getId()+"     城市名字:"+cityBean.getName());
         //map.put("streetId", null);//街道Id
         if (!TextUtils.isEmpty(siteBean.getId()))
@@ -294,7 +294,7 @@ public class ForecastFragment extends BaseFragment {
         if (homeForecastBaseBean == null)
             return;
         setFirstPageData(homeForecastBaseBean);
-//        setSecondePageData(homeForecastBaseBean);
+        setSecondePageData(homeForecastBaseBean);
     }
 
     private void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {
