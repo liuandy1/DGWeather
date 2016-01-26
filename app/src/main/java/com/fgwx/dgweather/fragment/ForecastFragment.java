@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -282,6 +283,7 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
                 loading(false);
+                Log.v("XXX",error.toString());
                 LogUtil.e(error.toString());
                 Toast.makeText(mContext, "服务器异常", Toast.LENGTH_SHORT).show();
                 loading(false);
