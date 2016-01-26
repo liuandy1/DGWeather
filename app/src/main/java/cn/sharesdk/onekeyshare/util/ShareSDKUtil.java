@@ -1,12 +1,11 @@
 package cn.sharesdk.onekeyshare.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.utils.Constant;
-import com.fgwx.dgweather.utils.ScreenShoot;
+import com.fgwx.dgweather.utils.ScreenShootUtil;
 
 import java.io.File;
 import java.util.UUID;
@@ -19,6 +18,7 @@ import cn.sharesdk.framework.ShareSDK;
 public class ShareSDKUtil {
 
     private static String WEB_ADDRESS = "http://www.dg121.com/default.asp";
+//    private static String WEB_ADDRESS = null;
     /**
      * 带参数的分享
      * area   地区
@@ -27,21 +27,19 @@ public class ShareSDKUtil {
      * windDirec   风向
      * windSpeed   风速
      */
-    public static void showShare(Activity context,String area, String weaDesc, String tempRange, String windDirec, String windSpeed) {
+    public static void showShare(Activity context,View view,String area, String weaDesc, String tempRange, String windDirec, String windSpeed) {
         ShareSDK.initSDK(context);
         //分享的图片
         String filePath = Constant.IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
-        ScreenShoot.shoot(context,new File(filePath));
-
+        ScreenShootUtil.screenCapture(view, new File(filePath));
         cn.sharesdk.onekeyshare.OnekeyShare oks = new cn.sharesdk.onekeyshare.OnekeyShare();
         // 关闭sso授权
         oks.disableSSOWhenAuthorize();
-
         // 分享时Notification的图标和文字 2.5.9以后的版本不调用此方法
         // oks.setNotification(R.drawable.ic_launcher,
         // getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(context.getString(R.string.share));
+        oks.setTitle(context.getString(R.string.app_name));
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(WEB_ADDRESS);
         // text是分享文本，所有平台都需要这个字段
