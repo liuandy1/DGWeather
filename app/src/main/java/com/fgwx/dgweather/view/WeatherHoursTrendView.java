@@ -74,7 +74,7 @@ public class WeatherHoursTrendView extends View {
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
     public void setDataBean(List<ForecastForHourBean> beans){
-        if(beans==null)return;
+        if(beans==null||beans.size()<=0)return;
        mbeans=beans;
         mPointXs=new float[mbeans.size()];
         for(int i=0;i<mbeans.size();i++){

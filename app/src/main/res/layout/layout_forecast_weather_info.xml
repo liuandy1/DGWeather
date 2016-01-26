@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <include
         android:id="@+id/layout_site"
@@ -42,15 +43,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:padding="1dp"
-                    android:text="周一  11月16日" />
+                    android:text="周一 11月16日" />
 
                 <ImageView
                     android:id="@+id/iv_info_airQuality"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
                     android:layout_toRightOf="@id/tv_info_currentTime"
                     android:src="@drawable/icon_air_good" />
 
@@ -62,7 +63,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_info_airQuality"
                     android:padding="2dp"
-                    android:text="晴"
+                    android:text=""
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -163,8 +164,8 @@
                 android:id="@+id/ib_info_warn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/icon_warn_rainstoem_orange" />
+                android:layout_margin="8dp"
+                android:background="@drawable/icon_warn_cold_red" />
 
         </RelativeLayout>
 

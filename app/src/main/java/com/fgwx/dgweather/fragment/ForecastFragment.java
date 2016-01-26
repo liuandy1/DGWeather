@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -232,15 +233,17 @@ public class ForecastFragment extends BaseFragment {
         }, map);
     }
 
-    //    public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean) {
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final String foucsCityId) {
         loading(true);
         TreeMap<String, String> map = new TreeMap<>();
         if (!TextUtils.isEmpty(cityBean.getId()))
             map.put("cityId", cityBean.getId());//城市Id，必须
+//            map.put("cityId", "441900");//城市Id，必须
+        LogUtil.e("请求首页数据,城市id:"+cityBean.getId()+"     城市名字:"+cityBean.getName());
         //map.put("streetId", null);//街道Id
         if (!TextUtils.isEmpty(siteBean.getId()))
             map.put("siteId", siteBean.getId());//站点Id
+        LogUtil.e("请求首页数据,站点id:"+siteBean.getId()+"     站点名字:"+siteBean.getName());
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
@@ -280,6 +283,7 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
                 loading(false);
+                Log.v("XXX",error.toString());
                 LogUtil.e(error.toString());
                 Toast.makeText(mContext, "服务器异常", Toast.LENGTH_SHORT).show();
                 loading(false);
@@ -292,7 +296,7 @@ public class ForecastFragment extends BaseFragment {
         if (homeForecastBaseBean == null)
             return;
         setFirstPageData(homeForecastBaseBean);
-//        setSecondePageData(homeForecastBaseBean);
+        setSecondePageData(homeForecastBaseBean);
     }
 
     private void setSiteMonitorData(SiteMonitorBaseBean siteMonitorBaseBean) {

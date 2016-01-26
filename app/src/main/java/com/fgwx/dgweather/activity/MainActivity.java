@@ -1,9 +1,6 @@
 package com.fgwx.dgweather.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,14 +11,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
-import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.fragment.EarlyWarnFragment;
 import com.fgwx.dgweather.fragment.ForecastFragment;
@@ -29,24 +23,16 @@ import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
 import com.fgwx.dgweather.utils.AddedCityUtil;
-import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.ExitAppUtils;
-import com.fgwx.dgweather.utils.LogUtil;
-import com.fgwx.dgweather.utils.MPreferencesUtil;
-import com.fgwx.dgweather.utils.ScreenShoot;
-import com.fgwx.dgweather.utils.WeatherNetUtils;
+import com.fgwx.dgweather.utils.ScreenShootUtil;
+import com.fgwx.dgweather.utils.SiteUtil;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
-
-import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Created by senghor on 2015/12/23.
@@ -73,6 +59,14 @@ public class MainActivity extends BaseActivity {
 
     private Gson gson;
 
+    public int nowPager = 0;
+    //定位的城市
+    public CityBean homeCity;
+    //当前的城市
+    public CityBean nowCity;
+    //当前的站点
+    public SiteBean.DataEntity nowSite;
+
     public static final String FORECAST_TAG = "Forecast";
 
     public static final String EARLYWARN_TAG = "EarlyWarn";
@@ -87,7 +81,8 @@ public class MainActivity extends BaseActivity {
      * 用于对Fragment进行管理
      */
 
-    public String currentCityId="0";
+    public String currentCityId = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +90,9 @@ public class MainActivity extends BaseActivity {
         isFragmentSave(savedInstanceState);
         init();
         setTabSelection(0);
-        currentCityId=getIntent().getStringExtra(Constant.CITYID);
-        if(TextUtils.isEmpty(currentCityId)){
-            currentCityId="0";
+        currentCityId = getIntent().getStringExtra(Constant.CITYID);
+        if (TextUtils.isEmpty(currentCityId)) {
+            currentCityId = "0";
         }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
 
@@ -120,12 +115,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static  void starMainActivity(BaseActivity context,String cityId){
-        Intent intent=new Intent(context,MainActivity.class);
+    public static void starMainActivity(BaseActivity context, String cityId) {
+        Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(Constant.CITYID, cityId);
         context.startActivity(intent);
         context.finish();
     }
+
     private class onRadioGroupListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
@@ -281,6 +277,7 @@ public class MainActivity extends BaseActivity {
         // getForecastNetData();
     }
 
+
     public void goSecondPage() {
         if (mForecastFragment != null)
             mForecastFragment.setSecondPage();
@@ -288,12 +285,12 @@ public class MainActivity extends BaseActivity {
 
     public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean,currentCityId);
+            mForecastFragment.getForecastNetData(cityBean, siteBean, currentCityId);
     }
 
-    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean,String cityId) {
+    public void getForecastData(CityBean cityBean, SiteBean.DataEntity siteBean, String cityId) {
         if (mForecastFragment != null)
-            mForecastFragment.getForecastNetData(cityBean, siteBean,cityId);
+            mForecastFragment.getForecastNetData(cityBean, siteBean, cityId);
     }
 
     public void getSiteMonitorData(List<SiteBean.DataEntity> dataEntities) {
@@ -306,6 +303,36 @@ public class MainActivity extends BaseActivity {
 
     public void getDangerAndShelterData(String cityId, LatLng lng1, int page, int pageSie) {
         mForecastFragment.getDanAndSheData(cityId, lng1, page, pageSie);
+    }
+
+    /**
+     * 城市的点向左移动的
+     */
+    public void leftMove() {
+        if(nowPager==1){
+            nowPager--;
+            LatLng lng = new LatLng(Double.parseDouble(homeCity.getLat()), Double.parseDouble(homeCity.getLng()));
+            nowSite = SiteUtil.getCloseSite(this, lng);
+            getForecastData(homeCity, nowSite, "0");
+        }else {
+            nowPager--;
+            move();
+        }
+    }
+
+    /**
+     * 城市的点向右移动的
+     */
+    public void rightMove() {
+        nowPager++;
+        move();
+    }
+
+    private void move() {
+        nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
+        LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
+        nowSite = SiteUtil.getCloseSite(this, lng);
+        getForecastData(nowCity, nowSite, nowCity.getId());
     }
 
 //    @Override
@@ -362,7 +389,7 @@ public class MainActivity extends BaseActivity {
 //            }
             finish();
             mForecastFragment.recycle();
-            ScreenShoot.deleteScreenShootImage();
+            ScreenShootUtil.deleteScreenShootImage();
             System.exit(0);
         }
     }

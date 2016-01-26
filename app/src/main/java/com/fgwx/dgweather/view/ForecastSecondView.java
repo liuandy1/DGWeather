@@ -19,6 +19,7 @@ import com.fgwx.dgweather.bean.ForecastForHourBean;
 import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.utils.AddedCityUtil;
+import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ import static com.fgwx.dgweather.R.layout;
  *
  * @author liu shanguang (account@sohu-inc.com)
  */
-public class ForecastSecondView extends RelativeLayout implements View.OnClickListener, ObserverHorizontalScrollView.HorizontalScrollViewListener ,ObserverHorizontalScrollView.OnBottomAndTopListener
-,WeatherHorizatalScrollView.OnBottomAndTopListener{
+public class ForecastSecondView extends RelativeLayout implements View.OnClickListener, ObserverHorizontalScrollView.HorizontalScrollViewListener, ObserverHorizontalScrollView.OnBottomAndTopListener
+        , WeatherHorizatalScrollView.OnBottomAndTopListener {
 
     private MainActivity mMainActivity;
     private WeatherHoursTrendView mWeatherHoursTrendView;
@@ -56,11 +57,11 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private LivingIndexAdapter livingIndexAdapter;
     private List<ForecastForTenDayBean> mDaybeans;
     private List<ForecastForHourBean> mHourBeans;
-    private String currentCityName="";
+    private String currentCityName = "";
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     private List<CityBean> cityBeans;
-    private int cursor=-1;
+    private int cursor = -1;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -83,34 +84,39 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
 
     private void init() {
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
-        cityBeans=AddedCityUtil.getAllCity(getContext());
-        if(mMainActivity.currentCityId.equals("0")){
-            cursor=-1;
-        }else {
-          for(int i=0;i<cityBeans.size();i++){
-              if(mMainActivity.currentCityId.equals(cityBeans.get(i).getId())){
-                  cursor=i;
-                  break;
-              }
-          }
+        cityBeans = AddedCityUtil.getAllCity(getContext());
+        if (mMainActivity.currentCityId.equals("0")) {
+            cursor = -1;
+        } else {
+            for (int i = 0; i < cityBeans.size(); i++) {
+                if (mMainActivity.currentCityId.equals(cityBeans.get(i).getId())) {
+                    cursor = i;
+                    break;
+                }
+            }
         }
         View view = LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
 
     public void setSecondForecastData(HomeForecastBaseBean homeForecastBaseBean) {
-        if (homeForecastBaseBean.getData() != null && homeForecastBaseBean.getData().getDays() != null)
+
+
+        if (homeForecastBaseBean.getData() != null && homeForecastBaseBean.getData().getDays() != null) {
             mDaybeans = homeForecastBaseBean.getData().getDays();
-        if (mDaybeans.size() > 10)
+        }
+
+        if (mDaybeans.size() > 10) {
             mDaybeans = mDaybeans.subList(0, 10);
+        }
         mWeathDayTrendView.setDataBean(mDaybeans);
         mHourBeans = homeForecastBaseBean.getData().getExacts();
         setPerDayWeatherData();
-        currentCityName=homeForecastBaseBean.getData().getCityName() + "";
+        currentCityName = homeForecastBaseBean.getData().getCityName() + "";
         mTvCityName.setText(currentCityName);
         //精确数据
         mWeatherHoursTrendView.setDataBean(mHourBeans);
-        if (mHourBeans != null) {
+        if (mHourBeans != null&&mHourBeans.size()>0) {
             mTvCursor.setText(mHourBeans.get(0).getWeaDesc() + " " + mHourBeans.get(0).getTempDesc() + "℃");
         }
         livingIndexAdapter = new LivingIndexAdapter(mMainActivity, homeForecastBaseBean.getData().getLife());
@@ -154,9 +160,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mTvSunRise = (TextView) findViewById(id.tv_life_sunriseTime);
         mTvSunSet = (TextView) findViewById(id.tv_life_sunsetTime);
         mTvCursor = (TextView) findViewById(id.tv_per_day_text_show);
-        mWhitePointView= (WhitePointView) findViewById(id.white_point_view);
+        mWhitePointView = (WhitePointView) findViewById(id.white_point_view);
         mWeatherSunChangeView = (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
-        mWhitePointView.setPointNum(cityBeans.size()+1);
+        mWhitePointView.setPointNum(cityBeans.size() + 1);
     }
 
     @Override
@@ -170,8 +176,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         factor = (float) (mPerHourWeatherLayout.getWidth() - mTvPerHourWeather.getWidth() - padding) / (mRlPerHourWeather.getWidth() - mPerHourWeatherLayout.getWidth());
         int temp = (int) (-x * factor);
         int cursor = (Math.abs(x) + Math.abs(temp) + padding / 2) / perHourWidth;
-        if(mHourBeans!=null&&mHourBeans.get(cursor)!=null){
-        mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc() + " " + mHourBeans.get(cursor).getTempDesc() + "℃");
+        if (mHourBeans != null && mHourBeans.get(cursor) != null) {
+            mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc() + " " + mHourBeans.get(cursor).getTempDesc() + "℃");
         }
         mPerHourWeatherLayout.scrollTo(temp, y);
     }
@@ -180,7 +186,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case id.tv_city_name:
-                AddCityActivity.starAddCityActivity(mMainActivity,currentCityName);
+                AddCityActivity.starAddCityActivity(mMainActivity, currentCityName);
                 break;
 
         }

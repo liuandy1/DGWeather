@@ -281,7 +281,7 @@
                     android:layout_marginRight="@dimen/px_20"
                     android:drawablePadding="@dimen/px_10"
                     android:drawableRight="@drawable/icon_life_sunset"
-                    android:text="日出：06:39" />
+                    android:text="日落：18:39" />
 
             </RelativeLayout>
         </LinearLayout>
