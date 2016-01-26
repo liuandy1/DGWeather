@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -64,7 +63,6 @@ import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
-import com.fgwx.dgweather.utils.ScreenShoot;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.fgwx.dgweather.utils.SpeechUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
@@ -73,10 +71,8 @@ import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SynthesizerListener;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import cn.sharesdk.onekeyshare.util.ShareSDKUtil;
 
@@ -982,10 +978,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 break;
 
             case R.id.ib_home_share:
-                String filePath = Constant.IMAGE_PATH + UUID.randomUUID().toString() + ".jpg";
-                File file = new File(filePath);
-                ScreenShoot.shoot(mMainActivity, file);
-                ShareSDKUtil.showShare(mMainActivity, filePath, tvHomeCity.getText().toString(), tvWeatherDes.getText().toString(), tvTempRange.getText().toString(), tvWind.getText().toString());
+                ShareSDKUtil.showShare(mMainActivity, viewPager,"东莞", "多云转晴", "21~30度", "东南风", "3~4级");
                 break;
 
             case R.id.tv_info_refresh:

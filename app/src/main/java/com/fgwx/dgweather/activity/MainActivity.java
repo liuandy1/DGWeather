@@ -1,9 +1,6 @@
 package com.fgwx.dgweather.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,14 +11,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
 import com.fgwx.dgweather.base.BaseActivity;
 import com.fgwx.dgweather.base.WeatherAppContext;
 import com.fgwx.dgweather.bean.CityBean;
-import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.fragment.EarlyWarnFragment;
 import com.fgwx.dgweather.fragment.ForecastFragment;
@@ -29,25 +23,16 @@ import com.fgwx.dgweather.fragment.InteractFragment;
 import com.fgwx.dgweather.fragment.MineFragment;
 import com.fgwx.dgweather.fragment.MonitorFragment;
 import com.fgwx.dgweather.utils.AddedCityUtil;
-import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.ExitAppUtils;
-import com.fgwx.dgweather.utils.LogUtil;
-import com.fgwx.dgweather.utils.MPreferencesUtil;
-import com.fgwx.dgweather.utils.ScreenShoot;
+import com.fgwx.dgweather.utils.ScreenShootUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
-import com.fgwx.dgweather.utils.WeatherNetUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
-
-import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Created by senghor on 2015/12/23.
@@ -404,7 +389,7 @@ public class MainActivity extends BaseActivity {
 //            }
             finish();
             mForecastFragment.recycle();
-            ScreenShoot.deleteScreenShootImage();
+            ScreenShootUtil.deleteScreenShootImage();
             System.exit(0);
         }
     }
