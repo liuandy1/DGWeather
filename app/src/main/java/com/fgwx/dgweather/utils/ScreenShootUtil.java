@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by M on 2016/1/23.
  */
-public class ScreenShoot {
+public class ScreenShootUtil {
     private static Bitmap takeScreenShot(Activity activity) {
         // View是你需要截图的View
         View view = activity.getWindow().getDecorView();
@@ -60,16 +60,16 @@ public class ScreenShoot {
         if (!filePath.getParentFile().exists()) {
             filePath.getParentFile().mkdirs();
         }
-        ScreenShoot.savePic(ScreenShoot.takeScreenShot(a), filePath);
+        ScreenShootUtil.savePic(ScreenShootUtil.takeScreenShot(a), filePath);
     }
 
-    public static void deleteScreenShootImage(){
+    public static void deleteScreenShootImage() {
         File file = new File(Constant.IMAGE_PATH);
         deleteFile(file);
     }
 
     private static void deleteFile(File file) {
-        if (file.exists() == false) {
+        if (!file.exists()) {
             return;
         } else {
             if (file.isFile()) {
@@ -89,4 +89,29 @@ public class ScreenShoot {
             }
         }
     }
+
+    public static void screenCapture(View view,File filePath) {
+
+        if (filePath == null) {
+            return;
+        }
+        if (!filePath.getParentFile().exists()) {
+            filePath.getParentFile().mkdirs();
+        }
+//        View view = v.getRootView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        if (bitmap != null) {
+            try {
+                FileOutputStream out = new FileOutputStream(filePath);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("bitmap is NULL !");
+        }
+    }
+
 }
