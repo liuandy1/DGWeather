@@ -24,6 +24,7 @@ public class ForecastForTenDayBean {
             "wind":风力风向,
             "windDirection":风向*/
     private String airQua;
+    private String areaName;
     private String areaCode;
     private String bodyTemp;
     private String curDate;
@@ -99,6 +100,14 @@ public class ForecastForTenDayBean {
 
     public void setCurDate(String curDate) {
         this.curDate = curDate;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public int getCurMaxTemp() {

@@ -112,6 +112,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mHourBeans = homeForecastBaseBean.getData().getExacts();
         setPerDayWeatherData();
         currentCityName = homeForecastBaseBean.getData().getCityName() + "";
+//        currentCityName = homeForecastBaseBean.getData().getDays().get(0).getAreaName() + "";
         mTvCityName.setText(currentCityName);
         //精确数据
         mWeatherHoursTrendView.setDataBean(mHourBeans);
@@ -209,5 +210,9 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     @Override
     public void onWeatherTop() {
         Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setPoint(int pager, int nowPager) {
+        mWhitePointView.setPointNum(pager,nowPager);
     }
 }

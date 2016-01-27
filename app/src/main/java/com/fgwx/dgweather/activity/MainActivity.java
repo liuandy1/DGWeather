@@ -98,7 +98,6 @@ public class MainActivity extends BaseActivity {
             currentCityId = "0";
         }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
-
     }
 
     @Override
@@ -118,8 +117,6 @@ public class MainActivity extends BaseActivity {
             mMineFragment = (MineFragment) manager.findFragmentByTag(MINE_TAG);
             mMonitorFragment = (MonitorFragment) manager.findFragmentByTag(MONITOR_TAG);
             mInteractFragment = (InteractFragment) manager.findFragmentByTag(INTERACT_TAG);
-
-
         }
     }
 
@@ -338,13 +335,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void move() {
-        try{
-        LogUtil.e("nowPager:"+nowPager);
-        nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
-        LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
-        nowSite = SiteUtil.getCloseSite(this, lng);
-        getForecastData(nowCity, nowSite, nowCity.getId());
-        }catch (Exception e){
+        try {
+            LogUtil.e("nowPager:" + nowPager);
+            List<CityBean> citys = AddedCityUtil.getAllCity(this);
+            nowCity = citys.get(nowPager - 1);
+            LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
+            nowSite = SiteUtil.getCloseSite(this, lng);
+            getForecastData(nowCity, nowSite, nowCity.getId());
+
+            mForecastFragment.changeSecondPoint(citys.size() + 1, nowPager);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

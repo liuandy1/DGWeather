@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.ForecastSortAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
@@ -27,6 +28,8 @@ import com.fgwx.dgweather.bean.DangerAndShelterBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
+import com.fgwx.dgweather.db.AddedCityDao;
+import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
@@ -265,7 +268,7 @@ public class ForecastFragment extends BaseFragment {
                 switch (code) {
                     case 200:
                         //时间
-                        if ("东莞市".equals(cityBean.getName())) {
+                        if ("东莞市".equals(cityBean.getName()) && "0".equals(foucsCityId)) {
                             response.getData().setCityName(siteBean.getAreaName());
                         } else {
                             response.getData().setCityName(cityBean.getName());
@@ -283,7 +286,7 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
                 loading(false);
-                Log.v("XXX",error.toString());
+                Log.v("XXX", error.toString());
                 LogUtil.e(error.toString());
                 Toast.makeText(mContext, "服务器异常", Toast.LENGTH_SHORT).show();
                 loading(false);
@@ -323,6 +326,10 @@ public class ForecastFragment extends BaseFragment {
 
     public void initViewPager(int i) {
         mForecastFirstView.initViewPager(0, true);
+    }
+
+    public void changeSecondPoint(int pager, int nowPager) {
+        mForecastSecondView.setPoint(pager,nowPager);
     }
    /* private void getAreaData(){
         WeatherNetUtils.getAreaData(new Response.Listener<AreaBaseBean>() {
