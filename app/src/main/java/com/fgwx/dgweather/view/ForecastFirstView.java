@@ -205,7 +205,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
         LogUtil.e("当前的城市" + city);
         if (CityUtil.getCityByName(mMainActivity, city) != null) {
-            LogUtil.e("有根据城市名字查询到对应的数据");
             mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
         }
     }
@@ -697,9 +696,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             }
             int[] locations = new int[2];
             mMapView.getLocationOnScreen(locations);
-            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
+//            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.90707,22.913113
-//            mCurrentLng[0] = new LatLng(22.913113, 113.90707);
+            mCurrentLng[0] = new LatLng(22.913113, 113.90707);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng[0].latitude).longitude(mCurrentLng[0].longitude).build();
@@ -982,8 +981,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 if (WeatherAppContext.nowPager == 0) {
-                    mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
-                            SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
+                    if (null != CityUtil.getCityByName(mMainActivity, nowCity)) {
+                        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
+                                SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
+                    }else {
+                        ToastUtil.show(mMainActivity,"数据获取失败");
+                    }
                 } else {
                     CityBean nowCityBean = AddedCityUtil.getAllCity(mMainActivity).get(WeatherAppContext.nowPager - 1);
                     LatLng lng = new LatLng(Double.parseDouble(nowCityBean.getLat()), Double.parseDouble(nowCityBean.getLng()));
