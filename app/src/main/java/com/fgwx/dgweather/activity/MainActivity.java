@@ -118,6 +118,8 @@ public class MainActivity extends BaseActivity {
             mMineFragment = (MineFragment) manager.findFragmentByTag(MINE_TAG);
             mMonitorFragment = (MonitorFragment) manager.findFragmentByTag(MONITOR_TAG);
             mInteractFragment = (InteractFragment) manager.findFragmentByTag(INTERACT_TAG);
+
+
         }
     }
 

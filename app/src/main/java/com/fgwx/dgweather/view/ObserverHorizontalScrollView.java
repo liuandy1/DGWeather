@@ -66,6 +66,7 @@ public class ObserverHorizontalScrollView extends HorizontalScrollView{
 			case MotionEvent.ACTION_UP:
 				int scx=getScrollX();
 				if(scx==0&&flag==1){
+					Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
 					if(onBottomAndTopListener!=null){
 						onBottomAndTopListener.onTop();
 					}

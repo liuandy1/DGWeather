@@ -21,7 +21,7 @@ public class WeatherNetUtils {
     private static final String URL_DANGERANDSHELTER = URL_BASE+"/dgweatherweb/webservice/getDngShts";
 
 
-    private static final String URL_TEST="http://58.252.5.166:10008/dgweatherweb/webservice/getData?cityId=441900&streetId=&last10DayTime=&query10Day=1&siteId=G1901&lastSiteTime=&queryLife=1&lastLifeTime=1&querySun=1&lastSunTime=&queryExact=1";
+    private static final String URL_TEST="http://http://120.86.191.99/dgweatherweb/webservice/getData/dgweatherweb/webservice/getData?cityId=441900&streetId=&last10DayTime=&query10Day=1&siteId=G1901&lastSiteTime=&queryLife=1&lastLifeTime=1&querySun=1&lastSunTime=&queryExact=1";
 
 
     //首页接口

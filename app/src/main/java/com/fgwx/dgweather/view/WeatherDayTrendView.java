@@ -64,18 +64,15 @@ public class WeatherDayTrendView extends View {
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
-
-    public void setDataBean(List<ForecastForTenDayBean> beans) {
-        if (beans == null) return;
-        mbeans = beans;
-        if (mbeans.size() > 0) {
-            mPointXs = new float[mbeans.size()];
-            for (int i = 0; i < mbeans.size(); i++) {
-                mPointXs[i] = multipleX / 2 + multipleX * i;
-            }
-            sumWidth = (int) (mPointXs[mbeans.size() - 1] + multipleX / 2);
-            postInvalidate();
+    public void setDataBean(List<ForecastForTenDayBean> beans){
+        if(beans==null||beans.size()<=0)return;
+        mbeans=beans;
+        mPointXs=new float[mbeans.size()];
+        for(int i=0;i<mbeans.size();i++){
+            mPointXs[i]=multipleX/2+multipleX*i;
         }
+        sumWidth=(int)(mPointXs[mbeans.size()-1]+multipleX/2);
+        postInvalidate();
     }
 
     @Override
