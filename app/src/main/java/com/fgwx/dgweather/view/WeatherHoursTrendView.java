@@ -81,7 +81,9 @@ public class WeatherHoursTrendView extends View {
             mPointXs[i]=multipleX/2+multipleX*i;
         }
         sumWidth=(int)(mPointXs[mbeans.size()-1]+multipleX/2);
-        postInvalidate();
+        invalidate();
+        forceLayout();
+        requestLayout();
     }
 
     @Override
