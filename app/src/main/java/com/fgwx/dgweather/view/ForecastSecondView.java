@@ -61,7 +61,6 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
     private List<PerDayWeatherView> mPerDayWeatherViews = new ArrayList<>();
 
     private List<CityBean> cityBeans;
-    private int cursor = -1;
 
     public ForecastSecondView(Context context) {
         this(context, null);
@@ -84,8 +83,8 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
 
     private void init() {
         perHourWidth = getResources().getDimensionPixelOffset(R.dimen.px_140);
-        cityBeans = AddedCityUtil.getAllCity(getContext());
-        if (mMainActivity.currentCityId.equals("0")) {
+        //cityBeans = AddedCityUtil.getAllCity(getContext());
+      /*  if (mMainActivity.currentCityId.equals("0")) {
             cursor = -1;
         } else {
             for (int i = 0; i < cityBeans.size(); i++) {
@@ -94,7 +93,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
                     break;
                 }
             }
-        }
+        }*/
         View view = LayoutInflater.from(getContext()).inflate(layout.fragment_second_forecast, this);
         initView(view);
     }
@@ -162,7 +161,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         mTvCursor = (TextView) findViewById(id.tv_per_day_text_show);
         mWhitePointView = (WhitePointView) findViewById(id.white_point_view);
         mWeatherSunChangeView = (WeatherSunChangeView) findViewById(id.sv_weather_sun_change);
-        mWhitePointView.setPointNum(cityBeans.size() + 1);
+       // mWhitePointView.setPointNum(cityBeans.size() + 1);
     }
 
     @Override

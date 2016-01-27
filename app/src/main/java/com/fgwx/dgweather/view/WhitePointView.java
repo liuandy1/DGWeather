@@ -41,18 +41,21 @@ public class WhitePointView extends View {
         multipleX=getResources().getDimensionPixelOffset(R.dimen.px_10);
         mPaint = new Paint();
         mPaint.setColor(white);
-        setPointNum(5);
+        setPointNum(5,0);
 
     }
 
-    public void setPointNum(int pointNum){
+    public void setPointNum(int pointNum,int currentNum){
         mPointNum=pointNum;
+        this.currentNum=currentNum;
         mPointXs=new float[pointNum];
         for(int i=0;i<pointNum;i++){
             mPointXs[i]=multipleX/2+(multipleX*1.5f*i);
         }
         sumWidth=(int)(mPointXs[pointNum-1]+multipleX/2);
         postInvalidate();
+        forceLayout();
+        requestLayout();
     }
     @Override
     protected void onDraw(Canvas canvas) {
