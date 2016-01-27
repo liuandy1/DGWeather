@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 import android.widget.Toast;
 
+import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.base.WeatherAppContext;
 
 /**
@@ -19,6 +20,7 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
     public WeatherHorizatalScrollView(Context context, AttributeSet attrs,
                                int defStyle) {
         super(context, attrs, defStyle);
+        mContext= (MainActivity) context;
     }
     public WeatherHorizatalScrollView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -28,6 +30,7 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
     private int scrollViewMeasuredWidth;
     private float beginX;
     private int flag=0;
+    private MainActivity mContext;
 
     private void setOnBottomAndTopListener(OnBottomAndTopListener onBottomAndTopListener){
         this.onBottomAndTopListener=onBottomAndTopListener;
@@ -64,6 +67,7 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
                 int scx=getScrollX();
                 if(scx==0&&flag==1)
                 {
+                    mContext.leftMove();
                     Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
                     if(onBottomAndTopListener!=null){
                         onBottomAndTopListener.onWeatherTop();
@@ -73,6 +77,7 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
                     if(onBottomAndTopListener!=null){
                         onBottomAndTopListener.onWeatherBottom();
                     }
+                    mContext.rightMove();
                     Toast.makeText(WeatherAppContext.getAppContext(), "到达底部", Toast.LENGTH_SHORT).show();
 
                 }

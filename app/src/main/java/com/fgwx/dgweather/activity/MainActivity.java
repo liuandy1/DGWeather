@@ -338,11 +338,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void move() {
+        try{
         LogUtil.e("nowPager:"+nowPager);
         nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
         LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
         nowSite = SiteUtil.getCloseSite(this, lng);
         getForecastData(nowCity, nowSite, nowCity.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

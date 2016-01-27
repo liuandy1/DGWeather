@@ -176,7 +176,7 @@ public class ForecastSecondView extends RelativeLayout implements View.OnClickLi
         factor = (float) (mPerHourWeatherLayout.getWidth() - mTvPerHourWeather.getWidth() - padding) / (mRlPerHourWeather.getWidth() - mPerHourWeatherLayout.getWidth());
         int temp = (int) (-x * factor);
         int cursor = (Math.abs(x) + Math.abs(temp) + padding / 2) / perHourWidth;
-        if (mHourBeans != null && mHourBeans.get(cursor) != null) {
+        if (mHourBeans != null &&mHourBeans.size()!=0) {
             mTvCursor.setText(mHourBeans.get(cursor).getWeaDesc() + " " + mHourBeans.get(cursor).getTempDesc() + "℃");
         }
         mPerHourWeatherLayout.scrollTo(temp, y);

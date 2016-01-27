@@ -16,6 +16,7 @@ import com.fgwx.dgweather.bean.ForecastForTenDayBean;
 import com.fgwx.dgweather.utils.AppUtil;
 import com.fgwx.dgweather.utils.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +76,14 @@ public class WeatherHoursTrendView extends View {
         fontHeight = fontMetrics.bottom - fontMetrics.top;
     }
     public void setDataBean(List<ForecastForHourBean> beans){
-        if(beans==null||beans.size()<=0)return;
+        if(beans==null||beans.size()<=0){
+            //mbeans=new ArrayList<>();
+            mbeans=null;
+            invalidate();
+            forceLayout();
+            requestLayout();
+            return;
+        }
        mbeans=beans;
         mPointXs=new float[mbeans.size()];
         for(int i=0;i<mbeans.size();i++){
@@ -90,6 +98,7 @@ public class WeatherHoursTrendView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(mbeans==null)return;
         mHeight = getHeight();
         originHeight = mHeight / 2 + px20;
         float originPoinY = (-mbeans.get(0).getTempDesc()) * multipleY;
