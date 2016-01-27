@@ -32,9 +32,9 @@ public class SiteUtil {
         SiteBean.DataEntity closeSite = null;
         List<SiteBean.DataEntity> list = siteDao.getAllSite();
         double distance = DistanceUtil.getDistance(p1, new LatLng(Double.parseDouble(list.get(0).getLatitude()),
-                Double.parseDouble(list.get(0).getLatitude())));
+                Double.parseDouble(list.get(0).getLongitude())));
         for (SiteBean.DataEntity data : list) {
-            Double nowDistance = DistanceUtil.getDistance(p1, new LatLng(Double.parseDouble(data.getLatitude()), Double.parseDouble(data.getLatitude())));
+            Double nowDistance = DistanceUtil.getDistance(p1, new LatLng(Double.parseDouble(data.getLatitude()), Double.parseDouble(data.getLongitude())));
             if (nowDistance < distance) {
                 distance = nowDistance;
                 closeSite = data;

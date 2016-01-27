@@ -25,6 +25,7 @@ import com.fgwx.dgweather.fragment.MonitorFragment;
 import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.Constant;
 import com.fgwx.dgweather.utils.ExitAppUtils;
+import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.ScreenShootUtil;
 import com.fgwx.dgweather.utils.SiteUtil;
 import com.google.gson.Gson;
@@ -59,13 +60,15 @@ public class MainActivity extends BaseActivity {
 
     private Gson gson;
 
-    public int nowPager = 0;
+    public static int nowPager = 0;
     //定位的城市
     public CityBean homeCity;
     //当前的城市
     public CityBean nowCity;
     //当前的站点
     public SiteBean.DataEntity nowSite;
+
+    private static boolean isRefresh;
 
     public static final String FORECAST_TAG = "Forecast";
 
@@ -101,7 +104,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mForecastFragment.initViewPager(AddedCityUtil.getAllCity(this).size());
+        if (isRefresh) {
+            mForecastFragment.initViewPager(AddedCityUtil.getAllCity(this).size());
+            isRefresh = false;
+        }
     }
 
     public void isFragmentSave(Bundle savedInstanceState) {
@@ -118,6 +124,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public static void starMainActivity(BaseActivity context, String cityId) {
+        isRefresh = true;
+        nowPager = 0;
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(Constant.CITYID, cityId);
         context.startActivity(intent);
@@ -276,7 +284,6 @@ public class MainActivity extends BaseActivity {
         fragments.add(new InteractFragment());// 互动
         fragments.add(new MineFragment());// 我的
         loading(true);
-        // getForecastNetData();
     }
 
 
@@ -311,12 +318,12 @@ public class MainActivity extends BaseActivity {
      * 城市的点向左移动的
      */
     public void leftMove() {
-        if(nowPager==1){
+        if (nowPager == 1) {
             nowPager--;
             LatLng lng = new LatLng(Double.parseDouble(homeCity.getLat()), Double.parseDouble(homeCity.getLng()));
             nowSite = SiteUtil.getCloseSite(this, lng);
             getForecastData(homeCity, nowSite, "0");
-        }else {
+        } else {
             nowPager--;
             move();
         }
@@ -331,23 +338,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void move() {
+        LogUtil.e("nowPager:"+nowPager);
         nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
         LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
         nowSite = SiteUtil.getCloseSite(this, lng);
         getForecastData(nowCity, nowSite, nowCity.getId());
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (data.getExtras() != null) {
-//            int position = (int) data.getExtras().get("position");
-//            LogUtil.e("MainActivity--->onActivityResult    position:" + position);
-////            mForecastFragment.changePager(position + 1);
-//        }
-//        LogUtil.e("MainActivity--->onActivityResult    " + requestCode);
-////        mForecastFragment.changePager(data.getIntExtra("",0));
-//    }
 
     /**
      * 菜单、返回键响应

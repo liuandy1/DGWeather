@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/ll_siteInfo_site"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/px_400"
         android:orientation="horizontal">
 
         <ImageView
@@ -101,7 +101,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/px_20"
                     android:layout_marginTop="@dimen/px_20"
                     android:layout_weight="1"
@@ -150,7 +150,7 @@
                             android:drawablePadding="@dimen/px_20"
                             android:drawableRight="@drawable/icon_call"
                             android:gravity="center_vertical"
-                            android:text="2222222"
+                            android:text="01sfd2222222"
                             android:ellipsize="end"
                             android:textColor="@color/call_text_color" />
                     </LinearLayout>

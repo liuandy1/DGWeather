@@ -13,8 +13,8 @@ import java.util.TreeMap;
  * Created by senghor on 2015/12/23.
  */
 public class WeatherNetUtils {
-    private static final String URL_BASE="http://58.252.5.166:10008";
-    //private static final String URL_BASE="http://120.86.191.99";
+//    private static final String URL_BASE="http://58.252.5.166:10008";
+    private static final String URL_BASE="http://120.86.191.99";
     private static final String URL_HOME_FORECAST=URL_BASE+"/dgweatherweb/webservice/getData";
     private static final String URL_MONITOR=URL_BASE+"/dgweatherweb/webservice/getSiteDatas";
     private static final String URL_AREA=URL_BASE+"/dgweatherweb/webservice/getAreas";
