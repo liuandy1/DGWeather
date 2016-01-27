@@ -203,7 +203,11 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 addOverSite(sites, Constant.TEM);
             }
         }
-        mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
+        LogUtil.e("当前的城市" + city);
+        if (CityUtil.getCityByName(mMainActivity, city) != null) {
+            LogUtil.e("有根据城市名字查询到对应的数据");
+            mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
+        }
     }
 
     public void setFirstForecastData(HomeForecastBaseBean homeForecastBaseBean) {
@@ -438,7 +442,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         LogUtil.e("initViewPager(int i)  position:" + i);
         LayoutInflater inflater = LayoutInflater.from(mMainActivity);
 //        pagerView = inflater.inflate(R.layout.layout_forecast_weather_info, null);
-        if(fresh) {
+        if (fresh) {
             views = new ArrayList<>();
             final List<CityBean> addList = AddedCityUtil.getAllCity(mMainActivity);
             for (int j = 0; j < addList.size() + 1; j++) {

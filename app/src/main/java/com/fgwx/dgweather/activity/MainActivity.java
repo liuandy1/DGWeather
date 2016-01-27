@@ -284,7 +284,6 @@ public class MainActivity extends BaseActivity {
         fragments.add(new InteractFragment());// 互动
         fragments.add(new MineFragment());// 我的
         loading(true);
-        // getForecastNetData();
     }
 
 
