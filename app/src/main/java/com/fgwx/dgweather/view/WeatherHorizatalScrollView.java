@@ -67,18 +67,18 @@ public class WeatherHorizatalScrollView extends HorizontalScrollView{
                 int scx=getScrollX();
                 if(scx==0&&flag==1)
                 {
-                    mContext.leftMove();
+                   /* mContext.leftMove();
                     Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
                     if(onBottomAndTopListener!=null){
                         onBottomAndTopListener.onWeatherTop();
-                    }
+                    }*/
                 }
                 if((scx+width)==scrollViewMeasuredWidth&&flag==2){
-                    if(onBottomAndTopListener!=null){
+                   /* if(onBottomAndTopListener!=null){
                         onBottomAndTopListener.onWeatherBottom();
                     }
                     mContext.rightMove();
-                    Toast.makeText(WeatherAppContext.getAppContext(), "到达底部", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeatherAppContext.getAppContext(), "到达底部", Toast.LENGTH_SHORT).show();*/
 
                 }
                 flag=0;

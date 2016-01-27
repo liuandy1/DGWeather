@@ -69,17 +69,17 @@ public class ObserverHorizontalScrollView extends HorizontalScrollView{
 			case MotionEvent.ACTION_UP:
 				int scx=getScrollX();
 				if(scx==0&&flag==1){
-					mContext.leftMove();
+				/*	mContext.leftMove();
 					Toast.makeText(WeatherAppContext.getAppContext(), "到达顶部", Toast.LENGTH_SHORT).show();
 					if(onBottomAndTopListener!=null){
 						onBottomAndTopListener.onTop();
-					}
+					}*/
 				}
 				if((scx+width)==scrollViewMeasuredWidth&&flag==2){
-					if(onBottomAndTopListener!=null){
+					/*if(onBottomAndTopListener!=null){
 						onBottomAndTopListener.onBottom();
 					}
-					mContext.rightMove();
+					mContext.rightMove();*/
 				}
 				flag=0;
 				break;
