@@ -260,7 +260,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
                 ForecastForTenDayBean firstDay = data.getDays().get(0);
 
-                tvTempRange.setText(firstDay.getCurMinTemp() + "℃~" + firstDay.getCurMinTemp() + "℃");
+                tvTempRange.setText(firstDay.getCurMinTemp() + "℃~" + firstDay.getCurMaxTemp() + "℃");
                 tvWeatherDes.setText(firstDay.getWeaDesc());
                 LogUtil.e("天气图标:" + firstDay.getWeaIcon());
                 pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(AppUtil.getWeatherBgById(firstDay.getWeaIcon()));
