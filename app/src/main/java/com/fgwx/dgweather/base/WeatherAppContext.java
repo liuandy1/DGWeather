@@ -41,6 +41,7 @@ public class WeatherAppContext extends Application {
     public static boolean isWeather = true;
     public String currentCityId;
     public HomeForecastBaseBean homeForecastBaseBean;
+    public static int nowPager = 0;
 
     @Override
     public void onCreate() {

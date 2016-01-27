@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fgwx.dgweather.base.WeatherAppContext;
@@ -41,7 +43,7 @@ public class AppUtil {
      * 通过图片资源名获取图片
      */
     public static Bitmap getWeathericonDrawableById(String id) {
-        Context context=null;
+        Context context = null;
         try {
             //Log.i(TAG, "id : " + id);
             if (context == null) {
@@ -49,18 +51,19 @@ public class AppUtil {
             }
             int resId = getResId("@drawable/" + "icon_weather_" + id, context);
             if (resId > 0) {
-                return ((BitmapDrawable)context.getResources().getDrawable(resId)).getBitmap();
+                return ((BitmapDrawable) context.getResources().getDrawable(resId)).getBitmap();
             }
             return null;
         } catch (Exception e) {
             return null;
         }
     }
- /**
+
+    /**
      * 通过图片资源名获取图片
      */
     public static BitmapDrawable getWeatherBgById(String id) {
-        Context context=null;
+        Context context = null;
         try {
             //Log.i(TAG, "id : " + id);
             if (context == null) {
@@ -68,7 +71,7 @@ public class AppUtil {
             }
             int resId = getResId("@drawable/" + "bg_weather_" + id, context);
             if (resId > 0) {
-                return ((BitmapDrawable)context.getResources().getDrawable(resId));
+                return ((BitmapDrawable) context.getResources().getDrawable(resId));
             }
             return null;
         } catch (Exception e) {
@@ -105,6 +108,7 @@ public class AppUtil {
 
     /**
      * 判断有没有安装某个应用
+     *
      * @param packageName
      * @return
      */
@@ -114,12 +118,13 @@ public class AppUtil {
 
     /**
      * 导航
+     *
      * @param context
      * @param lat
      * @param lon
      * @param name
      */
-    public static void nav(Context context,String lat, String lon, String name) {
+    public static void nav(Context context, String lat, String lon, String name) {
         //移动APP调起Android百度地图方式举例
         Intent intent = null;
         //调用百度地图导航
@@ -144,11 +149,22 @@ public class AppUtil {
     }
 
 
-    public static void nav(Context context,double lat, double lon, String name) {
+    public static void nav(Context context, double lat, double lon, String name) {
         nav(context, lat + "", lon + "", name);
     }
 
-    public static void setBg(View view,String weatherDes){
+    public static void setBg(View view, String weatherDes) {
 
+    }
+
+    public static String getText(TextView textView) {
+        if (textView == null) {
+            return "";
+        }
+
+        return TextUtils.isEmpty(textView.getText()) ? "" : textView.getText().toString();
+//        if (TextUtils.isEmpty(textView.getText())) {
+//
+//        }
     }
 }
