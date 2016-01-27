@@ -3,6 +3,7 @@ package com.fgwx.dgweather.net;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -32,6 +33,7 @@ public class WeatherRequest<T> extends Request<T> {
         mGson = new Gson();
         mClass = clazz;
         mListener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
     }
 
 /*
@@ -46,6 +48,7 @@ public class WeatherRequest<T> extends Request<T> {
                           Response.ErrorListener errorListener) {
         this(Method.POST, url, clazz, listener, errorListener);
         this.mParam=mParam;
+        setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
     }
 
 
