@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
     public static int nowPager = 0;
     //定位的城市
     public CityBean homeCity;
+    public SiteBean.DataEntity homeSite;
     //当前的城市
     public CityBean nowCity;
     //当前的站点
@@ -98,7 +99,6 @@ public class MainActivity extends BaseActivity {
             currentCityId = "0";
         }
         rg_tabs.setOnCheckedChangeListener(new onRadioGroupListener());
-
     }
 
     @Override
@@ -118,8 +118,6 @@ public class MainActivity extends BaseActivity {
             mMineFragment = (MineFragment) manager.findFragmentByTag(MINE_TAG);
             mMonitorFragment = (MonitorFragment) manager.findFragmentByTag(MONITOR_TAG);
             mInteractFragment = (InteractFragment) manager.findFragmentByTag(INTERACT_TAG);
-
-
         }
     }
 
@@ -320,9 +318,7 @@ public class MainActivity extends BaseActivity {
     public void leftMove() {
         if (nowPager == 1) {
             nowPager--;
-            LatLng lng = new LatLng(Double.parseDouble(homeCity.getLat()), Double.parseDouble(homeCity.getLng()));
-            nowSite = SiteUtil.getCloseSite(this, lng);
-            getForecastData(homeCity, nowSite, "0");
+            getForecastData(homeCity, homeSite, "0");
         } else {
             nowPager--;
             move();
@@ -338,13 +334,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void move() {
-        try{
-        LogUtil.e("nowPager:"+nowPager);
-        nowCity = AddedCityUtil.getAllCity(this).get(nowPager - 1);
-        LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
-        nowSite = SiteUtil.getCloseSite(this, lng);
-        getForecastData(nowCity, nowSite, nowCity.getId());
-        }catch (Exception e){
+        try {
+            LogUtil.e("nowPager:" + nowPager);
+            List<CityBean> citys = AddedCityUtil.getAllCity(this);
+            nowCity = citys.get(nowPager - 1);
+            LatLng lng = new LatLng(Double.parseDouble(nowCity.getLat()), Double.parseDouble(nowCity.getLng()));
+            nowSite = SiteUtil.getCloseSite(this, lng);
+            getForecastData(nowCity, nowSite, nowCity.getId());
+
+            mForecastFragment.changeSecondPoint(citys.size() + 1, nowPager);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

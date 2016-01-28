@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.baidu.mapapi.model.LatLng;
 import com.fgwx.dgweather.R;
+import com.fgwx.dgweather.activity.AddCityActivity;
 import com.fgwx.dgweather.activity.MainActivity;
 import com.fgwx.dgweather.adapter.ForecastSortAdapter;
 import com.fgwx.dgweather.base.BaseActivity;
@@ -27,6 +28,8 @@ import com.fgwx.dgweather.bean.DangerAndShelterBean;
 import com.fgwx.dgweather.bean.HomeForecastBaseBean;
 import com.fgwx.dgweather.bean.SiteBean;
 import com.fgwx.dgweather.bean.SiteMonitorBaseBean;
+import com.fgwx.dgweather.db.AddedCityDao;
+import com.fgwx.dgweather.utils.AddedCityUtil;
 import com.fgwx.dgweather.utils.LogUtil;
 import com.fgwx.dgweather.utils.MPreferencesUtil;
 import com.fgwx.dgweather.utils.NetWorkUtil;
@@ -238,14 +241,16 @@ public class ForecastFragment extends BaseFragment {
         }
         setForecastData(getCacheData(foucsCityId));
         TreeMap<String, String> map = new TreeMap<>();
-        if (!TextUtils.isEmpty(cityBean.getId()))
-            map.put("cityId", cityBean.getId());//城市Id，必须
-//            map.put("cityId", "441900");//城市Id，必须
+        if (cityBean != null) {
+            if (!TextUtils.isEmpty(cityBean.getId()))
+                map.put("cityId", cityBean.getId());//城市Id，必须
+        }
         LogUtil.e("请求首页数据,城市id:" + cityBean.getId() + "     城市名字:" + cityBean.getName());
         //map.put("streetId", null);//街道Id
         if (!TextUtils.isEmpty(siteBean.getId()))
             map.put("siteId", siteBean.getId());//站点Id
         LogUtil.e("请求首页数据,站点id:" + siteBean.getId() + "     站点名字:" + siteBean.getName());
+        LogUtil.e("foucsCityId"+foucsCityId);
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）
@@ -267,7 +272,7 @@ public class ForecastFragment extends BaseFragment {
                 switch (code) {
                     case 200:
                         //时间
-                        if ("东莞市".equals(cityBean.getName())) {
+                        if ("东莞市".equals(cityBean.getName()) && "0".equals(foucsCityId)) {
                             response.getData().setCityName(siteBean.getAreaName());
                         } else {
                             response.getData().setCityName(cityBean.getName());
@@ -285,7 +290,7 @@ public class ForecastFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 LogUtil.e("访问失败了");
                 loading(false);
-                Log.v("XXX",error.toString());
+                Log.v("XXX", error.toString());
                 LogUtil.e(error.toString());
                 Toast.makeText(mContext, "服务器异常", Toast.LENGTH_SHORT).show();
                 loading(false);
@@ -325,6 +330,10 @@ public class ForecastFragment extends BaseFragment {
 
     public void initViewPager(int i) {
         mForecastFirstView.initViewPager(0, true);
+    }
+
+    public void changeSecondPoint(int pager, int nowPager) {
+        mForecastSecondView.setPoint(pager, nowPager);
     }
    /* private void getAreaData(){
         WeatherNetUtils.getAreaData(new Response.Listener<AreaBaseBean>() {

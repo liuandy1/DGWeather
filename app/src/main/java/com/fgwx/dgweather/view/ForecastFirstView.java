@@ -205,7 +205,6 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         }
         LogUtil.e("当前的城市" + city);
         if (CityUtil.getCityByName(mMainActivity, city) != null) {
-            LogUtil.e("有根据城市名字查询到对应的数据");
             mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
         }
     }
@@ -246,7 +245,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 tvCurrentTemp.setText(siteInfo.getAirTemp());
 
                 tvTempRange = (TextView) pagerView.findViewById(R.id.tv_info_tempRange);
-                tvTempRange.setText(siteInfo.getMinTemp() + "℃~" + siteInfo.getMaxTemp() + "℃");
+
 
                 tvFreshTime.setText(TimeUtil.formatShortDate(TimeUtil.strToDate(strTime)) + " 发布");
 
@@ -259,6 +258,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
 
                 tvWeatherDes = (TextView) pagerView.findViewById(R.id.tv_info_weather);
                 ForecastForTenDayBean firstDay = data.getDays().get(0);
+
+                tvTempRange.setText(firstDay.getCurMinTemp() + "℃~" + firstDay.getCurMaxTemp() + "℃");
                 tvWeatherDes.setText(firstDay.getWeaDesc());
                 LogUtil.e("天气图标:" + firstDay.getWeaIcon());
                 pagerView.findViewById(R.id.ly_home_weather).setBackgroundDrawable(AppUtil.getWeatherBgById(firstDay.getWeaIcon()));
@@ -577,12 +578,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private void fullWindow() {
         if (!isFull) {
             rvHomeInfo.setVisibility(View.GONE);
-            lyHomeSearch.setVisibility(View.VISIBLE);
+//            lyHomeSearch.setVisibility(View.VISIBLE);
             ivFull.setImageResource(R.drawable.icon_map_nofullscreen);
             isFull = true;
         } else {
             rvHomeInfo.setVisibility(View.VISIBLE);
-            lyHomeSearch.setVisibility(View.GONE);
+//            lyHomeSearch.setVisibility(View.GONE);
             ivFull.setImageResource(R.drawable.icon_map_fullscreen);
             isFull = false;
         }
@@ -649,7 +650,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 mMainActivity.homeCity = cityBean;
                 application = (WeatherAppContext) mMainActivity.getApplication();
                 application.setCurrentCityId(cityBean.getId());
-                mMainActivity.getForecastData(cityBean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
+                mMainActivity.homeSite = SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]);
+                mMainActivity.getForecastData(cityBean, mMainActivity.homeSite);
                 mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
             } else {
                 tvFail.setVisibility(VISIBLE);
@@ -797,7 +799,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                         tv_siteInfo_type.setText("实时雨量");
                         tv_siteInfo_value1.setText(siteBean.getHourRain() + "");
                         tv_dgree.setVisibility(VISIBLE);
-                        tv_dgree.setText("ml");
+                        tv_dgree.setText("mm");
                         tv_siteInfo_value2.setText("实时温度  " + siteBean.getAirTemp() + "℃");
                         tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
                         tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
@@ -820,7 +822,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                         tv_siteInfo_type.setText("风力风向");
                         tv_dgree.setText(siteBean.getSpeedDir());
                         tv_siteInfo_value1.setVisibility(GONE);
-                        tv_siteInfo_value2.setText("实时雨量  " + siteBean.getRelativeWet());
+                        tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
                         tv_siteInfo_value3.setText("实时温度  " + siteBean.getAirTemp() + "℃");
                         tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
                         break;
@@ -830,6 +832,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                         tv_siteInfo_type.setText("实时温度");
                         tv_siteInfo_value1.setText(siteBean.getAirTemp());
                         tv_dgree.setVisibility(VISIBLE);
+                        tv_dgree.setText("℃");
                         tv_siteInfo_value2.setText("实时雨量  " + siteBean.getHourRain());
                         tv_siteInfo_value3.setText("风力风向  " + siteBean.getSpeedDir());
                         tv_siteInfo_value4.setText("相对湿度  " + siteBean.getRelativeWet());
@@ -979,8 +982,12 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             case R.id.tv_info_refresh:
                 Toast.makeText(mMainActivity, "刷新天气", Toast.LENGTH_SHORT).show();
                 if (WeatherAppContext.nowPager == 0) {
-                    mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
-                            SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
+                    if (null != CityUtil.getCityByName(mMainActivity, nowCity)) {
+                        mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
+                                SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
+                    } else {
+                        ToastUtil.show(mMainActivity, "数据获取失败");
+                    }
                 } else {
                     CityBean nowCityBean = AddedCityUtil.getAllCity(mMainActivity).get(WeatherAppContext.nowPager - 1);
                     LatLng lng = new LatLng(Double.parseDouble(nowCityBean.getLat()), Double.parseDouble(nowCityBean.getLng()));
