@@ -247,6 +247,7 @@ public class ForecastFragment extends BaseFragment {
         if (!TextUtils.isEmpty(siteBean.getId()))
             map.put("siteId", siteBean.getId());//站点Id
         LogUtil.e("请求首页数据,站点id:" + siteBean.getId() + "     站点名字:" + siteBean.getName());
+        LogUtil.e("foucsCityId"+foucsCityId);
         //map.put("last10DayTime", null);
         map.put("query10Day", "1");//是否查询10天天气预报（不可空，0否1是）
         map.put("queryExact", "1");//是否查询精确预报 （不可空，0否1是）

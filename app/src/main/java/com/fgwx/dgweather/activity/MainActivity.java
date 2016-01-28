@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
     public static int nowPager = 0;
     //定位的城市
     public CityBean homeCity;
+    public SiteBean.DataEntity homeSite;
     //当前的城市
     public CityBean nowCity;
     //当前的站点
@@ -317,9 +318,7 @@ public class MainActivity extends BaseActivity {
     public void leftMove() {
         if (nowPager == 1) {
             nowPager--;
-            LatLng lng = new LatLng(Double.parseDouble(homeCity.getLat()), Double.parseDouble(homeCity.getLng()));
-            nowSite = SiteUtil.getCloseSite(this, lng);
-            getForecastData(homeCity, nowSite, "0");
+            getForecastData(homeCity, homeSite, "0");
         } else {
             nowPager--;
             move();

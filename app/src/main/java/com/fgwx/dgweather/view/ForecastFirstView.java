@@ -650,7 +650,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                 mMainActivity.homeCity = cityBean;
                 application = (WeatherAppContext) mMainActivity.getApplication();
                 application.setCurrentCityId(cityBean.getId());
-                mMainActivity.getForecastData(cityBean, SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]));
+                mMainActivity.homeSite = SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]);
+                mMainActivity.getForecastData(cityBean, mMainActivity.homeSite);
                 mMainActivity.getDangerAndShelterData(CityUtil.getCityByName(mMainActivity, city).getId(), mCurrentLng[0], 0, 0);
             } else {
                 tvFail.setVisibility(VISIBLE);
@@ -696,9 +697,9 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
             }
             int[] locations = new int[2];
             mMapView.getLocationOnScreen(locations);
-//            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
+            mCurrentLng[0] = new LatLng(location.getLatitude(), location.getLongitude());
 //            113.90707,22.913113
-            mCurrentLng[0] = new LatLng(22.913113, 113.90707);
+//            mCurrentLng[0] = new LatLng(22.913113, 113.90707);
 
             MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
                     .direction(100).latitude(mCurrentLng[0].latitude).longitude(mCurrentLng[0].longitude).build();
@@ -984,8 +985,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
                     if (null != CityUtil.getCityByName(mMainActivity, nowCity)) {
                         mMainActivity.getForecastData(CityUtil.getCityByName(mMainActivity, nowCity),
                                 SiteUtil.getCloseSite(mMainActivity, mCurrentLng[0]), cityId);
-                    }else {
-                        ToastUtil.show(mMainActivity,"数据获取失败");
+                    } else {
+                        ToastUtil.show(mMainActivity, "数据获取失败");
                     }
                 } else {
                     CityBean nowCityBean = AddedCityUtil.getAllCity(mMainActivity).get(WeatherAppContext.nowPager - 1);
