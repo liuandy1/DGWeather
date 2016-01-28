@@ -244,7 +244,6 @@ public class ForecastFragment extends BaseFragment {
                 map.put("cityId", cityBean.getId());//城市Id，必须
         }
         LogUtil.e("请求首页数据,城市id:" + cityBean.getId() + "     城市名字:" + cityBean.getName());
-        //map.put("streetId", null);//街道Id
         if (!TextUtils.isEmpty(siteBean.getId()))
             map.put("siteId", siteBean.getId());//站点Id
         LogUtil.e("请求首页数据,站点id:" + siteBean.getId() + "     站点名字:" + siteBean.getName());
