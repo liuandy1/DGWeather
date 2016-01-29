@@ -83,7 +83,6 @@ public class ForecastFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //先访问定位的缓存数据
-        setForecastData(getCacheData(mContext.currentCityId));
     }
 
     private void initUI(View view) {
@@ -237,7 +236,10 @@ public class ForecastFragment extends BaseFragment {
     }
 
     public void getForecastNetData(final CityBean cityBean, final SiteBean.DataEntity siteBean, final String foucsCityId) {
-        loading(true);
+        if(getCacheData(foucsCityId)==null){
+            loading(true);
+        }
+        setForecastData(getCacheData(foucsCityId));
         TreeMap<String, String> map = new TreeMap<>();
         if (cityBean != null) {
             if (!TextUtils.isEmpty(cityBean.getId()))
