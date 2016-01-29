@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowTranslucentNavigation">false</item>
+        <!--<item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:fitsSystemWindows">true</item>-->
+
+
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:screenOrientation">portrait</item>
+
+        <!--解决切换activity白屏-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="colorPrimaryDark">@color/title_bar_bg</item>
     </style>
 </resources>
