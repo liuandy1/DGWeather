@@ -106,6 +106,7 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
     private View siteView;
     private View weatherView;
     private View stationView;
+    private ImageView ivDown;
 
     private static LatLng[] mCurrentLng = new LatLng[10];
     private MapView mMapView;
@@ -418,6 +419,8 @@ public class ForecastFirstView extends RelativeLayout implements View.OnClickLis
         rvLocal.setOnClickListener(this);
         ivFull = (ImageView) view.findViewById(R.id.iv_home_full);
         ivFull.setOnClickListener(this);
+        ivDown = (ImageView) view.findViewById(R.id.iv_home_down);
+
         view.findViewById(R.id.iv_home_location).setOnClickListener(this);
         view.findViewById(R.id.ly_home_down).setOnClickListener(this);
         view.findViewById(R.id.iv_home_more).setOnClickListener(this);
